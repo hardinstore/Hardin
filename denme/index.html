@@ -46,7 +46,6 @@
       font-size: 0.9rem;
     }
 
-    /* SAYFA İÇİ */
     .page {
       max-width: 960px;
       margin: 18px auto 32px;
@@ -86,7 +85,6 @@
     }
 
     .btn {
-      border: none;
       border-radius: 999px;
       padding: 10px 18px;
       font-size: 0.95rem;
@@ -96,6 +94,8 @@
       gap: 8px;
       white-space: nowrap;
       transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+      border: none;
+      text-decoration: none;
     }
 
     .btn-primary {
@@ -128,7 +128,6 @@
       margin-top: 6px;
     }
 
-    /* GALERİ */
     #photos {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -192,14 +191,14 @@
 <body>
 
   <div class="topbar">
-    <div class="topbar-title">Hardin • Akıllı Anı Magneti</div>
+    <div class="topbar-title">HARDİN • AKILLI ANI MAGNETİ</div>
   </div>
 
   <div class="page">
     <div class="card">
       <h1>Şehir Anı Albümün</h1>
       <p class="subtitle">
-        Bu magneti her okuttuğunda, buraya eklediğin fotoğraflardan oluşan 
+        Bu magneti her okuttuğunda, buraya eklediğin fotoğraflardan oluşan
         <strong>sana özel</strong> albüm görünür.
       </p>
       <p class="note">
@@ -207,12 +206,13 @@
       </p>
 
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="selectPhotos()">
+        <!-- BUTON ARTIK LABEL, DOĞRUDAN fileInput'A BAĞLI -->
+        <label class="btn btn-primary" for="fileInput">
           <span class="btn-emoji">📸</span>
           <span>Fotoğraf Ekle</span>
-        </button>
+        </label>
 
-        <button class="btn btn-secondary" onclick="clearAllPhotos()">
+        <button class="btn btn-secondary" type="button" onclick="clearAllPhotos()">
           🧹 Albümü Temizle
         </button>
       </div>
@@ -227,14 +227,17 @@
   </div>
 
   <script>
-    // Bu sayfanın cihazdaki anahtarı – ileride Samsun/Ordu gibi
-    // farklı sayfalarda sadece bu değeri değiştirmen yeterli
     const ALBUM_KEY = "hardin_deneme_album_v1";
 
     let photos = JSON.parse(localStorage.getItem(ALBUM_KEY)) || [];
 
     function savePhotos() {
-      localStorage.setItem(ALBUM_KEY, JSON.stringify(photos));
+      try {
+        localStorage.setItem(ALBUM_KEY, JSON.stringify(photos));
+      } catch (e) {
+        alert("Fotoğraflar maksimum sınıra ulaştı. Bazı fotoğrafları silmeniz gerekebilir.");
+        console.error(e);
+      }
     }
 
     function updateCounter() {
@@ -285,24 +288,40 @@
       updateCounter();
     }
 
-    function selectPhotos() {
-      document.getElementById("fileInput").click();
+    // Seçilen fotoğrafı küçültüp kaydeden fonksiyon
+    function addFileCompressed(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const maxSize = 1280;
+          let w = img.width;
+          let h = img.height;
+
+          const scale = Math.min(maxSize / w, maxSize / h, 1);
+          w = Math.round(w * scale);
+          h = Math.round(h * scale);
+
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+
+          photos.push(dataUrl);
+          savePhotos();
+          render();
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     document.getElementById("fileInput").addEventListener("change", function() {
       const files = Array.from(this.files);
-
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          photos.push(reader.result);
-          savePhotos();
-          render();
-        };
-        reader.readAsDataURL(file);
-      });
-
-      // Aynı dosyaları tekrar seçebilmek için input'u temizle
+      files.forEach(file => addFileCompressed(file));
       this.value = "";
     });
 
@@ -316,128 +335,6 @@
     }
 
     render();
-  <script>
-  // Bu sayfanın cihazdaki anahtarı
-  const ALBUM_KEY = "hardin_deneme_album_v1";
-
-  let photos = JSON.parse(localStorage.getItem(ALBUM_KEY)) || [];
-
-  function savePhotos() {
-    try {
-      localStorage.setItem(ALBUM_KEY, JSON.stringify(photos));
-    } catch (e) {
-      alert("Fotoğraflar maksimum sınıra ulaştı. Bazı fotoğrafları silmeniz gerekebilir.");
-      console.error(e);
-    }
-  }
-
-  function updateCounter() {
-    const counterEl = document.getElementById("counter");
-    if (photos.length === 0) {
-      counterEl.innerText = "";
-    } else if (photos.length === 1) {
-      counterEl.innerText = "Albümünde 1 fotoğraf var.";
-    } else {
-      counterEl.innerText = "Albümünde " + photos.length + " fotoğraf var.";
-    }
-  }
-
-  function render() {
-    const container = document.getElementById("photos");
-    const empty = document.getElementById("emptyMsg");
-
-    container.innerHTML = "";
-
-    if (photos.length === 0) {
-      empty.innerText = "Henüz fotoğraf eklenmedi. Başlamak için yukarıdaki butona dokun.";
-    } else {
-      empty.innerText = "";
-    }
-
-    photos.forEach((src, index) => {
-      const div = document.createElement("div");
-      div.className = "photo";
-
-      const img = document.createElement("img");
-      img.src = src;
-
-      const del = document.createElement("div");
-      del.className = "delete";
-      del.innerText = "×";
-      del.onclick = () => {
-        photos.splice(index, 1);
-        savePhotos();
-        render();
-        updateCounter();
-      };
-
-      div.appendChild(img);
-      div.appendChild(del);
-      container.appendChild(div);
-    });
-
-    updateCounter();
-  }
-
-  function selectPhotos() {
-    document.getElementById("fileInput").click();
-  }
-
-  // Seçilen fotoğrafı küçültüp kaydeden fonksiyon
-  function addFileCompressed(file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        const maxSize = 1280; // maksimum genişlik veya yükseklik
-        let w = img.width;
-        let h = img.height;
-
-        const scale = Math.min(maxSize / w, maxSize / h, 1);
-        w = Math.round(w * scale);
-        h = Math.round(h * scale);
-
-        const canvas = document.createElement("canvas");
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, w, h);
-
-        // JPEG formatında, biraz sıkıştırılmış
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
-
-        photos.push(dataUrl);
-        savePhotos();
-        render();
-      };
-      img.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  document.getElementById("fileInput").addEventListener("change", function() {
-    const files = Array.from(this.files);
-
-    files.forEach(file => {
-      addFileCompressed(file);
-    });
-
-    // Aynı dosyaları tekrar seçebilmek için input'u temizle
-    this.value = "";
-  });
-
-  function clearAllPhotos() {
-    if (!photos.length) return;
-    const ok = confirm("Tüm fotoğrafları silmek istediğinden emin misin?");
-    if (!ok) return;
-    photos = [];
-    savePhotos();
-    render();
-  }
-
-  render();
-</script>
-
+  </script>
 </body>
 </html>
-
