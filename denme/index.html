@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Hardin – Şehir Anı Albümü</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 18px;
+    background: #f6f4f1;
+    color: #2d3029;
+  }
+  h1 {
+    margin-top: 0;
+    font-size: 1.4rem;
+  }
+  .desc {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+  #fileInput { display: none; }
+  .btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .primary {
+    background: #745e4d;
+    color: white;
+  }
+  #photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+  }
+  .photo {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .delete {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0,0,0,0.6);
+    width: 24px; height: 24px;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .empty {
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+</style>
+
+</head>
+<body>
+
+<h1>Şehir Anı Albümün</h1>
+<div class="desc">
+Bu magneti her okuttuğunda, buraya eklediğin fotoğraflardan oluşan <b>sana özel</b> albüm görünür.
+</div>
+
+<button class="btn primary" onclick="selectPhotos()">📸 Fotoğraf Ekle</button>
+<input id="fileInput" type="file" accept="image/*" multiple>
+
+<div id="photos"></div>
+<div id="emptyMsg" class="empty"></div>
+
+<script>
+let photos = JSON.parse(localStorage.getItem("hardin_album")) || [];
+
+function savePhotos() {
+  localStorage.setItem("hardin_album", JSON.stringify(photos));
+}
+
+function render() {
+  const container = document.getElementById("photos");
+  const empty = document.getElementById("emptyMsg");
+
+  container.innerHTML = "";
+
+  if (photos.length === 0) {
+    empty.innerText = "Henüz fotoğraf eklenmedi.";
+    return;
+  }
+
+  empty.innerText = "";
+
+  photos.forEach((src, index) => {
+    const div = document.createElement("div");
+    div.className = "photo";
+
+    const img = document.createElement("img");
+    img.src = src;
+
+    const del = document.createElement("div");
+    del.className = "delete";
+    del.innerText = "×";
+    del.onclick = () => {
+      photos.splice(index, 1);
+      savePhotos();
+      render();
+    };
+
+    div.appendChild(img);
+    div.appendChild(del);
+    container.appendChild(div);
+  });
+}
+
+function selectPhotos() {
+  document.getElementById("fileInput").click();
+}
+
+document.getElementById("fileInput").addEventListener("change", async function() {
+  const files = Array.from(this.files);
+
+  for (const file of files) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      photos.push(reader.result);
+      savePhotos();
+      render();
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+render();
+</script>
+
+</body>
+</html>
