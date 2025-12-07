@@ -60,6 +60,28 @@
       border: 1px solid rgba(0,0,0,0.04);
     }
 
+    .card-with-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-with-bg .card-bg {
+      position: absolute;
+      inset: 0;
+      /* 🔽 Buradaki URL'yi kendi şehir fotoğrafınla değiştir */
+      background-image: url("https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      filter: blur(2px);
+      transform: scale(1.05);
+    }
+
+    .card-inner {
+      position: relative;
+      backdrop-filter: blur(1px);
+    }
+
     h1 {
       margin: 0 0 6px;
       font-size: 1.4rem;
@@ -130,48 +152,97 @@
       font-size: 1rem;
     }
 
-    .counter {
-      font-size: 0.8rem;
-      color: #777;
-      margin-top: 6px;
-    }
-
     .city-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(0,0,0,0.04);
+      background: rgba(255,255,255,0.7);
       font-size: 0.78rem;
-      margin-top: 6px;
+      margin-bottom: 10px;
     }
 
     .city-tag span {
-      opacity: 0.7;
+      opacity: 0.85;
     }
 
-    .hero-image {
-      width: 100%;
-      border-radius: 14px;
+    .home-counter {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #444;
+    }
+
+    .home-thumbs {
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .home-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
       overflow: hidden;
-      margin: 14px 0 4px;
-      max-height: 220px;
+      background: #ddd;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
 
-    .hero-image img {
+    .home-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
+    .social-row {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      text-decoration: none;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+    }
+
+    .social-btn span {
+      white-space: nowrap;
+    }
+
+    .counter {
+      font-size: 0.8rem;
+      color: #777;
+      margin-top: 6px;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
     /* ALBÜM GÖRÜNÜMÜ */
     #photos {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-top: 16px;
+    }
+
+    .photo-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     .photo {
@@ -207,14 +278,25 @@
       backdrop-filter: blur(3px);
     }
 
+    .note-input {
+      font-size: 0.78rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.08);
+      outline: none;
+      background: #f7f4f0;
+      color: #444;
+      width: 100%;
+    }
+
+    .note-input::placeholder {
+      color: #aaa;
+    }
+
     .empty {
       margin-top: 10px;
       color: #777;
       font-size: 0.86rem;
-    }
-
-    #fileInput {
-      display: none;
     }
 
     /* GÖRÜNÜM GEÇİŞLERİ */
@@ -243,21 +325,6 @@
       display: flex;
     }
 
-    .slide-img-wrap {
-      max-width: 100%;
-      max-height: calc(100vh - 110px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-    }
-
-    .slide-img-wrap img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
     .slide-top {
       position: absolute;
       top: 10px;
@@ -268,6 +335,7 @@
       align-items: center;
       padding: 0 14px;
       font-size: 0.9rem;
+      z-index: 2;
     }
 
     .slide-btn {
@@ -297,6 +365,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      z-index: 2;
     }
 
     .slide-nav.prev {
@@ -312,6 +381,30 @@
       opacity: 0.8;
     }
 
+    .slide-img-wrap {
+      max-width: 100%;
+      max-height: calc(100vh - 130px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .slide-img-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .slide-note {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      max-width: 90%;
+      text-align: center;
+      opacity: 0.85;
+      word-wrap: break-word;
+    }
+
     @media (min-width: 768px) {
       .card {
         padding: 22px 22px 24px;
@@ -319,8 +412,8 @@
       h1 {
         font-size: 1.6rem;
       }
-      .hero-image {
-        max-height: 260px;
+      #photos {
+        grid-template-columns: repeat(3, minmax(0,1fr));
       }
     }
   </style>
@@ -335,40 +428,56 @@
 
     <!-- 1) ANA SAYFA -->
     <section id="view-home" class="view active">
-      <div class="card">
-        <div class="city-tag">
-          <strong>Şehir:</strong> <span>Deneme Şehri</span>
+      <div class="card card-with-bg">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <div class="city-tag">
+            <strong>Şehir:</strong> <span>Deneme Şehri</span>
+          </div>
+
+          <h1>Şehir Anı Albümün</h1>
+          <p class="subtitle">
+            Bu magneti okuttuğunda, bu sayfa senin o şehre ait
+            <strong>kişisel anı albümün</strong> olur. Fotoğraflar sadece burada,
+            bu cihazda kalır.
+          </p>
+          <p class="note">
+            Aşağıdan yeni fotoğraf ekleyebilir veya mevcut anılarını tam ekran
+            slayt gösterisiyle izleyebilirsin.
+          </p>
+
+          <div class="btn-row">
+            <!-- Fotoğraf ekleme + yönetim görünümüne geç -->
+            <label class="btn btn-primary" for="fileInput" onclick="setView('manage')">
+              <span class="btn-emoji">📸</span>
+              <span>Fotoğraf Ekle</span>
+            </label>
+
+            <button id="playButton" class="btn btn-secondary" type="button" onclick="openSlideshow(0)">
+              🎞️ Anıları Canlandır
+            </button>
+          </div>
+
+          <!-- Ana sayfa sayaç + son 3 foto önizleme -->
+          <div id="homeCounter" class="home-counter"></div>
+          <div id="homeThumbs" class="home-thumbs"></div>
+
+          <!-- Sosyal ikonlar -->
+          <div class="social-row">
+            <a class="social-btn" href="https://instagram.com/" target="_blank" rel="noopener noreferrer">
+              📷 <span>Instagram</span>
+            </a>
+            <a class="social-btn" href="https://wa.me/90XXXXXXXXXX" target="_blank" rel="noopener noreferrer">
+              💬 <span>WhatsApp</span>
+            </a>
+            <a class="social-btn" href="https://trendyol.com" target="_blank" rel="noopener noreferrer">
+              🛒 <span>Mağaza</span>
+            </a>
+            <a class="social-btn" href="mailto:ornek@mail.com">
+              ✉️ <span>Mail</span>
+            </a>
+          </div>
         </div>
-
-        <div class="hero-image">
-          <!-- Buraya istediğin şehir görselinin linkini koyabilirsin -->
-          <img src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200"
-               alt="Şehir manzarası">
-        </div>
-
-        <h1>Şehir Anı Albümün</h1>
-        <p class="subtitle">
-          Bu magneti okuttuğunda, bu sayfa senin o şehre ait
-          <strong>kişisel anı albümün</strong> olur. Fotoğraflar sadece burada,
-          bu cihazda kalır.
-        </p>
-        <p class="note">
-          Aşağıdan yeni fotoğraf ekleyebilir veya mevcut anılarını tam ekran
-          slayt gösterisiyle izleyebilirsin.
-        </p>
-
-        <div class="btn-row">
-          <!-- Fotoğraf ekleme + yönetim görünümüne geç -->
-          <label class="btn btn-primary" for="fileInput" onclick="setView('manage')">
-            <span class="btn-emoji">📸</span>
-            <span>Fotoğraf Ekle</span>
-          </label>
-
-          <button class="btn btn-secondary" type="button" onclick="openSlideshow(0)">
-            🎞️ Anıları Canlandır
-          </button>
-        </div>
-
       </div>
     </section>
 
@@ -416,7 +525,12 @@
       <button class="slide-btn" type="button" onclick="closeSlideshow()">
         ✕ Kapat
       </button>
-      <div class="slide-counter" id="slideCounter"></div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button id="playPauseBtn" class="slide-btn" type="button" onclick="togglePlay()">
+          ▶️ Oynat
+        </button>
+        <div class="slide-counter" id="slideCounter"></div>
+      </div>
     </div>
 
     <button class="slide-nav prev" type="button" onclick="prevSlide()">❮</button>
@@ -424,14 +538,33 @@
       <img id="slideImage" src="" alt="Anı fotoğrafı">
     </div>
     <button class="slide-nav next" type="button" onclick="nextSlide()">❯</button>
+
+    <div id="slideNote" class="slide-note"></div>
   </div>
 
   <script>
     const ALBUM_KEY = "hardin_deneme_album_v1";
     const MAX_PHOTOS = 20;
 
-    let photos = JSON.parse(localStorage.getItem(ALBUM_KEY)) || [];
+    let photos = [];
     let currentSlide = 0;
+    let slideTimer = null;
+    let isPlaying = false;
+
+    // Eski veriyi (dizi halinde string) destekle
+    try {
+      const stored = JSON.parse(localStorage.getItem(ALBUM_KEY) || "[]");
+      if (Array.isArray(stored)) {
+        if (stored.length && typeof stored[0] === "string") {
+          photos = stored.map(src => ({ src, note: "" }));
+          localStorage.setItem(ALBUM_KEY, JSON.stringify(photos));
+        } else {
+          photos = stored;
+        }
+      }
+    } catch (e) {
+      photos = [];
+    }
 
     function savePhotos() {
       try {
@@ -444,15 +577,61 @@
       }
     }
 
-    function updateCounter() {
-      const counterEl = document.getElementById("counter");
-      if (!counterEl) return;
-      if (photos.length === 0) {
-        counterEl.innerText = "";
-      } else if (photos.length === 1) {
-        counterEl.innerText = "Albümünde 1 fotoğraf var.";
-      } else {
-        counterEl.innerText = "Albümünde " + photos.length + " fotoğraf var.";
+    // Hem albüm ekranındaki hem ana sayfadaki sayaçları günceller
+    function updateCounters() {
+      const manageCounter = document.getElementById("counter");
+      const homeCounter = document.getElementById("homeCounter");
+      const playButton = document.getElementById("playButton");
+
+      let text = "";
+      if (photos.length === 1) {
+        text = "Albümünde 1 fotoğraf var.";
+      } else if (photos.length > 1) {
+        text = "Albümünde " + photos.length + " fotoğraf var.";
+      }
+
+      if (manageCounter) {
+        manageCounter.innerText = text;
+      }
+
+      if (homeCounter) {
+        if (photos.length === 0) {
+          homeCounter.innerText = "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Fotoğraf Ekle’ye dokun.";
+        } else {
+          homeCounter.innerText = text;
+        }
+      }
+
+      if (playButton) {
+        if (photos.length === 0) {
+          playButton.disabled = true;
+          playButton.style.opacity = "0.4";
+        } else {
+          playButton.disabled = false;
+          playButton.style.opacity = "1";
+        }
+      }
+    }
+
+    // Ana sayfadaki son 3 fotoğraf önizlemesini günceller
+    function updateHomeThumbs() {
+      const container = document.getElementById("homeThumbs");
+      if (!container) return;
+
+      container.innerHTML = "";
+      if (photos.length === 0) return;
+
+      const start = Math.max(photos.length - 3, 0);
+      for (let i = start; i < photos.length; i++) {
+        const div = document.createElement("div");
+        div.className = "home-thumb";
+
+        const img = document.createElement("img");
+        img.src = photos[i].src;
+        img.onclick = () => openSlideshow(i);
+
+        div.appendChild(img);
+        container.appendChild(div);
       }
     }
 
@@ -469,12 +648,15 @@
         empty.innerText = "";
       }
 
-      photos.forEach((src, index) => {
+      photos.forEach((photo, index) => {
+        const card = document.createElement("div");
+        card.className = "photo-card";
+
         const div = document.createElement("div");
         div.className = "photo";
 
         const img = document.createElement("img");
-        img.src = src;
+        img.src = photo.src;
         img.onclick = () => openSlideshow(index);
 
         const del = document.createElement("div");
@@ -485,15 +667,34 @@
           photos.splice(index, 1);
           savePhotos();
           render();
-          updateCounter();
         };
 
         div.appendChild(img);
         div.appendChild(del);
-        container.appendChild(div);
+
+        const noteInput = document.createElement("input");
+        noteInput.className = "note-input";
+        noteInput.type = "text";
+        noteInput.placeholder = "Bu fotoğraf için küçük bir not ekle...";
+        noteInput.value = photo.note || "";
+        noteInput.oninput = (e) => {
+          photos[index].note = e.target.value || "";
+          savePhotos();
+          updateHomeThumbs();
+          // Slayt açık ve şu anki foto buysa notu da güncelle
+          const overlay = document.getElementById("slideshow");
+          if (overlay && overlay.classList.contains("active") && index === currentSlide) {
+            updateSlideImage();
+          }
+        };
+
+        card.appendChild(div);
+        card.appendChild(noteInput);
+        container.appendChild(card);
       });
 
-      updateCounter();
+      updateCounters();
+      updateHomeThumbs();
     }
 
     function setView(view) {
@@ -537,7 +738,7 @@
 
           const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
 
-          photos.push(dataUrl);
+          photos.push({ src: dataUrl, note: "" });
           if (!savePhotos()) {
             photos.pop();
           }
@@ -579,22 +780,29 @@
       const overlay = document.getElementById("slideshow");
       if (!overlay) return;
       overlay.classList.add("active");
+      stopAutoPlay();
       updateSlideImage();
+      updatePlayButton();
     }
 
     function closeSlideshow() {
       const overlay = document.getElementById("slideshow");
       if (!overlay) return;
       overlay.classList.remove("active");
+      stopAutoPlay();
     }
 
     function updateSlideImage() {
       const img = document.getElementById("slideImage");
       const counter = document.getElementById("slideCounter");
+      const noteEl = document.getElementById("slideNote");
       if (!img || !counter || photos.length === 0) return;
       currentSlide = (currentSlide + photos.length) % photos.length;
-      img.src = photos[currentSlide];
+      img.src = photos[currentSlide].src;
       counter.innerText = (currentSlide + 1) + " / " + photos.length;
+      if (noteEl) {
+        noteEl.innerText = photos[currentSlide].note || "";
+      }
     }
 
     function nextSlide() {
@@ -607,6 +815,39 @@
       if (!photos.length) return;
       currentSlide = (currentSlide - 1 + photos.length) % photos.length;
       updateSlideImage();
+    }
+
+    function startAutoPlay() {
+      if (isPlaying || !photos.length) return;
+      isPlaying = true;
+      slideTimer = setInterval(() => {
+        nextSlide();
+      }, 3000);
+      updatePlayButton();
+    }
+
+    function stopAutoPlay() {
+      if (slideTimer) {
+        clearInterval(slideTimer);
+        slideTimer = null;
+      }
+      isPlaying = false;
+      updatePlayButton();
+    }
+
+    function togglePlay() {
+      if (!photos.length) return;
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function updatePlayButton() {
+      const btn = document.getElementById("playPauseBtn");
+      if (!btn) return;
+      btn.textContent = isPlaying ? "⏸ Durdur" : "▶️ Oynat";
     }
 
     // Başlangıçta her şey
