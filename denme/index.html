@@ -528,6 +528,10 @@
       #photos { grid-template-columns: repeat(3, minmax(0,1fr)); }
       .collection-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
+    #travelScoreHome {
+  display: none;
+}
+
   </style>
 </head>
 <body>
@@ -810,8 +814,8 @@
 
     const MUSIC_OPTIONS = {
       none:   { id:"none",   label:"Seçilmemiş", src:null },
-      track1: { id:"track1", label:"Piyano", src:"denme/music1.mp3" },
-      track2: { id:"track2", label:"Lo-fi",  src:"denme/music2.mp3" }
+      track1: { id:"track1", label:"Piyano", src:"music1.mp3" },
+      track2: { id:"track2", label:"Lo-fi",  src:"music2.mp3" }
     };
 
     // Gezi durumu için anahtar
@@ -1646,4 +1650,5 @@
   </script>
 </body>
 </html>
+
 
