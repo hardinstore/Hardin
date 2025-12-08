@@ -22,6 +22,12 @@
       color: var(--text);
     }
 
+    /* iOS zoom'u engellemek için input/textarea font 16px */
+    input, textarea {
+      font-family: inherit;
+      font-size: 16px;
+    }
+
     .topbar {
       width: 100%;
       padding: 10px 16px;
@@ -148,6 +154,13 @@
       color: #444;
     }
 
+    .home-storage-note {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: #666;
+      line-height: 1.35;
+    }
+
     .home-thumbs {
       margin-top: 8px;
       display: flex;
@@ -168,6 +181,32 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      cursor: pointer;
+    }
+
+    .home-actions {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .small-link-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .home-travel-score {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: #444;
       cursor: pointer;
     }
 
@@ -201,40 +240,6 @@
       color: #555;
       text-decoration: underline;
       cursor: pointer;
-    }
-
-    /* Diğer magnetlerim */
-    .album-rail {
-      margin-top: 14px;
-    }
-    .album-rail-title {
-      font-size: 0.78rem;
-      color: #666;
-      margin-bottom: 4px;
-    }
-    .album-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .album-chip {
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.9);
-      cursor: pointer;
-    }
-    .album-chip.locked {
-      opacity: 0.4;
-      cursor: default;
-    }
-    .album-chip.current {
-      border-color: var(--accent);
-      background: #f1e9e1;
     }
 
     .counter {
@@ -288,7 +293,7 @@
       backdrop-filter: blur(3px);
     }
     .note-input {
-      font-size: 0.78rem;
+      font-size: 16px;
       padding: 4px 8px;
       border-radius: 999px;
       border: 1px solid rgba(0,0,0,0.08);
@@ -308,7 +313,7 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* Slideshow overlay */
+    /* SLAYT OVERLAY */
     .slideshow-overlay {
       position: fixed;
       inset: 0;
@@ -375,7 +380,6 @@
       font-size: 0.85rem;
       opacity: 0.8;
     }
-
     .slide-img-wrap {
       max-width: 100%;
       max-height: calc(100vh - 140px);
@@ -408,7 +412,7 @@
 
     .slide-album-date { white-space: nowrap; }
 
-    /* Modallar (info / tarih / müzik) */
+    /* MODALLAR */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -487,10 +491,45 @@
     .faq-item.open .faq-a { display: block; }
     .faq-item.open .faq-q span:last-child { transform: rotate(45deg); }
 
+    /* Koleksiyon sayfası grid */
+    .collection-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .collection-card {
+      border-radius: 12px;
+      padding: 10px;
+      background: #f8f4ef;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .collection-card.locked {
+      opacity: 0.45;
+      cursor: default;
+    }
+    .collection-card.current {
+      border: 1px solid var(--accent);
+      background: #f1e9e1;
+    }
+    .collection-title {
+      font-weight: 600;
+    }
+    .collection-status {
+      font-size: 0.78rem;
+      color: #555;
+    }
+
     @media (min-width: 768px) {
       .card { padding: 22px 22px 24px; }
       h1 { font-size: 1.6rem; }
       #photos { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .collection-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
   </style>
 </head>
@@ -532,13 +571,23 @@
           </div>
 
           <div id="homeCounter" class="home-counter"></div>
+          <div class="home-storage-note">
+            💾 Not: Bu albüm yalnızca <strong>bu cihazdaki bu tarayıcıda</strong> saklanır.
+            Tarayıcı veya cihaz değiştirirsen albümünü yeniden oluşturman gerekir.
+          </div>
+
           <div id="homeThumbs" class="home-thumbs"></div>
 
-          <!-- Diğer magnetlerim -->
-          <div class="album-rail">
-            <div class="album-rail-title">Diğer magnetlerim</div>
-            <div id="albumChips" class="album-chips"></div>
+          <div class="home-actions">
+            <button class="small-link-btn" type="button" onclick="setView('collection')">
+              📚 Diğer magnetlerim
+            </button>
+            <button class="small-link-btn" type="button" onclick="openProgressModal()">
+              📍 Gezi durumum
+            </button>
           </div>
+
+          <div id="travelScoreHome" class="home-travel-score" onclick="openProgressModal()"></div>
 
           <!-- Sosyal ikonlar -->
           <div class="social-row">
@@ -602,6 +651,23 @@
 
         <div id="photos"></div>
         <div id="emptyMsg" class="empty"></div>
+      </div>
+    </section>
+
+    <!-- KOLEKSİYON / DİĞER MAGNETLER -->
+    <section id="view-collection" class="view">
+      <div class="card">
+        <button class="btn btn-ghost" type="button" onclick="setView('home')">
+          ← Ana sayfaya dön
+        </button>
+
+        <h1>Diğer Magnetlerim</h1>
+        <p class="subtitle">
+          Bu cihazda oluşturduğun diğer şehir albümlerini aşağıdan görebilirsin.
+          Albümü olan magnetlerin üzerine dokunarak ilgili sayfaya gidebilirsin.
+        </p>
+
+        <div id="collectionGrid" class="collection-grid"></div>
       </div>
     </section>
   </div>
@@ -672,7 +738,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-title">Fon Müziği Seç</div>
-        <button class="modal-close" type="button" onclick="closeMusicModal()">×</button>
+        <button class="modal-close" type="button" onclick="closeMusicModal(true)">×</button>
       </div>
       <div class="modal-body">
         <div id="musicList"></div>
@@ -684,11 +750,42 @@
     </div>
   </div>
 
+  <!-- GEZİ DURUMU MODALI -->
+  <div id="progressModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Gezi Durumum</div>
+        <button class="modal-close" type="button" onclick="closeProgressModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.8rem; color:#555;">
+          Bu şehirde yapmayı planladığın yerleri ve lezzetleri işaretle. Aşağıdaki
+          yüzde, planına göre ne kadarını tamamladığını gösterir.
+        </p>
+
+        <div style="margin-top:6px; font-weight:600; font-size:0.84rem;">Görülmesi gereken yerler</div>
+        <div id="progressPlaces"></div>
+
+        <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">Yenilmesi gereken lezzetler</div>
+        <div id="progressFoods"></div>
+
+        <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">Ekstralar</div>
+        <textarea id="progressExtra" rows="3" style="width:100%; font-size:0.8rem; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);" placeholder="Buraya kendi ekstra yaptığın şeyleri veya notlarını yazabilirsin."></textarea>
+
+        <div id="progressResult" style="margin-top:8px; font-size:0.82rem; color:#333;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="pill-btn pill-secondary" type="button" onclick="closeProgressModal()">Kapat</button>
+        <button class="pill-btn pill-primary" type="button" onclick="calculateProgress()">Hesapla</button>
+      </div>
+    </div>
+  </div>
+
   <audio id="bgAudio" loop></audio>
   <audio id="previewAudio"></audio>
 
   <script>
-    // Çoklu albüm kimlikleri
+    // Albüm kimlikleri
     const params = new URLSearchParams(window.location.search);
     const CURRENT_ID = params.get("album") || "deneme";
 
@@ -713,6 +810,27 @@
       track2: { id:"track2", label:"Lo-fi",  src:"denme/music2.mp3" }
     };
 
+    // Gezi durumu için anahtar
+    const PROGRESS_KEY = "hardin_progress_" + CURRENT_ID;
+    const PROGRESS_TEMPLATE = {
+      places: { p1:false, p2:false, p3:false },
+      foods:  { f1:false, f2:false, f3:false },
+      extra: "",
+      score: null
+    };
+    const PROGRESS_LABELS = {
+      places: {
+        p1: "Şehrin ana meydanını gördüm",
+        p2: "Sahilde / manzaralı bir noktada zaman geçirdim",
+        p3: "Tarihi veya turistik bir yeri ziyaret ettim"
+      },
+      foods: {
+        f1: "Bu şehre özgü bir ana yemek denedim",
+        f2: "Yerel bir tatlı tattım",
+        f3: "Yerel bir içecek veya kahve içtim"
+      }
+    };
+
     let photos = [];
     let albumMeta = { date: null, music: "none" };
     let currentSlide = 0;
@@ -723,6 +841,9 @@
     let touchEndX = 0;
 
     let tempMusicChoice = albumMeta.music;
+
+    // Gezi durumu verisi
+    let progress = JSON.parse(JSON.stringify(PROGRESS_TEMPLATE));
 
     // Albümü yükle (eski format desteği)
     try {
@@ -743,40 +864,81 @@
       tempMusicChoice = albumMeta.music;
     } catch (e) {}
 
+    try {
+      const p = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "null");
+      if (p && typeof p === "object") {
+        progress = {
+          ...PROGRESS_TEMPLATE,
+          ...p,
+          places: { ...PROGRESS_TEMPLATE.places, ...(p.places || {}) },
+          foods:  { ...PROGRESS_TEMPLATE.foods,  ...(p.foods || {})  }
+        };
+      }
+    } catch (e) {}
+
     // Albüm etiketi
     const labelEl = document.getElementById("albumLabel");
     if (labelEl) {
       labelEl.innerText = ALBUM_LABELS[CURRENT_ID] || CURRENT_ID;
     }
 
-    // Diğer magnetler rail
-    function hasPhotosFor(id) {
-      try {
-        const raw = JSON.parse(localStorage.getItem("hardin_album_" + id) || "[]");
-        return Array.isArray(raw) && raw.length > 0;
-      } catch (e) {
-        return false;
-      }
+    // View değiştirme
+    function setView(view) {
+      document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
+      const el = document.getElementById("view-" + view);
+      if (el) el.classList.add("active");
     }
 
-    function renderAlbumChips() {
-      const container = document.getElementById("albumChips");
-      if (!container) return;
-      container.innerHTML = "";
+    function getPhotosForAlbum(id) {
+      try {
+        const raw = JSON.parse(localStorage.getItem("hardin_album_" + id) || "[]");
+        return Array.isArray(raw) ? raw : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    function getPhotoCountForAlbum(id) {
+      return getPhotosForAlbum(id).length;
+    }
+    function hasPhotosFor(id) {
+      return getPhotoCountForAlbum(id) > 0;
+    }
+
+    // Koleksiyon grid
+    function renderCollectionGrid() {
+      const grid = document.getElementById("collectionGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
       ALBUM_IDS.forEach(id => {
-        const chip = document.createElement("div");
-        chip.className = "album-chip";
-        if (id === CURRENT_ID) chip.classList.add("current");
-        const active = hasPhotosFor(id);
-        if (!active && id !== CURRENT_ID) chip.classList.add("locked");
+        const count = getPhotoCountForAlbum(id);
+        const has = count > 0;
+        const card = document.createElement("div");
+        card.className = "collection-card";
+        if (!has) card.classList.add("locked");
+        if (id === CURRENT_ID) card.classList.add("current");
 
-        const dot = active ? "●" : "○";
-        chip.innerHTML = `<span style="font-size:0.7rem;">${dot}</span><span>${ALBUM_LABELS[id]}</span>`;
+        const title = document.createElement("div");
+        title.className = "collection-title";
+        title.textContent = ALBUM_LABELS[id] || id;
 
-        chip.onclick = () => {
-          if (id === CURRENT_ID) return;
-          if (!hasPhotosFor(id)) {
-            alert("Bu magnet için henüz bu cihazda albüm oluşturulmadı. Önce o magneti okutup fotoğraf eklemelisin.");
+        const status = document.createElement("div");
+        status.className = "collection-status";
+        if (has) {
+          status.textContent = count + " fotoğraf içeren albüm";
+        } else {
+          status.textContent = "Bu cihazda henüz albüm yok";
+        }
+
+        card.appendChild(title);
+        card.appendChild(status);
+
+        card.onclick = () => {
+          if (!has) {
+            alert("Bu magnet için henüz bu cihazda albüm oluşturulmadı. Önce o magneti okutup fotoğraf ekle.");
+            return;
+          }
+          if (id === CURRENT_ID) {
+            setView("manage");
             return;
           }
           const url = new URL(window.location.href);
@@ -784,7 +946,7 @@
           window.location.href = url.toString();
         };
 
-        container.appendChild(chip);
+        grid.appendChild(card);
       });
     }
 
@@ -802,6 +964,11 @@
     function saveMeta() {
       try {
         localStorage.setItem(META_KEY, JSON.stringify(albumMeta));
+      } catch (e) { console.error(e); }
+    }
+    function saveProgress() {
+      try {
+        localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
       } catch (e) { console.error(e); }
     }
 
@@ -835,7 +1002,7 @@
       }
     }
 
-    // Ana ekrandaki son 5 küçük foto
+    // Ana ekrandaki küçük fotoğraflar
     function updateHomeThumbs() {
       const container = document.getElementById("homeThumbs");
       if (!container) return;
@@ -852,6 +1019,17 @@
         div.appendChild(img);
         container.appendChild(div);
       }
+    }
+
+    function updateTravelScoreDisplay() {
+      const el = document.getElementById("travelScoreHome");
+      if (!el) return;
+      if (progress.score == null) {
+        el.innerText = "";
+        return;
+      }
+      const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
+      el.innerText = cityName + " gezi skoru: %" + progress.score;
     }
 
     // Albüm render
@@ -909,11 +1087,8 @@
 
       updateCounters();
       updateHomeThumbs();
-    }
-
-    function setView(view) {
-      document.getElementById("view-home").classList.toggle("active", view === "home");
-      document.getElementById("view-manage").classList.toggle("active", view === "manage");
+      renderCollectionGrid();
+      updateTravelScoreDisplay();
     }
 
     // Fotoğraf eklerken küçült
@@ -986,11 +1161,7 @@
     }
     function saveDate() {
       const val = document.getElementById("dateInput").value.trim();
-      if (!val) {
-        albumMeta.date = null;
-      } else {
-        albumMeta.date = val;
-      }
+      albumMeta.date = val || null;
       saveMeta();
       updateCounters();
       updateSlideImage();
@@ -1054,7 +1225,6 @@
       audio.src = opt.src;
       audio.dataset.current = id;
       audio.play().catch(console.error);
-      // tüm butonların yazısını sıfırla
       document.querySelectorAll("#musicList button").forEach(b => b.textContent = "▶︎ Dinle");
       btn.textContent = "⏸ Durdur";
     }
@@ -1085,19 +1255,25 @@
         bodyEl.innerHTML = `
           <p>Hardin akıllı anı magnetleri, gezdiğin şehirlerin fotoğraflarını
           kendi telefonunda saklamanı ve dilediğinde slayt gösterisi gibi
-          izleyebilmeni sağlar. Fotoğrafların internet yerine yalnızca
-          cihazında tutulur.</p>
+          izleyebilmeni sağlar.</p>
+          <p>Fotoğrafların hiçbiri internet sunucusuna yüklenmez; sadece bu
+          cihazdaki bu tarayıcının hafızasında saklanır. Tarayıcıyı
+          değiştirirsen veya cihazını değiştirirsen, albümünü yeni cihazda
+          yeniden oluşturman gerekir.</p>
+          <p>Daha stabil bir kullanım için, bu sayfayı tarayıcından
+          <strong>“Ana ekrana ekle”</strong> diyerek kısayol oluşturabilir ve
+          magnetini okuttuktan sonra hep o kısayoldan açabilirsin.</p>
         `;
       } else if (type === "faq") {
         titleEl.innerText = "Sık Sorulan Sorular";
         bodyEl.innerHTML = `
           <div class="faq-item">
             <div class="faq-q"><span>Fotoğraflarım internete yükleniyor mu?</span><span>+</span></div>
-            <div class="faq-a">Hayır. Tüm fotoğraflar, sadece bu cihazın hafızasında saklanır.</div>
+            <div class="faq-a">Hayır. Tüm fotoğraflar, sadece bu cihazın tarayıcı hafızasında saklanır.</div>
           </div>
           <div class="faq-item">
-            <div class="faq-q"><span>Albümü başka telefondan görebilir miyim?</span><span>+</span></div>
-            <div class="faq-a">Aynı magneti başka bir telefondan okuttuğunda, o telefonda yeni bir albüm oluşturman gerekir. Albümler cihaz bazlıdır.</div>
+            <div class="faq-q"><span>Tarayıcı değiştirince albümüm neden boş?</span><span>+</span></div>
+            <div class="faq-a">Her tarayıcı kendi içinde ayrı hafıza kullanır. Albüm, bu sayfayı ilk kullandığın tarayıcıya kaydedilir. Farklı bir tarayıcı veya cihazda albümünü yeniden oluşturman gerekir.</div>
           </div>
           <div class="faq-item">
             <div class="faq-q"><span>Fotoğraf sayısının bir sınırı var mı?</span><span>+</span></div>
@@ -1118,7 +1294,6 @@
         `;
       }
 
-      // FAQ click handler
       bodyEl.onclick = (e) => {
         const q = e.target.closest(".faq-q");
         if (!q) return;
@@ -1242,9 +1417,131 @@
       }, { passive:true });
     }
 
+    // Gezi durumu modalı
+    function openProgressModal() {
+      const modal = document.getElementById("progressModal");
+      const placesContainer = document.getElementById("progressPlaces");
+      const foodsContainer  = document.getElementById("progressFoods");
+      const extraEl = document.getElementById("progressExtra");
+      const resultEl = document.getElementById("progressResult");
+
+      placesContainer.innerHTML = "";
+      foodsContainer.innerHTML = "";
+
+      Object.keys(PROGRESS_LABELS.places).forEach(key => {
+        const row = document.createElement("label");
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.gap = "6px";
+        row.style.fontSize = "0.8rem";
+        row.style.margin = "2px 0";
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!progress.places[key];
+        cb.onchange = () => {
+          progress.places[key] = cb.checked;
+          saveProgress();
+        };
+
+        const span = document.createElement("span");
+        span.textContent = PROGRESS_LABELS.places[key];
+
+        row.appendChild(cb);
+        row.appendChild(span);
+        placesContainer.appendChild(row);
+      });
+
+      Object.keys(PROGRESS_LABELS.foods).forEach(key => {
+        const row = document.createElement("label");
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.gap = "6px";
+        row.style.fontSize = "0.8rem";
+        row.style.margin = "2px 0";
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!progress.foods[key];
+        cb.onchange = () => {
+          progress.foods[key] = cb.checked;
+          saveProgress();
+        };
+
+        const span = document.createElement("span");
+        span.textContent = PROGRESS_LABELS.foods[key];
+
+        row.appendChild(cb);
+        row.appendChild(span);
+        foodsContainer.appendChild(row);
+      });
+
+      extraEl.value = progress.extra || "";
+
+      if (progress.score != null) {
+        const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
+        resultEl.innerHTML = `${cityName} için gezi skorun: %${progress.score}`;
+      } else {
+        resultEl.innerHTML = "";
+      }
+
+      modal.classList.add("active");
+    }
+
+    function closeProgressModal() {
+      document.getElementById("progressModal").classList.remove("active");
+    }
+
+    function calculateProgress() {
+      let total = 0;
+      let done  = 0;
+
+      Object.keys(PROGRESS_LABELS.places).forEach(key => {
+        total++;
+        if (progress.places[key]) done++;
+      });
+      Object.keys(PROGRESS_LABELS.foods).forEach(key => {
+        total++;
+        if (progress.foods[key]) done++;
+      });
+
+      if (total === 0) {
+        alert("Hesaplamak için en az bir seçenek olması gerekiyor.");
+        return;
+      }
+
+      const extraEl = document.getElementById("progressExtra");
+      progress.extra = extraEl.value.trim();
+
+      const percent = Math.round((done / total) * 100);
+      progress.score = percent;
+      saveProgress();
+      updateTravelScoreDisplay();
+
+      const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
+      const resultEl = document.getElementById("progressResult");
+
+      let lines = [];
+      lines.push(`${cityName} için gezi skorun: %${percent}`);
+      lines.push("<br><strong>Görülmesi gereken yerler:</strong>");
+      Object.keys(PROGRESS_LABELS.places).forEach(key => {
+        lines.push((progress.places[key] ? "✓ " : "✗ ") + PROGRESS_LABELS.places[key]);
+      });
+      lines.push("<br><strong>Yenilmesi gereken lezzetler:</strong>");
+      Object.keys(PROGRESS_LABELS.foods).forEach(key => {
+        lines.push((progress.foods[key] ? "✓ " : "✗ ") + PROGRESS_LABELS.foods[key]);
+      });
+
+      if (progress.extra) {
+        lines.push("<br><strong>Ekstralar:</strong>");
+        lines.push(progress.extra);
+      }
+
+      resultEl.innerHTML = lines.join("<br>");
+    }
+
     // Başlangıç
     render();
-    renderAlbumChips();
   </script>
 </body>
 </html>
