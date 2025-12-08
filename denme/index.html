@@ -13,7 +13,6 @@
       --accent: #745e4d;
       --accent-soft: #e3dfd8;
     }
-
     * { box-sizing: border-box; }
 
     body {
@@ -23,7 +22,6 @@
       color: var(--text);
     }
 
-    /* ÜST BAR */
     .topbar {
       width: 100%;
       padding: 10px 16px;
@@ -36,7 +34,6 @@
       top: 0;
       z-index: 10;
     }
-
     .topbar-title {
       font-weight: 600;
       letter-spacing: 0.08em;
@@ -62,11 +59,9 @@
       position: relative;
       overflow: hidden;
     }
-
     .card-with-bg .card-bg {
       position: absolute;
       inset: 0;
-      /* 🔽 Buradaki URL'yi kendi şehir fotoğrafınla değiştirebilirsin */
       background-image: url("https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200");
       background-size: cover;
       background-position: center;
@@ -74,23 +69,17 @@
       filter: blur(2px);
       transform: scale(1.05);
     }
-
     .card-inner {
       position: relative;
       backdrop-filter: blur(1px);
     }
 
-    h1 {
-      margin: 0 0 6px;
-      font-size: 1.4rem;
-    }
-
+    h1 { margin: 0 0 6px; font-size: 1.4rem; }
     .subtitle {
       font-size: 0.9rem;
       margin: 0 0 10px;
       line-height: 1.45;
     }
-
     .note {
       font-size: 0.78rem;
       color: #7a7a7a;
@@ -118,18 +107,15 @@
       border: none;
       text-decoration: none;
     }
-
     .btn-primary {
       background: var(--accent);
       color: #fff;
       box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     }
-
     .btn-secondary {
       background: var(--accent-soft);
       color: var(--text);
     }
-
     .btn-ghost {
       background: transparent;
       color: var(--text);
@@ -138,14 +124,10 @@
       box-shadow: none;
       font-size: 0.86rem;
     }
-
-    .btn-primary:active,
-    .btn-ghost:active,
-    .btn-secondary:active {
+    .btn:active {
       transform: translateY(1px);
       box-shadow: 0 2px 6px rgba(0,0,0,0.16);
     }
-
     .btn-emoji { font-size: 1rem; }
 
     .city-tag {
@@ -158,7 +140,6 @@
       font-size: 0.78rem;
       margin-bottom: 10px;
     }
-
     .city-tag span { opacity: 0.85; }
 
     .home-counter {
@@ -173,7 +154,6 @@
       gap: 6px;
       flex-wrap: nowrap;
     }
-
     .home-thumb {
       width: 64px;
       height: 64px;
@@ -183,12 +163,12 @@
       flex-shrink: 0;
       box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
-
     .home-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      cursor: pointer;
     }
 
     .social-row {
@@ -197,7 +177,6 @@
       gap: 8px;
       flex-wrap: wrap;
     }
-
     .social-btn {
       font-size: 0.8rem;
       padding: 6px 10px;
@@ -211,42 +190,51 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.07);
     }
 
-    .social-btn span { white-space: nowrap; }
-
-    .info-section {
-      margin-top: 16px;
-      font-size: 0.84rem;
-    }
-
-    .acc-item {
-      border-top: 1px solid rgba(0,0,0,0.06);
-      padding: 8px 0;
-    }
-
-    .acc-header {
+    .info-links {
+      margin-top: 10px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+    .info-link {
+      color: #555;
+      text-decoration: underline;
       cursor: pointer;
     }
 
-    .acc-header span {
-      font-size: 1rem;
-      color: #777;
+    /* Diğer magnetlerim */
+    .album-rail {
+      margin-top: 14px;
     }
-
-    .acc-content {
-      display: none;
-      margin-top: 6px;
-      color: #555;
+    .album-rail-title {
+      font-size: 0.78rem;
+      color: #666;
+      margin-bottom: 4px;
     }
-
-    .acc-item.open .acc-content {
-      display: block;
+    .album-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
-
-    .acc-item.open .acc-header span {
-      transform: rotate(45deg);
+    .album-chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.9);
+      cursor: pointer;
+    }
+    .album-chip.locked {
+      opacity: 0.4;
+      cursor: default;
+    }
+    .album-chip.current {
+      border-color: var(--accent);
+      background: #f1e9e1;
     }
 
     .counter {
@@ -257,20 +245,18 @@
 
     #fileInput { display: none; }
 
-    /* ALBÜM GÖRÜNÜMÜ */
+    /* Albüm yönet grid */
     #photos {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-top: 16px;
     }
-
     .photo-card {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
-
     .photo {
       position: relative;
       border-radius: 14px;
@@ -279,14 +265,12 @@
       aspect-ratio: 3 / 4;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
-
     .photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-
     .delete {
       position: absolute;
       top: 6px;
@@ -303,7 +287,6 @@
       cursor: pointer;
       backdrop-filter: blur(3px);
     }
-
     .note-input {
       font-size: 0.78rem;
       padding: 4px 8px;
@@ -314,7 +297,6 @@
       color: #444;
       width: 100%;
     }
-
     .note-input::placeholder { color: #aaa; }
 
     .empty {
@@ -326,7 +308,7 @@
     .view { display: none; }
     .view.active { display: block; }
 
-    /* SLIDESHOW OVERLAY */
+    /* Slideshow overlay */
     .slideshow-overlay {
       position: fixed;
       inset: 0;
@@ -339,10 +321,7 @@
       z-index: 50;
       overflow: hidden;
     }
-
-    .slideshow-overlay.active {
-      display: flex;
-    }
+    .slideshow-overlay.active { display: flex; }
 
     .slide-top {
       position: absolute;
@@ -356,14 +335,12 @@
       font-size: 0.9rem;
       z-index: 2;
     }
-
     .slide-top-center {
       flex: 1;
       text-align: center;
       font-size: 0.8rem;
       opacity: 0.9;
     }
-
     .slide-btn {
       background: rgba(0,0,0,0.5);
       border-radius: 999px;
@@ -376,7 +353,6 @@
       font-size: 0.85rem;
       cursor: pointer;
     }
-
     .slide-nav {
       position: absolute;
       top: 50%;
@@ -393,10 +369,8 @@
       cursor: pointer;
       z-index: 2;
     }
-
     .slide-nav.prev { left: 10px; }
     .slide-nav.next { right: 10px; }
-
     .slide-counter {
       font-size: 0.85rem;
       opacity: 0.8;
@@ -410,13 +384,11 @@
       justify-content: center;
       padding: 10px;
     }
-
     .slide-img-wrap img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
     }
-
     .slide-note {
       position: absolute;
       bottom: 18px;
@@ -432,43 +404,109 @@
       color: #fff;
       word-wrap: break-word;
     }
+    .slide-note:empty { display: none; }
 
-    .slide-note:empty {
+    .slide-album-date { white-space: nowrap; }
+
+    /* Modallar (info / tarih / müzik) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
       display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      max-width: 420px;
+      width: calc(100% - 40px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      font-size: 0.86rem;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .modal-title {
+      font-weight: 600;
+    }
+    .modal-close {
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .modal-body {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .modal-footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
     }
 
-    .slide-album-date {
-      white-space: nowrap;
+    .pill-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
     }
+    .pill-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .pill-secondary {
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+    .faq-a {
+      display: none;
+      padding: 4px 0 8px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-q span:last-child { transform: rotate(45deg); }
 
     @media (min-width: 768px) {
-      .card {
-        padding: 22px 22px 24px;
-      }
-      h1 {
-        font-size: 1.6rem;
-      }
-      #photos {
-        grid-template-columns: repeat(3, minmax(0,1fr));
-      }
+      .card { padding: 22px 22px 24px; }
+      h1 { font-size: 1.6rem; }
+      #photos { grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
   </style>
 </head>
 <body>
-
   <div class="topbar">
     <div class="topbar-title">HARDİN • AKILLI ANI MAGNETİ</div>
   </div>
 
   <div class="page">
-
-    <!-- 1) ANA SAYFA -->
+    <!-- ANA SAYFA -->
     <section id="view-home" class="view active">
       <div class="card card-with-bg">
         <div class="card-bg"></div>
         <div class="card-inner">
           <div class="city-tag">
-            <strong>Şehir:</strong> <span>Deneme Şehri</span>
+            <strong>Albüm:</strong> <span id="albumLabel">Deneme</span>
           </div>
 
           <h1>Şehir Anı Albümün</h1>
@@ -478,12 +516,11 @@
             bu cihazda kalır.
           </p>
           <p class="note">
-            Aşağıdan albümünü oluşturabilir, yeni fotoğraf ekleyebilir veya anılarını
-            tam ekran slayt gösterisiyle izleyebilirsin.
+            Aşağıdan albümünü oluşturabilir, yeni fotoğraf ekleyebilir veya
+            anılarını tam ekran slayt gösterisiyle izleyebilirsin.
           </p>
 
           <div class="btn-row">
-            <!-- Albüm Oluştur: sadece sayfa geçişi yapıyor -->
             <button class="btn btn-primary" type="button" onclick="setView('manage')">
               <span class="btn-emoji">📸</span>
               <span>Albüm Oluştur</span>
@@ -494,9 +531,14 @@
             </button>
           </div>
 
-          <!-- Ana sayfa sayaç + son 5 foto önizleme -->
           <div id="homeCounter" class="home-counter"></div>
           <div id="homeThumbs" class="home-thumbs"></div>
+
+          <!-- Diğer magnetlerim -->
+          <div class="album-rail">
+            <div class="album-rail-title">Diğer magnetlerim</div>
+            <div id="albumChips" class="album-chips"></div>
+          </div>
 
           <!-- Sosyal ikonlar -->
           <div class="social-row">
@@ -511,64 +553,17 @@
             </a>
           </div>
 
-          <!-- Hakkında - SSS - Şikayet/Talep -->
-          <div class="info-section">
-            <div id="accAbout" class="acc-item">
-              <div class="acc-header" onclick="toggleAccordion('accAbout')">
-                <span>Hakkında</span>
-                <span>+</span>
-              </div>
-              <div class="acc-content">
-                Hardin akıllı anı magnetleri, gezdiğin şehirlerin fotoğraflarını
-                kendi telefonunda saklamanı ve dilediğinde slayt gösterisi gibi
-                izleyebilmeni sağlar. Fotoğrafların internet yerine yalnızca
-                cihazında tutulur.
-              </div>
-            </div>
-
-            <div id="accFaq" class="acc-item">
-              <div class="acc-header" onclick="toggleAccordion('accFaq')">
-                <span>Sık Sorulan Sorular</span>
-                <span>+</span>
-              </div>
-              <div class="acc-content">
-                <strong>Fotoğraflarım internete yükleniyor mu?</strong><br>
-                Hayır. Tüm fotoğraflar, sadece bu cihazın hafızasında saklanır.<br><br>
-
-                <strong>Albümü başka telefondan görebilir miyim?</strong><br>
-                Aynı magneti başka bir telefondan okuttuğunda, o telefonda yeni bir
-                albüm oluşturman gerekir. Albümler cihaz bazlıdır.<br><br>
-
-                <strong>Fotoğraf sayısının bir sınırı var mı?</strong><br>
-                Telefonunun tarayıcı hafızasına bağlı olarak pratikte bir sınır vardır.
-                Sınır dolduğunda uygulama seni uyarır ve yeni fotoğraf için bazılarını
-                silmeni ister.
-              </div>
-            </div>
-
-            <div id="accComplaint" class="acc-item">
-              <div class="acc-header" onclick="toggleAccordion('accComplaint')">
-                <span>Şikayet & Talep</span>
-                <span>+</span>
-              </div>
-              <div class="acc-content">
-                <p style="margin-top:0;">
-                  Görüş, şikayet veya önerini aşağıya yazıp “Mail Gönder”e tıklayarak
-                  bize e-posta gönderebilirsin.
-                </p>
-                <textarea id="complaintText" rows="3" style="width:100%; font-size:0.8rem; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);"></textarea>
-                <button class="btn btn-secondary" type="button" style="margin-top:6px;" onclick="sendComplaint()">
-                  ✉️ Mail Gönder
-                </button>
-              </div>
-            </div>
+          <!-- Hakkında / SSS / Şikayet -->
+          <div class="info-links">
+            <span class="info-link" onclick="openInfoModal('about')">Hakkında</span>
+            <span class="info-link" onclick="openInfoModal('faq')">Sık Sorulan Sorular</span>
+            <span class="info-link" onclick="openInfoModal('complaint')">Şikayet &amp; Talep</span>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- 2) ALBÜMÜ YÖNET -->
+    <!-- ALBÜMÜ YÖNET -->
     <section id="view-manage" class="view">
       <div class="card">
         <button class="btn btn-ghost" type="button" onclick="setView('home')">
@@ -591,11 +586,11 @@
             🧹 Albümü Temizle
           </button>
 
-          <button class="btn btn-secondary" type="button" onclick="setAlbumDate()">
+          <button class="btn btn-secondary" type="button" onclick="showDateModal()">
             📅 Tarih Belirle
           </button>
 
-          <button class="btn btn-secondary" type="button" onclick="selectMusic()">
+          <button class="btn btn-secondary" type="button" onclick="showMusicModal()">
             🎵 Fon Müziği Seç
           </button>
         </div>
@@ -609,15 +604,12 @@
         <div id="emptyMsg" class="empty"></div>
       </div>
     </section>
-
   </div>
 
-  <!-- 3) TAM EKRAN SLAYT GÖSTERİSİ -->
+  <!-- SLAYT OVERLAY -->
   <div id="slideshow" class="slideshow-overlay">
     <div class="slide-top">
-      <button class="slide-btn" type="button" onclick="closeSlideshow()">
-        ✕ Kapat
-      </button>
+      <button class="slide-btn" type="button" onclick="closeSlideshow()">✕ Kapat</button>
 
       <div class="slide-top-center">
         <span id="slideAlbumDate" class="slide-album-date"></span>
@@ -640,24 +632,89 @@
     <div id="slideNote" class="slide-note"></div>
   </div>
 
-  <!-- Arka plan fon müziği -->
+  <!-- INFO MODAL -->
+  <div id="infoModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div id="infoModalTitle" class="modal-title"></div>
+        <button class="modal-close" type="button" onclick="closeInfoModal()">×</button>
+      </div>
+      <div id="infoModalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- TARİH MODALI -->
+  <div id="dateModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Albüm Tarihi</div>
+        <button class="modal-close" type="button" onclick="closeDateModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <button class="pill-btn pill-secondary" type="button" onclick="setDatePreset('today')">Bugün</button>
+          <button class="pill-btn pill-secondary" type="button" onclick="setDatePreset('yesterday')">Dün</button>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; color:#555;">Özel tarih (GG.AA.YYYY):</label>
+          <input id="dateInput" type="text" style="width:100%; margin-top:4px; padding:5px 8px; border-radius:8px; border:1px solid rgba(0,0,0,0.15); font-size:0.82rem;" placeholder="Örn: 07.12.2025">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="pill-btn pill-secondary" type="button" onclick="closeDateModal()">İptal</button>
+        <button class="pill-btn pill-primary" type="button" onclick="saveDate()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÜZİK MODALI -->
+  <div id="musicModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Fon Müziği Seç</div>
+        <button class="modal-close" type="button" onclick="closeMusicModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="musicList"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="pill-btn pill-secondary" type="button" onclick="closeMusicModal(true)">İptal</button>
+        <button class="pill-btn pill-primary" type="button" onclick="saveMusic()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
   <audio id="bgAudio" loop></audio>
+  <audio id="previewAudio"></audio>
 
   <script>
-    const CURRENT_ID = "deneme";
+    // Çoklu albüm kimlikleri
+    const params = new URLSearchParams(window.location.search);
+    const CURRENT_ID = params.get("album") || "deneme";
+
+    const ALBUM_IDS = ["deneme", "deneme1", "deneme2", "deneme3", "deneme4", "deneme5", "deneme6"];
+    const ALBUM_LABELS = {
+      deneme:  "Deneme",
+      deneme1: "Deneme 1",
+      deneme2: "Deneme 2",
+      deneme3: "Deneme 3",
+      deneme4: "Deneme 4",
+      deneme5: "Deneme 5",
+      deneme6: "Deneme 6"
+    };
+
     const ALBUM_KEY = "hardin_album_" + CURRENT_ID;
-    const META_KEY = ALBUM_KEY + "_meta";
+    const META_KEY  = ALBUM_KEY + "_meta";
     const MAX_PHOTOS = 20;
 
     const MUSIC_OPTIONS = {
-      none: { label: "Yok", src: null },
-      track1: { label: "Piyano", src: "denme/music1.mp3" }, // buradaki dosyaları sen ekleyeceksin
-      track2: { label: "Lo-fi",  src: "denme/music2.mp3" }
+      none:   { id:"none",   label:"Seçilmemiş", src:null },
+      track1: { id:"track1", label:"Piyano", src:"denme/music1.mp3" },
+      track2: { id:"track2", label:"Lo-fi",  src:"denme/music2.mp3" }
     };
 
     let photos = [];
     let albumMeta = { date: null, music: "none" };
-
     let currentSlide = 0;
     let slideTimer = null;
     let isPlaying = false;
@@ -665,7 +722,9 @@
     let touchStartX = 0;
     let touchEndX = 0;
 
-    // Eski veri tipini (string array) destekle
+    let tempMusicChoice = albumMeta.music;
+
+    // Albümü yükle (eski format desteği)
     try {
       const stored = JSON.parse(localStorage.getItem(ALBUM_KEY) || "[]");
       if (Array.isArray(stored)) {
@@ -676,18 +735,60 @@
           photos = stored;
         }
       }
-    } catch (e) {
-      photos = [];
-    }
+    } catch (e) { photos = []; }
 
-    // Meta yükle
     try {
       const m = JSON.parse(localStorage.getItem(META_KEY) || "null");
-      if (m && typeof m === "object") {
-        albumMeta = { ...albumMeta, ...m };
-      }
-    } catch(e) {}
+      if (m && typeof m === "object") albumMeta = { ...albumMeta, ...m };
+      tempMusicChoice = albumMeta.music;
+    } catch (e) {}
 
+    // Albüm etiketi
+    const labelEl = document.getElementById("albumLabel");
+    if (labelEl) {
+      labelEl.innerText = ALBUM_LABELS[CURRENT_ID] || CURRENT_ID;
+    }
+
+    // Diğer magnetler rail
+    function hasPhotosFor(id) {
+      try {
+        const raw = JSON.parse(localStorage.getItem("hardin_album_" + id) || "[]");
+        return Array.isArray(raw) && raw.length > 0;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function renderAlbumChips() {
+      const container = document.getElementById("albumChips");
+      if (!container) return;
+      container.innerHTML = "";
+      ALBUM_IDS.forEach(id => {
+        const chip = document.createElement("div");
+        chip.className = "album-chip";
+        if (id === CURRENT_ID) chip.classList.add("current");
+        const active = hasPhotosFor(id);
+        if (!active && id !== CURRENT_ID) chip.classList.add("locked");
+
+        const dot = active ? "●" : "○";
+        chip.innerHTML = `<span style="font-size:0.7rem;">${dot}</span><span>${ALBUM_LABELS[id]}</span>`;
+
+        chip.onclick = () => {
+          if (id === CURRENT_ID) return;
+          if (!hasPhotosFor(id)) {
+            alert("Bu magnet için henüz bu cihazda albüm oluşturulmadı. Önce o magneti okutup fotoğraf eklemelisin.");
+            return;
+          }
+          const url = new URL(window.location.href);
+          url.searchParams.set("album", id);
+          window.location.href = url.toString();
+        };
+
+        container.appendChild(chip);
+      });
+    }
+
+    // Kaydet fonksiyonları
     function savePhotos() {
       try {
         localStorage.setItem(ALBUM_KEY, JSON.stringify(photos));
@@ -698,56 +799,34 @@
         return false;
       }
     }
-
     function saveMeta() {
       try {
         localStorage.setItem(META_KEY, JSON.stringify(albumMeta));
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) { console.error(e); }
     }
 
-    // Sayaçlar + tarih + müzik etiketi
+    // Sayaçlar + tarih + müzik info
     function updateCounters() {
       const manageCounter = document.getElementById("counter");
-      const homeCounter = document.getElementById("homeCounter");
-      const playButton = document.getElementById("playButton");
-      const slideAlbumDate = document.getElementById("slideAlbumDate");
-      const musicInfo = document.getElementById("musicInfo");
+      const homeCounter   = document.getElementById("homeCounter");
+      const playButton    = document.getElementById("playButton");
+      const slideAlbumDate= document.getElementById("slideAlbumDate");
+      const musicInfo     = document.getElementById("musicInfo");
 
       let textMain = "";
-      if (photos.length === 1) {
-        textMain = "Albümünde 1 fotoğraf var";
-      } else if (photos.length > 1) {
-        textMain = "Albümünde " + photos.length + " fotoğraf var";
-      } else {
-        textMain = "Henüz fotoğraf eklenmedi";
-      }
+      if (photos.length === 1) textMain = "Albümünde 1 fotoğraf var";
+      else if (photos.length > 1) textMain = "Albümünde " + photos.length + " fotoğraf var";
+      else textMain = "Henüz fotoğraf eklenmedi";
 
       let datePart = albumMeta.date ? (" • Tarih: " + albumMeta.date) : "";
 
-      if (manageCounter) {
-        manageCounter.innerText = photos.length ? (textMain + datePart) : "";
-      }
-      if (homeCounter) {
-        if (photos.length === 0) {
-          homeCounter.innerText = "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Albüm Oluştur’a dokun.";
-        } else {
-          homeCounter.innerText = textMain + datePart;
-        }
-      }
-      if (slideAlbumDate) {
-        slideAlbumDate.innerText = albumMeta.date ? albumMeta.date : "";
-      }
+      if (manageCounter) manageCounter.innerText = photos.length ? (textMain + datePart) : "";
+      if (homeCounter) homeCounter.innerText = photos.length ? (textMain + datePart) : "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Albüm Oluştur’a dokun.";
+      if (slideAlbumDate) slideAlbumDate.innerText = albumMeta.date ? albumMeta.date : "";
 
       if (playButton) {
-        if (photos.length === 0) {
-          playButton.disabled = true;
-          playButton.style.opacity = "0.4";
-        } else {
-          playButton.disabled = false;
-          playButton.style.opacity = "1";
-        }
+        playButton.disabled = photos.length === 0;
+        playButton.style.opacity = photos.length === 0 ? "0.4" : "1";
       }
 
       if (musicInfo) {
@@ -756,11 +835,10 @@
       }
     }
 
-    // Ana sayfadaki son 5 fotoğraf önizlemesi
+    // Ana ekrandaki son 5 küçük foto
     function updateHomeThumbs() {
       const container = document.getElementById("homeThumbs");
       if (!container) return;
-
       container.innerHTML = "";
       if (!photos.length) return;
 
@@ -768,28 +846,22 @@
       for (let i = start; i < photos.length; i++) {
         const div = document.createElement("div");
         div.className = "home-thumb";
-
         const img = document.createElement("img");
         img.src = photos[i].src;
         img.onclick = () => openSlideshow(i);
-
         div.appendChild(img);
         container.appendChild(div);
       }
     }
 
+    // Albüm render
     function render() {
       const container = document.getElementById("photos");
       const empty = document.getElementById("emptyMsg");
       if (!container || !empty) return;
 
       container.innerHTML = "";
-
-      if (photos.length === 0) {
-        empty.innerText = "Henüz fotoğraf eklenmedi. Başlamak için yukarıdaki butona dokun.";
-      } else {
-        empty.innerText = "";
-      }
+      empty.innerText = photos.length ? "" : "Henüz fotoğraf eklenmedi. Başlamak için yukarıdaki butona dokun.";
 
       photos.forEach((photo, index) => {
         const card = document.createElement("div");
@@ -840,34 +912,22 @@
     }
 
     function setView(view) {
-      const home = document.getElementById("view-home");
-      const manage = document.getElementById("view-manage");
-      if (!home || !manage) return;
-
-      if (view === "home") {
-        home.classList.add("active");
-        manage.classList.remove("active");
-      } else {
-        home.classList.remove("active");
-        manage.classList.add("active");
-      }
+      document.getElementById("view-home").classList.toggle("active", view === "home");
+      document.getElementById("view-manage").classList.toggle("active", view === "manage");
     }
 
-    // Fotoğrafı küçültüp ekle
+    // Fotoğraf eklerken küçült
     function addFileCompressed(file) {
       if (photos.length >= MAX_PHOTOS) {
         alert("Bu albüm en fazla " + MAX_PHOTOS + " fotoğraf saklayabilir. Yeni fotoğraf eklemek için önce bazılarını sil.");
         return;
       }
-
       const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-          const maxSize = 800; // daha agresif küçültme
-          let w = img.width;
-          let h = img.height;
-
+          const maxSize = 800;
+          let w = img.width, h = img.height;
           const scale = Math.min(maxSize / w, maxSize / h, 1);
           w = Math.round(w * scale);
           h = Math.round(h * scale);
@@ -879,11 +939,8 @@
           ctx.drawImage(img, 0, 0, w, h);
 
           const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
-
           photos.push({ src: dataUrl, note: "" });
-          if (!savePhotos()) {
-            photos.pop();
-          }
+          if (!savePhotos()) photos.pop();
           render();
         };
         img.src = reader.result;
@@ -895,76 +952,185 @@
     if (fileInput) {
       fileInput.addEventListener("change", function() {
         const files = Array.from(this.files);
-        files.forEach(file => addFileCompressed(file));
+        files.forEach(addFileCompressed);
         this.value = "";
       });
     }
 
     function clearAllPhotos() {
       if (!photos.length) return;
-      const ok = confirm("Tüm fotoğrafları silmek istediğinden emin misin?");
-      if (!ok) return;
+      if (!confirm("Tüm fotoğrafları silmek istediğinden emin misin?")) return;
       photos = [];
       savePhotos();
       render();
     }
 
+    // Tarih yardımcıları
     function formatDate(d) {
       const day = String(d.getDate()).padStart(2, "0");
       const month = String(d.getMonth() + 1).padStart(2, "0");
       const year = d.getFullYear();
-      return day + "." + month + "." + year;
+      return `${day}.${month}.${year}`;
     }
-
-    function setAlbumDate() {
-      const choice = prompt("Albüm tarihi:\n1 - Bugün\n2 - Dün\n3 - Özel tarih (GG.AA.YYYY)\nİptal için boş bırak.");
-      if (!choice) return;
-
-      if (choice === "1") {
-        albumMeta.date = formatDate(new Date());
-      } else if (choice === "2") {
-        const d = new Date();
-        d.setDate(d.getDate() - 1);
-        albumMeta.date = formatDate(d);
-      } else if (choice === "3") {
-        const custom = prompt("Tarihi GG.AA.YYYY formatında gir (ör: 07.12.2025):");
-        if (!custom) return;
-        albumMeta.date = custom;
+    function showDateModal() {
+      document.getElementById("dateInput").value = albumMeta.date || "";
+      document.getElementById("dateModal").classList.add("active");
+    }
+    function closeDateModal() {
+      document.getElementById("dateModal").classList.remove("active");
+    }
+    function setDatePreset(type) {
+      let d = new Date();
+      if (type === "yesterday") d.setDate(d.getDate() - 1);
+      document.getElementById("dateInput").value = formatDate(d);
+    }
+    function saveDate() {
+      const val = document.getElementById("dateInput").value.trim();
+      if (!val) {
+        albumMeta.date = null;
       } else {
-        return;
+        albumMeta.date = val;
       }
       saveMeta();
       updateCounters();
       updateSlideImage();
+      closeDateModal();
     }
 
-    function selectMusic() {
-      const choice = prompt("Fon müziği seç:\n1 - Piyano\n2 - Lo-fi\n0 - Müzik yok");
-      if (choice === null) return;
+    // Müzik modalı
+    function showMusicModal() {
+      tempMusicChoice = albumMeta.music;
+      const list = document.getElementById("musicList");
+      list.innerHTML = "";
+      ["track1","track2"].forEach(id => {
+        const opt = MUSIC_OPTIONS[id];
+        const row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.justifyContent = "space-between";
+        row.style.padding = "4px 0";
 
-      if (choice === "1") {
-        albumMeta.music = "track1";
-      } else if (choice === "2") {
-        albumMeta.music = "track2";
-      } else if (choice === "0") {
-        albumMeta.music = "none";
-      } else {
+        const left = document.createElement("label");
+        left.style.display = "flex";
+        left.style.alignItems = "center";
+        left.style.gap = "6px";
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "musicChoice";
+        radio.value = id;
+        radio.checked = (tempMusicChoice === id);
+        radio.onchange = () => { tempMusicChoice = id; };
+        left.appendChild(radio);
+        const span = document.createElement("span");
+        span.textContent = opt.label;
+        left.appendChild(span);
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pill-btn pill-secondary";
+        btn.textContent = "▶︎ Dinle";
+        btn.onclick = () => previewTrack(id, btn);
+
+        row.appendChild(left);
+        row.appendChild(btn);
+        list.appendChild(row);
+      });
+      document.getElementById("musicModal").classList.add("active");
+    }
+    function closeMusicModal(keepOld) {
+      stopPreview();
+      if (!keepOld) tempMusicChoice = albumMeta.music;
+      document.getElementById("musicModal").classList.remove("active");
+    }
+    function previewTrack(id, btn) {
+      const audio = document.getElementById("previewAudio");
+      const opt = MUSIC_OPTIONS[id];
+      if (!opt.src) return;
+      if (!audio.paused && audio.dataset.current === id) {
+        audio.pause();
+        btn.textContent = "▶︎ Dinle";
         return;
       }
+      audio.src = opt.src;
+      audio.dataset.current = id;
+      audio.play().catch(console.error);
+      // tüm butonların yazısını sıfırla
+      document.querySelectorAll("#musicList button").forEach(b => b.textContent = "▶︎ Dinle");
+      btn.textContent = "⏸ Durdur";
+    }
+    function stopPreview() {
+      const audio = document.getElementById("previewAudio");
+      if (audio) audio.pause();
+    }
+    function saveMusic() {
+      stopPreview();
+      if (tempMusicChoice) albumMeta.music = tempMusicChoice;
       saveMeta();
       updateCounters();
       if (isPlaying) {
         applyAudioSettings();
         playAudioSafe();
       }
+      closeMusicModal(false);
     }
 
-    function toggleAccordion(id) {
-      const item = document.getElementById(id);
-      if (!item) return;
-      item.classList.toggle("open");
-    }
+    // Bilgi modalı
+    function openInfoModal(type) {
+      const modal = document.getElementById("infoModal");
+      const titleEl = document.getElementById("infoModalTitle");
+      const bodyEl = document.getElementById("infoModalBody");
 
+      if (type === "about") {
+        titleEl.innerText = "Hakkında";
+        bodyEl.innerHTML = `
+          <p>Hardin akıllı anı magnetleri, gezdiğin şehirlerin fotoğraflarını
+          kendi telefonunda saklamanı ve dilediğinde slayt gösterisi gibi
+          izleyebilmeni sağlar. Fotoğrafların internet yerine yalnızca
+          cihazında tutulur.</p>
+        `;
+      } else if (type === "faq") {
+        titleEl.innerText = "Sık Sorulan Sorular";
+        bodyEl.innerHTML = `
+          <div class="faq-item">
+            <div class="faq-q"><span>Fotoğraflarım internete yükleniyor mu?</span><span>+</span></div>
+            <div class="faq-a">Hayır. Tüm fotoğraflar, sadece bu cihazın hafızasında saklanır.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q"><span>Albümü başka telefondan görebilir miyim?</span><span>+</span></div>
+            <div class="faq-a">Aynı magneti başka bir telefondan okuttuğunda, o telefonda yeni bir albüm oluşturman gerekir. Albümler cihaz bazlıdır.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q"><span>Fotoğraf sayısının bir sınırı var mı?</span><span>+</span></div>
+            <div class="faq-a">Telefonunun tarayıcı hafızasına bağlı olarak pratikte bir sınır vardır. Sınır dolduğunda uygulama seni uyarır ve yeni fotoğraf için bazılarını silmeni ister.</div>
+          </div>
+        `;
+      } else if (type === "complaint") {
+        titleEl.innerText = "Şikayet & Talep";
+        bodyEl.innerHTML = `
+          <p style="margin-top:0;">
+            Görüş, şikayet veya önerini aşağıya yazıp “Mail Gönder”e tıklayarak
+            bize e-posta gönderebilirsin.
+          </p>
+          <textarea id="complaintText" rows="4" style="width:100%; font-size:0.8rem; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);"></textarea>
+          <div style="text-align:right; margin-top:6px;">
+            <button class="pill-btn pill-primary" type="button" onclick="sendComplaint()">✉️ Mail Gönder</button>
+          </div>
+        `;
+      }
+
+      // FAQ click handler
+      bodyEl.onclick = (e) => {
+        const q = e.target.closest(".faq-q");
+        if (!q) return;
+        const item = q.parentElement;
+        item.classList.toggle("open");
+      };
+
+      modal.classList.add("active");
+    }
+    function closeInfoModal() {
+      document.getElementById("infoModal").classList.remove("active");
+    }
     function sendComplaint() {
       const txtEl = document.getElementById("complaintText");
       if (!txtEl) return;
@@ -975,59 +1141,43 @@
       }
       const subject = encodeURIComponent("Hardin Şikayet / Talep");
       const body = encodeURIComponent(text);
-      // Buradaki mail adresini kendi mail adresinle değiştir
       const mailto = "mailto:ornek@mail.com?subject=" + subject + "&body=" + body;
       window.location.href = mailto;
     }
 
-    // SLIDESHOW
+    // Slayt
     function openSlideshow(startIndex) {
       if (!photos.length) {
         alert("Henüz fotoğraf eklenmedi. Önce albüme birkaç fotoğraf ekle.");
         return;
       }
-      if (startIndex < 0 || startIndex >= photos.length) {
-        startIndex = 0;
-      }
-      currentSlide = startIndex;
-      const overlay = document.getElementById("slideshow");
-      if (!overlay) return;
-      overlay.classList.add("active");
+      currentSlide = (startIndex >= 0 && startIndex < photos.length) ? startIndex : 0;
+      document.getElementById("slideshow").classList.add("active");
       stopAutoPlay();
       updateSlideImage();
       updatePlayButton();
     }
-
     function closeSlideshow() {
-      const overlay = document.getElementById("slideshow");
-      if (!overlay) return;
-      overlay.classList.remove("active");
+      document.getElementById("slideshow").classList.remove("active");
       stopAutoPlay();
     }
-
     function updateSlideImage() {
       const img = document.getElementById("slideImage");
       const counter = document.getElementById("slideCounter");
       const noteEl = document.getElementById("slideNote");
       const dateEl = document.getElementById("slideAlbumDate");
-      if (!img || !counter || photos.length === 0) return;
+      if (!img || !counter || !photos.length) return;
       currentSlide = (currentSlide + photos.length) % photos.length;
       img.src = photos[currentSlide].src;
       counter.innerText = (currentSlide + 1) + " / " + photos.length;
-      if (noteEl) {
-        noteEl.innerText = photos[currentSlide].note || "";
-      }
-      if (dateEl) {
-        dateEl.innerText = albumMeta.date ? albumMeta.date : "";
-      }
+      if (noteEl) noteEl.innerText = photos[currentSlide].note || "";
+      if (dateEl) dateEl.innerText = albumMeta.date || "";
     }
-
     function nextSlide() {
       if (!photos.length) return;
       currentSlide = (currentSlide + 1) % photos.length;
       updateSlideImage();
     }
-
     function prevSlide() {
       if (!photos.length) return;
       currentSlide = (currentSlide - 1 + photos.length) % photos.length;
@@ -1036,89 +1186,65 @@
 
     function applyAudioSettings() {
       const audio = document.getElementById("bgAudio");
-      if (!audio) return;
       const opt = MUSIC_OPTIONS[albumMeta.music] || MUSIC_OPTIONS.none;
       if (!opt.src) {
         audio.pause();
         return;
       }
-      const fullSrc = opt.src;
-      if (audio.src !== fullSrc) {
-        audio.src = fullSrc;
-      }
+      if (audio.src !== opt.src) audio.src = opt.src;
     }
-
     function playAudioSafe() {
       const audio = document.getElementById("bgAudio");
-      if (!audio) return;
-      audio.play().catch(e => {
-        console.error("Ses çalınamadı:", e);
-      });
+      audio.play().catch(console.error);
     }
 
     function startAutoPlay() {
       if (isPlaying || !photos.length) return;
       isPlaying = true;
-      slideTimer = setInterval(() => {
-        nextSlide();
-      }, 3000);
+      slideTimer = setInterval(nextSlide, 3000);
       applyAudioSettings();
-      if (albumMeta.music !== "none") {
-        playAudioSafe();
-      }
+      if (albumMeta.music !== "none") playAudioSafe();
       updatePlayButton();
     }
-
     function stopAutoPlay() {
-      if (slideTimer) {
-        clearInterval(slideTimer);
-        slideTimer = null;
-      }
+      if (slideTimer) clearInterval(slideTimer);
+      slideTimer = null;
       const audio = document.getElementById("bgAudio");
       if (audio) audio.pause();
       isPlaying = false;
       updatePlayButton();
     }
-
     function togglePlay() {
       if (!photos.length) return;
-      if (isPlaying) {
-        stopAutoPlay();
-      } else {
-        startAutoPlay();
-      }
+      isPlaying ? stopAutoPlay() : startAutoPlay();
     }
-
     function updatePlayButton() {
       const btn = document.getElementById("playPauseBtn");
       if (!btn) return;
       btn.textContent = isPlaying ? "⏸ Durdur" : "▶️ Oynat";
     }
 
-    // Slideshow swipe (sağa/sola kaydırma)
+    // Slayt swipe
     const overlayEl = document.getElementById("slideshow");
     if (overlayEl) {
-      overlayEl.addEventListener("touchstart", (e) => {
+      overlayEl.addEventListener("touchstart", e => {
         if (!e.changedTouches || !e.changedTouches.length) return;
         touchStartX = e.changedTouches[0].clientX;
-      }, { passive: true });
-
-      overlayEl.addEventListener("touchend", (e) => {
+      }, { passive:true });
+      overlayEl.addEventListener("touchend", e => {
         if (!e.changedTouches || !e.changedTouches.length) return;
         touchEndX = e.changedTouches[0].clientX;
         const dx = touchEndX - touchStartX;
         if (Math.abs(dx) > 40) {
-          if (dx < 0) {
-            nextSlide();
-          } else {
-            prevSlide();
-          }
+          if (dx < 0) nextSlide();
+          else prevSlide();
         }
-      }, { passive: true });
+      }, { passive:true });
     }
 
-    // Başlangıçta her şey
+    // Başlangıç
     render();
+    renderAlbumChips();
   </script>
 </body>
 </html>
