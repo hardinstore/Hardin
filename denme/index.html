@@ -14,9 +14,7 @@
       --accent-soft: #e3dfd8;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -68,7 +66,7 @@
     .card-with-bg .card-bg {
       position: absolute;
       inset: 0;
-      /* 🔽 Buradaki URL'yi kendi şehir fotoğrafınla değiştir */
+      /* 🔽 Buradaki URL'yi kendi şehir fotoğrafınla değiştirebilirsin */
       background-image: url("https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200");
       background-size: cover;
       background-position: center;
@@ -102,19 +100,19 @@
     .btn-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       margin-top: 14px;
     }
 
     .btn {
       border-radius: 999px;
-      padding: 11px 20px;
-      font-size: 0.96rem;
+      padding: 9px 16px;
+      font-size: 0.9rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       white-space: nowrap;
       transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
       border: none;
@@ -125,13 +123,6 @@
       background: var(--accent);
       color: #fff;
       box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-    }
-
-    .btn-primary:active,
-    .btn-ghost:active,
-    .btn-secondary:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.16);
     }
 
     .btn-secondary {
@@ -148,9 +139,14 @@
       font-size: 0.86rem;
     }
 
-    .btn-emoji {
-      font-size: 1rem;
+    .btn-primary:active,
+    .btn-ghost:active,
+    .btn-secondary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.16);
     }
+
+    .btn-emoji { font-size: 1rem; }
 
     .city-tag {
       display: inline-flex;
@@ -163,9 +159,7 @@
       margin-bottom: 10px;
     }
 
-    .city-tag span {
-      opacity: 0.85;
-    }
+    .city-tag span { opacity: 0.85; }
 
     .home-counter {
       margin-top: 8px;
@@ -217,8 +211,42 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.07);
     }
 
-    .social-btn span {
-      white-space: nowrap;
+    .social-btn span { white-space: nowrap; }
+
+    .info-section {
+      margin-top: 16px;
+      font-size: 0.84rem;
+    }
+
+    .acc-item {
+      border-top: 1px solid rgba(0,0,0,0.06);
+      padding: 8px 0;
+    }
+
+    .acc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .acc-header span {
+      font-size: 1rem;
+      color: #777;
+    }
+
+    .acc-content {
+      display: none;
+      margin-top: 6px;
+      color: #555;
+    }
+
+    .acc-item.open .acc-content {
+      display: block;
+    }
+
+    .acc-item.open .acc-header span {
+      transform: rotate(45deg);
     }
 
     .counter {
@@ -227,9 +255,7 @@
       margin-top: 6px;
     }
 
-    #fileInput {
-      display: none;
-    }
+    #fileInput { display: none; }
 
     /* ALBÜM GÖRÜNÜMÜ */
     #photos {
@@ -289,9 +315,7 @@
       width: 100%;
     }
 
-    .note-input::placeholder {
-      color: #aaa;
-    }
+    .note-input::placeholder { color: #aaa; }
 
     .empty {
       margin-top: 10px;
@@ -299,14 +323,8 @@
       font-size: 0.86rem;
     }
 
-    /* GÖRÜNÜM GEÇİŞLERİ */
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
+    .view { display: none; }
+    .view.active { display: block; }
 
     /* SLIDESHOW OVERLAY */
     .slideshow-overlay {
@@ -319,6 +337,7 @@
       align-items: center;
       justify-content: center;
       z-index: 50;
+      overflow: hidden;
     }
 
     .slideshow-overlay.active {
@@ -336,6 +355,13 @@
       padding: 0 14px;
       font-size: 0.9rem;
       z-index: 2;
+    }
+
+    .slide-top-center {
+      flex: 1;
+      text-align: center;
+      font-size: 0.8rem;
+      opacity: 0.9;
     }
 
     .slide-btn {
@@ -368,13 +394,8 @@
       z-index: 2;
     }
 
-    .slide-nav.prev {
-      left: 10px;
-    }
-
-    .slide-nav.next {
-      right: 10px;
-    }
+    .slide-nav.prev { left: 10px; }
+    .slide-nav.next { right: 10px; }
 
     .slide-counter {
       font-size: 0.85rem;
@@ -383,7 +404,7 @@
 
     .slide-img-wrap {
       max-width: 100%;
-      max-height: calc(100vh - 130px);
+      max-height: calc(100vh - 140px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -397,12 +418,27 @@
     }
 
     .slide-note {
-      margin-top: 6px;
-      font-size: 0.85rem;
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.55);
+      padding: 6px 12px;
+      border-radius: 999px;
       max-width: 90%;
+      font-size: 0.82rem;
       text-align: center;
-      opacity: 0.85;
+      opacity: 0.95;
+      color: #fff;
       word-wrap: break-word;
+    }
+
+    .slide-note:empty {
+      display: none;
+    }
+
+    .slide-album-date {
+      white-space: nowrap;
     }
 
     @media (min-width: 768px) {
@@ -442,29 +478,29 @@
             bu cihazda kalır.
           </p>
           <p class="note">
-            Aşağıdan yeni fotoğraf ekleyebilir veya mevcut anılarını tam ekran
-            slayt gösterisiyle izleyebilirsin.
+            Aşağıdan albümünü oluşturabilir, yeni fotoğraf ekleyebilir veya anılarını
+            tam ekran slayt gösterisiyle izleyebilirsin.
           </p>
 
           <div class="btn-row">
-            <!-- Fotoğraf ekleme + yönetim görünümüne geç -->
-            <label class="btn btn-primary" for="fileInput" onclick="setView('manage')">
+            <!-- Albüm Oluştur: sadece sayfa geçişi yapıyor -->
+            <button class="btn btn-primary" type="button" onclick="setView('manage')">
               <span class="btn-emoji">📸</span>
-              <span>Fotoğraf Ekle</span>
-            </label>
+              <span>Albüm Oluştur</span>
+            </button>
 
             <button id="playButton" class="btn btn-secondary" type="button" onclick="openSlideshow(0)">
               🎞️ Anıları Canlandır
             </button>
           </div>
 
-          <!-- Ana sayfa sayaç + son 3 foto önizleme -->
+          <!-- Ana sayfa sayaç + son 5 foto önizleme -->
           <div id="homeCounter" class="home-counter"></div>
           <div id="homeThumbs" class="home-thumbs"></div>
 
           <!-- Sosyal ikonlar -->
           <div class="social-row">
-            <a class="social-btn" href="https://instagram.com/" target="_blank" rel="noopener noreferrer">
+            <a class="social-btn" href="https://instagram.com" target="_blank" rel="noopener noreferrer">
               📷 <span>Instagram</span>
             </a>
             <a class="social-btn" href="https://wa.me/90XXXXXXXXXX" target="_blank" rel="noopener noreferrer">
@@ -473,10 +509,61 @@
             <a class="social-btn" href="https://trendyol.com" target="_blank" rel="noopener noreferrer">
               🛒 <span>Mağaza</span>
             </a>
-            <a class="social-btn" href="mailto:ornek@mail.com">
-              ✉️ <span>Mail</span>
-            </a>
           </div>
+
+          <!-- Hakkında - SSS - Şikayet/Talep -->
+          <div class="info-section">
+            <div id="accAbout" class="acc-item">
+              <div class="acc-header" onclick="toggleAccordion('accAbout')">
+                <span>Hakkında</span>
+                <span>+</span>
+              </div>
+              <div class="acc-content">
+                Hardin akıllı anı magnetleri, gezdiğin şehirlerin fotoğraflarını
+                kendi telefonunda saklamanı ve dilediğinde slayt gösterisi gibi
+                izleyebilmeni sağlar. Fotoğrafların internet yerine yalnızca
+                cihazında tutulur.
+              </div>
+            </div>
+
+            <div id="accFaq" class="acc-item">
+              <div class="acc-header" onclick="toggleAccordion('accFaq')">
+                <span>Sık Sorulan Sorular</span>
+                <span>+</span>
+              </div>
+              <div class="acc-content">
+                <strong>Fotoğraflarım internete yükleniyor mu?</strong><br>
+                Hayır. Tüm fotoğraflar, sadece bu cihazın hafızasında saklanır.<br><br>
+
+                <strong>Albümü başka telefondan görebilir miyim?</strong><br>
+                Aynı magneti başka bir telefondan okuttuğunda, o telefonda yeni bir
+                albüm oluşturman gerekir. Albümler cihaz bazlıdır.<br><br>
+
+                <strong>Fotoğraf sayısının bir sınırı var mı?</strong><br>
+                Telefonunun tarayıcı hafızasına bağlı olarak pratikte bir sınır vardır.
+                Sınır dolduğunda uygulama seni uyarır ve yeni fotoğraf için bazılarını
+                silmeni ister.
+              </div>
+            </div>
+
+            <div id="accComplaint" class="acc-item">
+              <div class="acc-header" onclick="toggleAccordion('accComplaint')">
+                <span>Şikayet & Talep</span>
+                <span>+</span>
+              </div>
+              <div class="acc-content">
+                <p style="margin-top:0;">
+                  Görüş, şikayet veya önerini aşağıya yazıp “Mail Gönder”e tıklayarak
+                  bize e-posta gönderebilirsin.
+                </p>
+                <textarea id="complaintText" rows="3" style="width:100%; font-size:0.8rem; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);"></textarea>
+                <button class="btn btn-secondary" type="button" style="margin-top:6px;" onclick="sendComplaint()">
+                  ✉️ Mail Gönder
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -490,11 +577,8 @@
 
         <h1>Albümü Yönet</h1>
         <p class="subtitle">
-          Fotoğraf ekleyebilir, silebilir ve albümünü dilediğin zaman
-          güncelleyebilirsin.
-        </p>
-        <p class="note">
-          Fotoğraflar bu cihazın hafızasında, sadece bu magnet için saklanır.
+          Fotoğraf ekleyebilir, not yazabilir, tarihi belirleyebilir ve albümünü
+          dilediğin zaman güncelleyebilirsin.
         </p>
 
         <div class="btn-row">
@@ -506,9 +590,18 @@
           <button class="btn btn-secondary" type="button" onclick="clearAllPhotos()">
             🧹 Albümü Temizle
           </button>
+
+          <button class="btn btn-secondary" type="button" onclick="setAlbumDate()">
+            📅 Tarih Belirle
+          </button>
+
+          <button class="btn btn-secondary" type="button" onclick="selectMusic()">
+            🎵 Fon Müziği Seç
+          </button>
         </div>
 
         <div id="counter" class="counter"></div>
+        <div id="musicInfo" class="counter"></div>
 
         <input id="fileInput" type="file" accept="image/*" multiple>
 
@@ -525,6 +618,11 @@
       <button class="slide-btn" type="button" onclick="closeSlideshow()">
         ✕ Kapat
       </button>
+
+      <div class="slide-top-center">
+        <span id="slideAlbumDate" class="slide-album-date"></span>
+      </div>
+
       <div style="display:flex; gap:8px; align-items:center;">
         <button id="playPauseBtn" class="slide-btn" type="button" onclick="togglePlay()">
           ▶️ Oynat
@@ -542,16 +640,32 @@
     <div id="slideNote" class="slide-note"></div>
   </div>
 
+  <!-- Arka plan fon müziği -->
+  <audio id="bgAudio" loop></audio>
+
   <script>
-    const ALBUM_KEY = "hardin_deneme_album_v1";
+    const CURRENT_ID = "deneme";
+    const ALBUM_KEY = "hardin_album_" + CURRENT_ID;
+    const META_KEY = ALBUM_KEY + "_meta";
     const MAX_PHOTOS = 20;
 
+    const MUSIC_OPTIONS = {
+      none: { label: "Yok", src: null },
+      track1: { label: "Piyano", src: "denme/music1.mp3" }, // buradaki dosyaları sen ekleyeceksin
+      track2: { label: "Lo-fi",  src: "denme/music2.mp3" }
+    };
+
     let photos = [];
+    let albumMeta = { date: null, music: "none" };
+
     let currentSlide = 0;
     let slideTimer = null;
     let isPlaying = false;
 
-    // Eski veriyi (dizi halinde string) destekle
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Eski veri tipini (string array) destekle
     try {
       const stored = JSON.parse(localStorage.getItem(ALBUM_KEY) || "[]");
       if (Array.isArray(stored)) {
@@ -566,6 +680,14 @@
       photos = [];
     }
 
+    // Meta yükle
+    try {
+      const m = JSON.parse(localStorage.getItem(META_KEY) || "null");
+      if (m && typeof m === "object") {
+        albumMeta = { ...albumMeta, ...m };
+      }
+    } catch(e) {}
+
     function savePhotos() {
       try {
         localStorage.setItem(ALBUM_KEY, JSON.stringify(photos));
@@ -577,29 +699,45 @@
       }
     }
 
-    // Hem albüm ekranındaki hem ana sayfadaki sayaçları günceller
+    function saveMeta() {
+      try {
+        localStorage.setItem(META_KEY, JSON.stringify(albumMeta));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Sayaçlar + tarih + müzik etiketi
     function updateCounters() {
       const manageCounter = document.getElementById("counter");
       const homeCounter = document.getElementById("homeCounter");
       const playButton = document.getElementById("playButton");
+      const slideAlbumDate = document.getElementById("slideAlbumDate");
+      const musicInfo = document.getElementById("musicInfo");
 
-      let text = "";
+      let textMain = "";
       if (photos.length === 1) {
-        text = "Albümünde 1 fotoğraf var.";
+        textMain = "Albümünde 1 fotoğraf var";
       } else if (photos.length > 1) {
-        text = "Albümünde " + photos.length + " fotoğraf var.";
+        textMain = "Albümünde " + photos.length + " fotoğraf var";
+      } else {
+        textMain = "Henüz fotoğraf eklenmedi";
       }
+
+      let datePart = albumMeta.date ? (" • Tarih: " + albumMeta.date) : "";
 
       if (manageCounter) {
-        manageCounter.innerText = text;
+        manageCounter.innerText = photos.length ? (textMain + datePart) : "";
       }
-
       if (homeCounter) {
         if (photos.length === 0) {
-          homeCounter.innerText = "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Fotoğraf Ekle’ye dokun.";
+          homeCounter.innerText = "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Albüm Oluştur’a dokun.";
         } else {
-          homeCounter.innerText = text;
+          homeCounter.innerText = textMain + datePart;
         }
+      }
+      if (slideAlbumDate) {
+        slideAlbumDate.innerText = albumMeta.date ? albumMeta.date : "";
       }
 
       if (playButton) {
@@ -611,17 +749,22 @@
           playButton.style.opacity = "1";
         }
       }
+
+      if (musicInfo) {
+        const opt = MUSIC_OPTIONS[albumMeta.music] || MUSIC_OPTIONS.none;
+        musicInfo.innerText = "Fon müziği: " + opt.label;
+      }
     }
 
-    // Ana sayfadaki son 3 fotoğraf önizlemesini günceller
+    // Ana sayfadaki son 5 fotoğraf önizlemesi
     function updateHomeThumbs() {
       const container = document.getElementById("homeThumbs");
       if (!container) return;
 
       container.innerHTML = "";
-      if (photos.length === 0) return;
+      if (!photos.length) return;
 
-      const start = Math.max(photos.length - 3, 0);
+      const start = Math.max(photos.length - 5, 0);
       for (let i = start; i < photos.length; i++) {
         const div = document.createElement("div");
         div.className = "home-thumb";
@@ -681,7 +824,6 @@
           photos[index].note = e.target.value || "";
           savePhotos();
           updateHomeThumbs();
-          // Slayt açık ve şu anki foto buysa notu da güncelle
           const overlay = document.getElementById("slideshow");
           if (overlay && overlay.classList.contains("active") && index === currentSlide) {
             updateSlideImage();
@@ -722,7 +864,7 @@
       reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-          const maxSize = 960;
+          const maxSize = 800; // daha agresif küçültme
           let w = img.width;
           let h = img.height;
 
@@ -736,7 +878,7 @@
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, w, h);
 
-          const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
 
           photos.push({ src: dataUrl, note: "" });
           if (!savePhotos()) {
@@ -765,6 +907,77 @@
       photos = [];
       savePhotos();
       render();
+    }
+
+    function formatDate(d) {
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return day + "." + month + "." + year;
+    }
+
+    function setAlbumDate() {
+      const choice = prompt("Albüm tarihi:\n1 - Bugün\n2 - Dün\n3 - Özel tarih (GG.AA.YYYY)\nİptal için boş bırak.");
+      if (!choice) return;
+
+      if (choice === "1") {
+        albumMeta.date = formatDate(new Date());
+      } else if (choice === "2") {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        albumMeta.date = formatDate(d);
+      } else if (choice === "3") {
+        const custom = prompt("Tarihi GG.AA.YYYY formatında gir (ör: 07.12.2025):");
+        if (!custom) return;
+        albumMeta.date = custom;
+      } else {
+        return;
+      }
+      saveMeta();
+      updateCounters();
+      updateSlideImage();
+    }
+
+    function selectMusic() {
+      const choice = prompt("Fon müziği seç:\n1 - Piyano\n2 - Lo-fi\n0 - Müzik yok");
+      if (choice === null) return;
+
+      if (choice === "1") {
+        albumMeta.music = "track1";
+      } else if (choice === "2") {
+        albumMeta.music = "track2";
+      } else if (choice === "0") {
+        albumMeta.music = "none";
+      } else {
+        return;
+      }
+      saveMeta();
+      updateCounters();
+      if (isPlaying) {
+        applyAudioSettings();
+        playAudioSafe();
+      }
+    }
+
+    function toggleAccordion(id) {
+      const item = document.getElementById(id);
+      if (!item) return;
+      item.classList.toggle("open");
+    }
+
+    function sendComplaint() {
+      const txtEl = document.getElementById("complaintText");
+      if (!txtEl) return;
+      const text = txtEl.value.trim();
+      if (!text) {
+        alert("Lütfen mesajını yaz.");
+        return;
+      }
+      const subject = encodeURIComponent("Hardin Şikayet / Talep");
+      const body = encodeURIComponent(text);
+      // Buradaki mail adresini kendi mail adresinle değiştir
+      const mailto = "mailto:ornek@mail.com?subject=" + subject + "&body=" + body;
+      window.location.href = mailto;
     }
 
     // SLIDESHOW
@@ -796,12 +1009,16 @@
       const img = document.getElementById("slideImage");
       const counter = document.getElementById("slideCounter");
       const noteEl = document.getElementById("slideNote");
+      const dateEl = document.getElementById("slideAlbumDate");
       if (!img || !counter || photos.length === 0) return;
       currentSlide = (currentSlide + photos.length) % photos.length;
       img.src = photos[currentSlide].src;
       counter.innerText = (currentSlide + 1) + " / " + photos.length;
       if (noteEl) {
         noteEl.innerText = photos[currentSlide].note || "";
+      }
+      if (dateEl) {
+        dateEl.innerText = albumMeta.date ? albumMeta.date : "";
       }
     }
 
@@ -817,12 +1034,38 @@
       updateSlideImage();
     }
 
+    function applyAudioSettings() {
+      const audio = document.getElementById("bgAudio");
+      if (!audio) return;
+      const opt = MUSIC_OPTIONS[albumMeta.music] || MUSIC_OPTIONS.none;
+      if (!opt.src) {
+        audio.pause();
+        return;
+      }
+      const fullSrc = opt.src;
+      if (audio.src !== fullSrc) {
+        audio.src = fullSrc;
+      }
+    }
+
+    function playAudioSafe() {
+      const audio = document.getElementById("bgAudio");
+      if (!audio) return;
+      audio.play().catch(e => {
+        console.error("Ses çalınamadı:", e);
+      });
+    }
+
     function startAutoPlay() {
       if (isPlaying || !photos.length) return;
       isPlaying = true;
       slideTimer = setInterval(() => {
         nextSlide();
       }, 3000);
+      applyAudioSettings();
+      if (albumMeta.music !== "none") {
+        playAudioSafe();
+      }
       updatePlayButton();
     }
 
@@ -831,6 +1074,8 @@
         clearInterval(slideTimer);
         slideTimer = null;
       }
+      const audio = document.getElementById("bgAudio");
+      if (audio) audio.pause();
       isPlaying = false;
       updatePlayButton();
     }
@@ -848,6 +1093,28 @@
       const btn = document.getElementById("playPauseBtn");
       if (!btn) return;
       btn.textContent = isPlaying ? "⏸ Durdur" : "▶️ Oynat";
+    }
+
+    // Slideshow swipe (sağa/sola kaydırma)
+    const overlayEl = document.getElementById("slideshow");
+    if (overlayEl) {
+      overlayEl.addEventListener("touchstart", (e) => {
+        if (!e.changedTouches || !e.changedTouches.length) return;
+        touchStartX = e.changedTouches[0].clientX;
+      }, { passive: true });
+
+      overlayEl.addEventListener("touchend", (e) => {
+        if (!e.changedTouches || !e.changedTouches.length) return;
+        touchEndX = e.changedTouches[0].clientX;
+        const dx = touchEndX - touchStartX;
+        if (Math.abs(dx) > 40) {
+          if (dx < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      }, { passive: true });
     }
 
     // Başlangıçta her şey
