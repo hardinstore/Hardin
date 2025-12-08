@@ -1042,19 +1042,22 @@
     }
 
     function updateTravelScoreDisplay() {
-      const badgeEl = document.getElementById("travelScoreBadge");
-      const textEl  = document.getElementById("travelScoreHome");
-      if (!badgeEl || !textEl) return;
+  const badgeEl = document.getElementById("travelScoreBadge");
+  const textEl  = document.getElementById("travelScoreHome"); // artık olmayabilir
+  if (!badgeEl) return;
 
-      if (progress.score == null) {
-        badgeEl.innerText = "";
-        textEl.innerText = "";
-        return;
-      }
-      const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
-      badgeEl.innerHTML = `⭐ %${progress.score}`;
-      textEl.innerText = `${cityName} gezi skoru: %${progress.score} (detaylar için dokun)`;
-    }
+  if (progress.score == null) {
+    badgeEl.innerText = "";
+    if (textEl) textEl.innerText = "";
+    return;
+  }
+  const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
+  badgeEl.innerHTML = `⭐ %${progress.score}`;
+  if (textEl) {
+    textEl.innerText = `${cityName} gezi skoru: %${progress.score} (detaylar için dokun)`;
+  }
+}
+
 
     // Albüm render
     function render() {
@@ -1643,3 +1646,4 @@
   </script>
 </body>
 </html>
+
