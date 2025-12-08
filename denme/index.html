@@ -6,6 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
+    /* iOS klavye zoom bug'ını önle: form alanları en az 16px */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Özellikle not ve ekstra alanları için garanti */
+.note-input,
+.note-textarea,
+.extra-input,
+.extra-textarea {
+  font-size: 16px;
+}
+
     :root {
       --bg: #f6f4f1;
       --card-bg: #ffffff;
@@ -1650,5 +1665,6 @@
   </script>
 </body>
 </html>
+
 
 
