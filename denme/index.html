@@ -20,6 +20,8 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
     }
 
     /* iOS zoom'u engellemek için input/textarea font 16px */
@@ -27,13 +29,14 @@
       font-family: inherit;
       font-size: 16px;
     }
-/* Özellikle not ve ekstra alanları için garanti */
-.note-input,
-.note-textarea,
-.extra-input,
-.extra-textarea {
-  font-size: 16px;
-}
+    /* Özellikle not ve ekstra alanları için garanti */
+    .note-input,
+    .note-textarea,
+    .extra-input,
+    .extra-textarea {
+      font-size: 16px;
+    }
+
     .topbar {
       width: 100%;
       padding: 10px 16px;
@@ -50,7 +53,7 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     .page {
@@ -61,8 +64,8 @@
 
     .card {
       background: var(--card-bg);
-      border-radius: 16px;
-      padding: 18px 16px 20px;
+      border-radius: 18px;
+      padding: 22px 18px 24px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.06);
       border: 1px solid rgba(0,0,0,0.04);
     }
@@ -86,14 +89,17 @@
       backdrop-filter: blur(1px);
     }
 
-    h1 { margin: 0 0 6px; font-size: 1.4rem; }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.6rem;
+    }
     .subtitle {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       margin: 0 0 10px;
       line-height: 1.45;
     }
     .note {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: #7a7a7a;
       margin-bottom: 14px;
     }
@@ -101,15 +107,15 @@
     .btn-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
       margin-top: 14px;
     }
 
     .btn {
       border-radius: 999px;
-      padding: 9px 16px;
-      font-size: 0.9rem;
+      padding: 11px 18px;
+      font-size: 0.95rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -134,7 +140,7 @@
       padding-left: 0;
       padding-right: 0;
       box-shadow: none;
-      font-size: 0.86rem;
+      font-size: 0.9rem;
     }
     .btn:active {
       transform: translateY(1px);
@@ -146,20 +152,20 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 10px;
+      padding: 6px 11px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.7);
-      font-size: 0.78rem;
+      background: rgba(255,255,255,0.8);
+      font-size: 0.8rem;
       margin-bottom: 10px;
     }
-    .city-tag span { opacity: 0.85; }
+    .city-tag span { opacity: 0.9; }
 
     .travel-badge {
       margin-left: 6px;
       padding: 3px 8px;
       border-radius: 999px;
       background: rgba(116,94,77,0.12);
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       color: #5a4a3d;
       display: inline-flex;
       align-items: center;
@@ -168,27 +174,27 @@
 
     .home-counter {
       margin-top: 8px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #444;
     }
 
     .home-storage-note {
       margin-top: 4px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: #666;
       line-height: 1.35;
     }
 
     .home-thumbs {
-      margin-top: 8px;
+      margin-top: 10px;
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: nowrap;
     }
     .home-thumb {
-      width: 64px;
-      height: 64px;
-      border-radius: 10px;
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
       overflow: hidden;
       background: #ddd;
       flex-shrink: 0;
@@ -203,7 +209,7 @@
     }
 
     .home-bottom-buttons {
-      margin-top: 12px;
+      margin-top: 14px;
     }
 
     .home-travel-score {
@@ -214,14 +220,14 @@
     }
 
     .social-row {
-      margin-top: 14px;
+      margin-top: 16px;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
     .social-btn {
-      font-size: 0.8rem;
-      padding: 6px 10px;
+      font-size: 0.85rem;
+      padding: 7px 11px;
       border-radius: 999px;
       background: rgba(255,255,255,0.9);
       text-decoration: none;
@@ -237,7 +243,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
     .info-link {
       color: #555;
@@ -246,9 +252,9 @@
     }
 
     .counter {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #777;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     #fileInput { display: none; }
@@ -257,17 +263,17 @@
     #photos {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
+      gap: 12px;
+      margin-top: 18px;
     }
     .photo-card {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
     .photo {
       position: relative;
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
       background: #d9d9d9;
       aspect-ratio: 3 / 4;
@@ -297,7 +303,7 @@
     }
     .note-input {
       font-size: 16px;
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 999px;
       border: 1px solid rgba(0,0,0,0.08);
       outline: none;
@@ -308,9 +314,9 @@
     .note-input::placeholder { color: #aaa; }
 
     .empty {
-      margin-top: 10px;
+      margin-top: 12px;
       color: #777;
-      font-size: 0.86rem;
+      font-size: 0.9rem;
     }
 
     .view { display: none; }
@@ -340,13 +346,13 @@
       justify-content: space-between;
       align-items: center;
       padding: 0 14px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       z-index: 2;
     }
     .slide-top-center {
       flex: 1;
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       opacity: 0.9;
     }
     .slide-btn {
@@ -358,7 +364,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       cursor: pointer;
     }
     .slide-nav {
@@ -368,8 +374,8 @@
       background: rgba(0,0,0,0.5);
       border: none;
       color: #fff;
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 999px;
       display: flex;
       align-items: center;
@@ -380,7 +386,7 @@
     .slide-nav.prev { left: 10px; }
     .slide-nav.next { right: 10px; }
     .slide-counter {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       opacity: 0.8;
     }
     .slide-img-wrap {
@@ -405,7 +411,7 @@
       padding: 6px 12px;
       border-radius: 999px;
       max-width: 90%;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       text-align: center;
       opacity: 0.95;
       color: #fff;
@@ -433,7 +439,7 @@
       max-width: 420px;
       width: calc(100% - 40px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      font-size: 0.86rem;
+      font-size: 0.9rem;
     }
     .modal-header {
       display: flex;
@@ -465,7 +471,7 @@
       border-radius: 999px;
       border: none;
       padding: 5px 10px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       cursor: pointer;
     }
     .pill-primary {
@@ -488,7 +494,7 @@
     .faq-a {
       display: none;
       padding: 4px 0 8px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #555;
     }
     .faq-item.open .faq-a { display: block; }
@@ -506,7 +512,7 @@
       padding: 10px;
       background: #f8f4ef;
       box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -524,20 +530,21 @@
       font-weight: 600;
     }
     .collection-status {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: #555;
     }
 
     @media (min-width: 768px) {
-      .card { padding: 22px 22px 24px; }
-      h1 { font-size: 1.6rem; }
+      .card { padding: 24px 22px 26px; }
+      h1 { font-size: 1.8rem; }
       #photos { grid-template-columns: repeat(3, minmax(0,1fr)); }
       .collection-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
-    #travelScoreHome {
-  display: none;
-}
 
+    /* Eski gezi skoru yazısını tamamen gizle */
+    #travelScoreHome {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -598,7 +605,7 @@
 
           <div id="travelScoreHome" class="home-travel-score" onclick="openProgressModal()"></div>
 
-          <!-- Sosyal ikonlar -->
+          <!-- Sosyal ikonlar (linkleri kendi adreslerinle değiştir) -->
           <div class="social-row">
             <a class="social-btn" href="https://instagram.com" target="_blank" rel="noopener noreferrer">
               📷 <span>Instagram</span>
@@ -731,8 +738,8 @@
           <button class="pill-btn pill-secondary" type="button" onclick="setDatePreset('yesterday')">Dün</button>
         </div>
         <div>
-          <label style="font-size:0.8rem; color:#555;">Özel tarih (GG.AA.YYYY):</label>
-          <input id="dateInput" type="text" style="width:100%; margin-top:4px; padding:5px 8px; border-radius:8px; border:1px solid rgba(0,0,0,0.15); font-size:0.82rem;" placeholder="Örn: 07.12.2025">
+          <label style="font-size:0.85rem; color:#555;">Özel tarih (GG.AA.YYYY):</label>
+          <input id="dateInput" type="text" style="width:100%; margin-top:4px; padding:5px 8px; border-radius:8px; border:1px solid rgba(0,0,0,0.15); font-size:16px;" placeholder="Örn: 07.12.2025">
         </div>
       </div>
       <div class="modal-footer">
@@ -767,26 +774,26 @@
         <button class="modal-close" type="button" onclick="closeProgressModal()">×</button>
       </div>
       <div class="modal-body">
-        <p style="font-size:0.8rem; color:#555;">
+        <p style="font-size:0.85rem; color:#555;">
           Bu şehirde yapmayı planladığın yerleri ve lezzetleri işaretle. Aşağıdaki
           yüzde, planına göre ne kadarını tamamladığını gösterir.
         </p>
 
-        <div style="margin-top:6px; font-weight:600; font-size:0.84rem;">Görülmesi gereken yerler</div>
+        <div style="margin-top:6px; font-weight:600; font-size:0.9rem;">Görülmesi gereken yerler</div>
         <div id="progressPlaces"></div>
 
-        <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">Yenilmesi gereken lezzetler</div>
+        <div style="margin-top:10px; font-weight:600; font-size:0.9rem;">Yenilmesi gereken lezzetler</div>
         <div id="progressFoods"></div>
 
-        <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">
-          Şehre ait bir ürün aldın mı? <span style="font-weight:400; font-size:0.8rem;">(Hardin magnet hariç)</span>
+        <div style="margin-top:10px; font-weight:600; font-size:0.9rem;">
+          Şehre ait bir ürün aldın mı? <span style="font-weight:400; font-size:0.85rem;">(Hardin magnet hariç)</span>
         </div>
         <div id="progressPurchase"></div>
 
-        <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">Ekstralar</div>
+        <div style="margin-top:10px; font-weight:600; font-size:0.9rem;">Ekstralar</div>
         <div id="progressExtras"></div>
 
-        <div id="progressResult" style="margin-top:8px; font-size:0.82rem; color:#333;"></div>
+        <div id="progressResult" style="margin-top:8px; font-size:0.88rem; color:#333;"></div>
       </div>
       <div class="modal-footer">
         <button class="pill-btn pill-secondary" type="button" onclick="closeProgressModal()">Kapat</button>
@@ -888,7 +895,6 @@
           places: { ...PROGRESS_TEMPLATE.places, ...(p.places || {}) },
           foods:  { ...PROGRESS_TEMPLATE.foods,  ...(p.foods || {})  }
         };
-        // Eski extra string'ini diziye çevirme
         if (!Array.isArray(progress.extras)) {
           if (typeof p.extra === "string" && p.extra.trim()) {
             progress.extras = [p.extra, "", ""];
@@ -899,7 +905,6 @@
       }
     } catch (e) {}
 
-    // Dizinin her zaman 3 elemanlı olduğundan emin ol
     if (!Array.isArray(progress.extras)) {
       progress.extras = ["", "", ""];
     } else {
@@ -1052,22 +1057,21 @@
     }
 
     function updateTravelScoreDisplay() {
-  const badgeEl = document.getElementById("travelScoreBadge");
-  const textEl  = document.getElementById("travelScoreHome"); // artık olmayabilir
-  if (!badgeEl) return;
+      const badgeEl = document.getElementById("travelScoreBadge");
+      const textEl  = document.getElementById("travelScoreHome");
+      if (!badgeEl) return;
 
-  if (progress.score == null) {
-    badgeEl.innerText = "";
-    if (textEl) textEl.innerText = "";
-    return;
-  }
-  const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
-  badgeEl.innerHTML = `⭐ %${progress.score}`;
-  if (textEl) {
-    textEl.innerText = `${cityName} gezi skoru: %${progress.score} (detaylar için dokun)`;
-  }
-}
-
+      if (progress.score == null) {
+        badgeEl.innerText = "";
+        if (textEl) textEl.innerText = "";
+        return;
+      }
+      const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
+      badgeEl.innerHTML = `⭐ %${progress.score}`;
+      if (textEl) {
+        textEl.innerText = `${cityName} gezi skoru: %${progress.score} (detaylar için dokun)`;
+      }
+    }
 
     // Albüm render
     function render() {
@@ -1324,13 +1328,14 @@
             Görüş, şikayet veya önerini aşağıya yazıp “Mail Gönder”e tıklayarak
             bize e-posta gönderebilirsin.
           </p>
-          <textarea id="complaintText" rows="4" style="width:100%; font-size:0.8rem; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);"></textarea>
+          <textarea id="complaintText" rows="4" style="width:100%; font-size:16px; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);"></textarea>
           <div style="text-align:right; margin-top:6px;">
             <button class="pill-btn pill-primary" type="button" onclick="sendComplaint()">✉️ Mail Gönder</button>
           </div>
         `;
       }
 
+      // FAQ aç/kapa
       bodyEl.onclick = (e) => {
         const q = e.target.closest(".faq-q");
         if (!q) return;
@@ -1474,7 +1479,7 @@
         row.style.display = "flex";
         row.style.alignItems = "center";
         row.style.gap = "6px";
-        row.style.fontSize = "0.8rem";
+        row.style.fontSize = "0.85rem";
         row.style.margin = "2px 0";
 
         const cb = document.createElement("input");
@@ -1499,7 +1504,7 @@
         row.style.display = "flex";
         row.style.alignItems = "center";
         row.style.gap = "6px";
-        row.style.fontSize = "0.8rem";
+        row.style.fontSize = "0.85rem";
         row.style.margin = "2px 0";
 
         const cb = document.createElement("input");
@@ -1523,7 +1528,7 @@
       purchaseRow.style.display = "flex";
       purchaseRow.style.alignItems = "center";
       purchaseRow.style.gap = "6px";
-      purchaseRow.style.fontSize = "0.8rem";
+      purchaseRow.style.fontSize = "0.85rem";
       purchaseRow.style.margin = "2px 0";
 
       const purchaseCb = document.createElement("input");
@@ -1550,7 +1555,7 @@
         input.style.padding = "4px 8px";
         input.style.borderRadius = "8px";
         input.style.border = "1px solid rgba(0,0,0,0.15)";
-        input.style.fontSize = "0.8rem";
+        input.style.fontSize = "16px";
         input.placeholder = "Ekstra anı / etkinlik " + (i+1);
         input.value = progress.extras[i] || "";
         input.oninput = () => {
@@ -1590,7 +1595,7 @@
       // 1 ürün satın alma
       if (progress.purchase) done++;
       // 3 ekstra metin
-      const extraFilled = progress.extras.filter(t => t && t.trim().length > 0).length;
+      let extraFilled = progress.extras.filter(t => t && t.trim().length > 0).length;
       if (extraFilled > 3) extraFilled = 3;
       done += extraFilled;
 
@@ -1637,28 +1642,8 @@
       closeProgressModal();
     }
 
-    function applyAudioSettings() {
-      const audio = document.getElementById("bgAudio");
-      const opt = MUSIC_OPTIONS[albumMeta.music] || MUSIC_OPTIONS.none;
-      if (!opt.src) {
-        audio.pause();
-        return;
-      }
-      if (audio.src !== opt.src) audio.src = opt.src;
-    }
-    function playAudioSafe() {
-      const audio = document.getElementById("bgAudio");
-      audio.play().catch(console.error);
-    }
-
     // Başlangıç
     render();
   </script>
 </body>
 </html>
-
-
-
-
-
-
