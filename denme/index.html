@@ -148,6 +148,18 @@
     }
     .city-tag span { opacity: 0.85; }
 
+    .travel-badge {
+      margin-left: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(116,94,77,0.12);
+      font-size: 0.72rem;
+      color: #5a4a3d;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .home-counter {
       margin-top: 8px;
       font-size: 0.8rem;
@@ -184,23 +196,8 @@
       cursor: pointer;
     }
 
-    .home-actions {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .small-link-btn {
-      border-radius: 999px;
-      border: none;
-      padding: 5px 12px;
-      font-size: 0.78rem;
-      cursor: pointer;
-      background: rgba(255,255,255,0.85);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+    .home-bottom-buttons {
+      margin-top: 12px;
     }
 
     .home-travel-score {
@@ -546,6 +543,7 @@
         <div class="card-inner">
           <div class="city-tag">
             <strong>Albüm:</strong> <span id="albumLabel">Deneme</span>
+            <span id="travelScoreBadge" class="travel-badge"></span>
           </div>
 
           <h1>Şehir Anı Albümün</h1>
@@ -578,11 +576,12 @@
 
           <div id="homeThumbs" class="home-thumbs"></div>
 
-          <div class="home-actions">
-            <button class="small-link-btn" type="button" onclick="setView('collection')">
+          <!-- Alt butonlar: diğer magnetler + gezi durumum -->
+          <div class="btn-row home-bottom-buttons">
+            <button class="btn btn-secondary" type="button" onclick="setView('collection')">
               📚 Diğer magnetlerim
             </button>
-            <button class="small-link-btn" type="button" onclick="openProgressModal()">
+            <button class="btn btn-secondary" type="button" onclick="openProgressModal()">
               📍 Gezi durumum
             </button>
           </div>
@@ -769,8 +768,13 @@
         <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">Yenilmesi gereken lezzetler</div>
         <div id="progressFoods"></div>
 
+        <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">
+          Şehre ait bir ürün aldın mı? <span style="font-weight:400; font-size:0.8rem;">(Hardin magnet hariç)</span>
+        </div>
+        <div id="progressPurchase"></div>
+
         <div style="margin-top:10px; font-weight:600; font-size:0.84rem;">Ekstralar</div>
-        <textarea id="progressExtra" rows="3" style="width:100%; font-size:0.8rem; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.15);" placeholder="Buraya kendi ekstra yaptığın şeyleri veya notlarını yazabilirsin."></textarea>
+        <div id="progressExtras"></div>
 
         <div id="progressResult" style="margin-top:8px; font-size:0.82rem; color:#333;"></div>
       </div>
@@ -815,7 +819,8 @@
     const PROGRESS_TEMPLATE = {
       places: { p1:false, p2:false, p3:false },
       foods:  { f1:false, f2:false, f3:false },
-      extra: "",
+      purchase: false,
+      extras: ["", "", ""],
       score: null
     };
     const PROGRESS_LABELS = {
@@ -873,8 +878,24 @@
           places: { ...PROGRESS_TEMPLATE.places, ...(p.places || {}) },
           foods:  { ...PROGRESS_TEMPLATE.foods,  ...(p.foods || {})  }
         };
+        // Eski extra string'ini diziye çevirme
+        if (!Array.isArray(progress.extras)) {
+          if (typeof p.extra === "string" && p.extra.trim()) {
+            progress.extras = [p.extra, "", ""];
+          } else {
+            progress.extras = ["", "", ""];
+          }
+        }
       }
     } catch (e) {}
+
+    // Dizinin her zaman 3 elemanlı olduğundan emin ol
+    if (!Array.isArray(progress.extras)) {
+      progress.extras = ["", "", ""];
+    } else {
+      while (progress.extras.length < 3) progress.extras.push("");
+      if (progress.extras.length > 3) progress.extras = progress.extras.slice(0,3);
+    }
 
     // Albüm etiketi
     const labelEl = document.getElementById("albumLabel");
@@ -882,7 +903,6 @@
       labelEl.innerText = ALBUM_LABELS[CURRENT_ID] || CURRENT_ID;
     }
 
-    // View değiştirme
     function setView(view) {
       document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
       const el = document.getElementById("view-" + view);
@@ -1022,14 +1042,18 @@
     }
 
     function updateTravelScoreDisplay() {
-      const el = document.getElementById("travelScoreHome");
-      if (!el) return;
+      const badgeEl = document.getElementById("travelScoreBadge");
+      const textEl  = document.getElementById("travelScoreHome");
+      if (!badgeEl || !textEl) return;
+
       if (progress.score == null) {
-        el.innerText = "";
+        badgeEl.innerText = "";
+        textEl.innerText = "";
         return;
       }
       const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
-      el.innerText = cityName + " gezi skoru: %" + progress.score;
+      badgeEl.innerHTML = `⭐ %${progress.score}`;
+      textEl.innerText = `${cityName} gezi skoru: %${progress.score} (detaylar için dokun)`;
     }
 
     // Albüm render
@@ -1422,12 +1446,16 @@
       const modal = document.getElementById("progressModal");
       const placesContainer = document.getElementById("progressPlaces");
       const foodsContainer  = document.getElementById("progressFoods");
-      const extraEl = document.getElementById("progressExtra");
+      const purchaseContainer = document.getElementById("progressPurchase");
+      const extrasContainer = document.getElementById("progressExtras");
       const resultEl = document.getElementById("progressResult");
 
       placesContainer.innerHTML = "";
       foodsContainer.innerHTML = "";
+      purchaseContainer.innerHTML = "";
+      extrasContainer.innerHTML = "";
 
+      // Yerler
       Object.keys(PROGRESS_LABELS.places).forEach(key => {
         const row = document.createElement("label");
         row.style.display = "flex";
@@ -1452,6 +1480,7 @@
         placesContainer.appendChild(row);
       });
 
+      // Yiyecekler
       Object.keys(PROGRESS_LABELS.foods).forEach(key => {
         const row = document.createElement("label");
         row.style.display = "flex";
@@ -1476,11 +1505,53 @@
         foodsContainer.appendChild(row);
       });
 
-      extraEl.value = progress.extra || "";
+      // Ürün satın alma
+      const purchaseRow = document.createElement("label");
+      purchaseRow.style.display = "flex";
+      purchaseRow.style.alignItems = "center";
+      purchaseRow.style.gap = "6px";
+      purchaseRow.style.fontSize = "0.8rem";
+      purchaseRow.style.margin = "2px 0";
+
+      const purchaseCb = document.createElement("input");
+      purchaseCb.type = "checkbox";
+      purchaseCb.checked = !!progress.purchase;
+      purchaseCb.onchange = () => {
+        progress.purchase = purchaseCb.checked;
+        saveProgress();
+      };
+      const purchaseSpan = document.createElement("span");
+      purchaseSpan.textContent = "Bu şehirden (magnet hariç) bir ürün satın aldım";
+      purchaseRow.appendChild(purchaseCb);
+      purchaseRow.appendChild(purchaseSpan);
+      purchaseContainer.appendChild(purchaseRow);
+
+      // Ekstralar (3 küçük metin)
+      for (let i = 0; i < 3; i++) {
+        const wrap = document.createElement("div");
+        wrap.style.margin = "3px 0";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.style.width = "100%";
+        input.style.padding = "4px 8px";
+        input.style.borderRadius = "8px";
+        input.style.border = "1px solid rgba(0,0,0,0.15)";
+        input.style.fontSize = "0.8rem";
+        input.placeholder = "Ekstra anı / etkinlik " + (i+1);
+        input.value = progress.extras[i] || "";
+        input.oninput = () => {
+          progress.extras[i] = input.value;
+          saveProgress();
+        };
+
+        wrap.appendChild(input);
+        extrasContainer.appendChild(wrap);
+      }
 
       if (progress.score != null) {
         const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
-        resultEl.innerHTML = `${cityName} için gezi skorun: %${progress.score}`;
+        resultEl.innerHTML = `${cityName} için son hesaplanan skorun: %${progress.score}`;
       } else {
         resultEl.innerHTML = "";
       }
@@ -1493,27 +1564,27 @@
     }
 
     function calculateProgress() {
-      let total = 0;
-      let done  = 0;
+      let done = 0;
 
+      // 3 yer
       Object.keys(PROGRESS_LABELS.places).forEach(key => {
-        total++;
         if (progress.places[key]) done++;
       });
+      // 3 yemek
       Object.keys(PROGRESS_LABELS.foods).forEach(key => {
-        total++;
         if (progress.foods[key]) done++;
       });
+      // 1 ürün satın alma
+      if (progress.purchase) done++;
+      // 3 ekstra metin
+      const extraFilled = progress.extras.filter(t => t && t.trim().length > 0).length;
+      if (extraFilled > 3) extraFilled = 3;
+      done += extraFilled;
 
-      if (total === 0) {
-        alert("Hesaplamak için en az bir seçenek olması gerekiyor.");
-        return;
-      }
+      // Toplam 10 etken → her biri %10
+      let percent = done * 10;
+      if (percent > 100) percent = 100;
 
-      const extraEl = document.getElementById("progressExtra");
-      progress.extra = extraEl.value.trim();
-
-      const percent = Math.round((done / total) * 100);
       progress.score = percent;
       saveProgress();
       updateTravelScoreDisplay();
@@ -1521,6 +1592,7 @@
       const cityName = ALBUM_LABELS[CURRENT_ID] || "Bu şehir";
       const resultEl = document.getElementById("progressResult");
 
+      // Detaylı metin (modal tekrar açıldığında görünsün)
       let lines = [];
       lines.push(`${cityName} için gezi skorun: %${percent}`);
       lines.push("<br><strong>Görülmesi gereken yerler:</strong>");
@@ -1531,13 +1603,39 @@
       Object.keys(PROGRESS_LABELS.foods).forEach(key => {
         lines.push((progress.foods[key] ? "✓ " : "✗ ") + PROGRESS_LABELS.foods[key]);
       });
-
-      if (progress.extra) {
+      lines.push("<br><strong>Ürün satın alma:</strong> " + (progress.purchase ? "✓ Evet" : "✗ Hayır"));
+      if (extraFilled > 0) {
         lines.push("<br><strong>Ekstralar:</strong>");
-        lines.push(progress.extra);
+        progress.extras.forEach((txt, i) => {
+          if (txt && txt.trim().length > 0) {
+            lines.push("- " + txt.trim());
+          }
+        });
+      }
+      resultEl.innerHTML = lines.join("<br>");
+
+      // Kullanıcıya kısa mesaj
+      if (percent >= 50) {
+        alert(`Tebrikler! ${cityName} için gezi skorun: %${percent}.`);
+      } else {
+        alert(`Bu sefer skorun biraz düşük kaldı. ${cityName} için gezi skorun: %${percent}.`);
       }
 
-      resultEl.innerHTML = lines.join("<br>");
+      closeProgressModal();
+    }
+
+    function applyAudioSettings() {
+      const audio = document.getElementById("bgAudio");
+      const opt = MUSIC_OPTIONS[albumMeta.music] || MUSIC_OPTIONS.none;
+      if (!opt.src) {
+        audio.pause();
+        return;
+      }
+      if (audio.src !== opt.src) audio.src = opt.src;
+    }
+    function playAudioSafe() {
+      const audio = document.getElementById("bgAudio");
+      audio.play().catch(console.error);
     }
 
     // Başlangıç
