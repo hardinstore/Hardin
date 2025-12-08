@@ -820,6 +820,15 @@
       Trabzon: "Trabzon",
       Sinop: "Sinop"
     };
+    // Albüm id → kartta kullanılacak kapak görseli
+const ALBUM_COVERS = {
+  deneme:  "https://raw.githubusercontent.com/hardinstore/Hardin/main/denme/deneme.jpg",
+  Samsun:  "https://raw.githubusercontent.com/hardinstore/Hardin/main/Samsun/samsun.jpg",
+  Ordu:    "https://raw.githubusercontent.com/hardinstore/Hardin/main/Ordu/ordu.jpg"
+  // ileride yeni şehir ekleyince buraya bir satır daha eklersin
+};
+
+
 
     const ALBUM_KEY = "hardin_album_" + CURRENT_ID;
     const META_KEY  = ALBUM_KEY + "_meta";
@@ -948,6 +957,16 @@
         const count = getPhotoCountForAlbum(id);
         const has = count > 0;
         const card = document.createElement("div");
+            // Albümü dolu olan kartların arka planına sabit kapak görseli koy
+    if (has && ALBUM_COVERS[id]) {
+      card.style.backgroundImage =
+        "linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.20)), url(" + ALBUM_COVERS[id] + ")";
+      card.style.backgroundSize = "cover";
+      card.style.backgroundPosition = "center";
+      card.style.color = "#fff";
+      card.style.textShadow = "0 1px 3px rgba(0,0,0,0.7)";
+    }
+
         card.className = "collection-card";
         if (!has) card.classList.add("locked");
         if (id === CURRENT_ID) card.classList.add("current");
@@ -1671,6 +1690,7 @@
   </script>
 </body>
 </html>
+
 
 
 
