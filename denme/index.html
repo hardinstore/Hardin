@@ -577,7 +577,7 @@
           <div class="btn-row">
             <button class="btn btn-primary" type="button" onclick="setView('manage')">
               <span class="btn-emoji">📸</span>
-              <span>Albüm Oluştur</span>
+              <span>Albüm Ekle</span>
             </button>
 
             <button id="playButton" class="btn btn-secondary" type="button" onclick="openSlideshow(0)">
@@ -1023,7 +1023,7 @@
       let datePart = albumMeta.date ? (" • Tarih: " + albumMeta.date) : "";
 
       if (manageCounter) manageCounter.innerText = photos.length ? (textMain + datePart) : "";
-      if (homeCounter) homeCounter.innerText = photos.length ? (textMain + datePart) : "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Albüm Oluştur’a dokun.";
+      if (homeCounter) homeCounter.innerText = photos.length ? (textMain + datePart) : "Henüz fotoğraf eklenmedi. Başlamak için aşağıdan Albüm Ekle’ye dokun.";
       if (slideAlbumDate) slideAlbumDate.innerText = albumMeta.date ? albumMeta.date : "";
 
       if (playButton) {
@@ -1647,4 +1647,5 @@
   </script>
 </body>
 </html>
+
 
