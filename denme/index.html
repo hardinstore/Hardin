@@ -549,7 +549,7 @@
 </head>
 <body>
   <div class="topbar">
-    <div class="topbar-title">HARDİN • AKILLI ANI MAGNETİ (V56)</div>
+    <div class="topbar-title">HARDİN • AKILLI ANI MAGNETİ (V57)</div>
   </div>
 
   <div class="page">
@@ -1298,7 +1298,7 @@
 
 <p>Bu magneti okuttuğunuzda açılan sayfa, gittiğiniz şehre ait <strong>kişisel anı albümünüzdür</strong>. Fotoğraflarınızı ekleyebilir, küçük notlar bırakabilir, slayt gösterisi şeklinde tekrar izleyebilir ve dilediğinizde başkalarına gösterebilirsiniz. Böylece sıradan bir magnet zaman içinde bir <strong>anı defterine</strong> dönüşür.</p>
 
-<p>Hardin magnetlerinin tüm tasarımları özenle hazırlanmıştır ve tasarım hakları <strong>Hardin</strong>markasına’a aittir.</p>
+<p>Hardin magnetlerinin tüm tasarımları özenle hazırlanmıştır ve tasarım hakları <strong>Hardin</strong> markasına aittir.</p>
 
 <p>Bu sistem tamamen <strong>kişisel gizlilik</strong> esas alınarak geliştirilmiştir:</p>
 <ul>
@@ -1333,6 +1333,17 @@
             <div class="faq-q"><span>Fotoğraf sayısının bir sınırı var mı?</span><span>+</span></div>
             <div class="faq-a">Telefonunun tarayıcı hafızasına bağlı olarak pratikte bir sınır vardır. Sınır dolduğunda uygulama seni uyarır ve yeni fotoğraf için bazılarını silmeni ister.</div>
           </div>
+         <div class="faq-item">
+  <div class="faq-q">
+    <span>NFC özelliğini başka telefonda kullandığımda neden albüm boş?</span>
+    <span>+</span>
+  </div>
+  <div class="faq-a">
+    Her telefon ve tarayıcı kendi içinde ayrı bir hafıza (localStorage) kullanır.
+    Hardin magnetinin albümü tamamen bu hafızaya kaydedildiği için başka bir telefonda
+    veya başka bir tarayıcıda açtığınızda albüm yeniden boş görünür.
+    Fotoğraflar internete yüklenmediği için cihazlar arasında otomatik aktarım yapılmaz.
+  </div>
         `;
       } else if (type === "complaint") {
         titleEl.innerText = "Şikayet & Talep";
@@ -1660,6 +1671,7 @@
   </script>
 </body>
 </html>
+
 
 
 
