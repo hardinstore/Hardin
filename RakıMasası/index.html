@@ -2,375 +2,460 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- iOS zoom engelleme -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>HARDIN • Masa</title>
+
   <style>
     :root{
-      --bg: #070708;
-      --panel: rgba(255,255,255,.06);
-      --panel2: rgba(255,255,255,.08);
-      --line: rgba(255,255,255,.12);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.66);
-      --muted2: rgba(255,255,255,.45);
-      --shadow: 0 12px 40px rgba(0,0,0,.55);
-      --radius: 18px;
-      --radius2: 22px;
+      --bg:#070708;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.62);
+      --muted2:rgba(255,255,255,.40);
+      --shadow:0 18px 60px rgba(0,0,0,.62);
+      --r:18px;
+      --r2:24px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
 
-    *{ box-sizing: border-box; }
+    *{ box-sizing:border-box; }
+    html, body { height:100%; }
     body{
       margin:0;
-      font-family: var(--font);
-      background: radial-gradient(1000px 700px at 50% -20%, rgba(255,255,255,.07), transparent 60%),
-                  radial-gradient(900px 700px at 10% 120%, rgba(255,255,255,.06), transparent 55%),
-                  var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
+      font-family:var(--font);
+      background:
+        radial-gradient(1000px 700px at 50% -20%, rgba(255,255,255,.07), transparent 60%),
+        radial-gradient(900px 700px at 10% 120%, rgba(255,255,255,.06), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Top bar */
+    /* iOS double-tap/gesture zoom önleyiciler */
+    button, a, .bigbtn, .mood, .navbtn, .closebtn, .smallbtn {
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    input { font-size:16px; } /* iOS input focus zoom fix */
+
     .topbar{
-      position: sticky; top: 0;
-      padding: 16px 16px 12px;
+      position:sticky; top:0;
+      padding:16px 16px 12px;
       backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.05));
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      z-index: 10;
+      background:linear-gradient(to bottom, rgba(0,0,0,.62), rgba(0,0,0,.05));
+      border-bottom:1px solid rgba(255,255,255,.06);
+      z-index:10;
     }
     .brand{
-      text-align: center;
-      letter-spacing: .22em;
-      font-weight: 650;
-      font-size: 14px;
-      opacity: .95;
-      user-select: none;
+      text-align:center;
+      letter-spacing:.22em;
+      font-weight:700;
+      font-size:14px;
+      opacity:.96;
     }
 
-    /* Main layout */
     .wrap{
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 14px 14px 26px;
+      max-width:520px;
+      margin:0 auto;
+      padding:14px 14px 26px;
     }
+
+    .view{ display:none; }
+    .view.active{ display:block; }
 
     .hero{
-      padding: 8px 6px 14px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing: .04em;
+      padding:8px 6px 14px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.04em;
     }
 
-    /* Big buttons */
-    .biggrid{
-      display: grid;
-      gap: 12px;
-    }
+    .biggrid{ display:grid; gap:12px; }
 
     .bigbtn{
-      position: relative;
-      border-radius: var(--radius2);
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      min-height: 126px;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      user-select: none;
+      position:relative;
+      border-radius:var(--r2);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      min-height:130px;
+      box-shadow:var(--shadow);
+      cursor:pointer;
       transition: transform .12s ease, border-color .12s ease;
     }
-    .bigbtn:active{ transform: scale(.99); border-color: rgba(255,255,255,.18); }
+    .bigbtn:active{ transform:scale(.99); border-color:rgba(255,255,255,.18); }
 
-    /* Blurred “photo” backgrounds (no external images) */
-    .bgphoto{
+    /* gerçek foto “hissi” için: unsplash source (sen sonra değiştirirsin) */
+    .photo{
       position:absolute; inset:0;
-      filter: blur(14px);
-      transform: scale(1.15);
-      opacity: .95;
+      background-size:cover;
+      background-position:center;
+      filter: blur(10px);
+      transform: scale(1.18);
+      opacity:.95;
     }
-    .bg-music{
-      background:
-        radial-gradient(500px 250px at 70% 40%, rgba(255,255,255,.16), transparent 60%),
-        radial-gradient(420px 220px at 30% 70%, rgba(255,255,255,.10), transparent 60%),
-        linear-gradient(130deg, rgba(255,255,255,.10), transparent 55%),
-        linear-gradient(180deg, rgba(0,0,0,.40), rgba(0,0,0,.75));
-    }
-    .bg-quote{
-      background:
-        radial-gradient(520px 260px at 40% 35%, rgba(255,255,255,.13), transparent 65%),
-        radial-gradient(420px 220px at 75% 75%, rgba(255,255,255,.08), transparent 60%),
-        linear-gradient(155deg, rgba(255,255,255,.08), transparent 55%),
-        linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.78));
-    }
-    .bg-chat{
-      background:
-        radial-gradient(520px 260px at 60% 30%, rgba(255,255,255,.13), transparent 65%),
-        radial-gradient(460px 240px at 20% 80%, rgba(255,255,255,.08), transparent 60%),
-        linear-gradient(140deg, rgba(255,255,255,.08), transparent 55%),
-        linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.78));
-    }
-
     .overlay{
       position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.68));
+      background: linear-gradient(90deg, rgba(0,0,0,.50), rgba(0,0,0,.78));
     }
 
     .bigcontent{
-      position: relative;
+      position:relative;
       display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 18px;
+      gap:12px;
       height:100%;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 18px;
-      gap: 12px;
     }
     .bigtitle{
-      font-size: 18px;
-      font-weight: 620;
-      letter-spacing: .01em;
-      line-height: 1.15;
-      max-width: 78%;
+      font-size:18px;
+      font-weight:650;
+      letter-spacing:.01em;
+      line-height:1.15;
+      max-width:78%;
     }
     .bigicon{
-      font-size: 22px;
-      opacity: .88;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      padding: 10px 12px;
-      border-radius: 16px;
+      font-size:22px;
+      opacity:.90;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      padding:10px 12px;
+      border-radius:16px;
     }
 
-    /* Footer links */
     .footerlinks{
       display:flex;
-      gap: 14px;
-      justify-content: center;
-      padding: 16px 4px 0;
-      color: var(--muted2);
-      font-size: 12px;
+      gap:14px;
+      justify-content:center;
+      padding:16px 4px 0;
+      color:var(--muted2);
+      font-size:12px;
     }
     .footerlinks button{
-      background: transparent;
-      border: none;
-      color: var(--muted2);
-      padding: 6px 4px;
+      background:transparent;
+      border:none;
+      color:var(--muted2);
+      padding:6px 4px;
       cursor:pointer;
       text-decoration: underline;
       text-underline-offset: 6px;
       text-decoration-color: rgba(255,255,255,.18);
     }
-    .footerlinks button:active{ color: var(--muted); }
 
-    /* Views */
-    .view{ display:none; }
-    .view.active{ display:block; }
-
-    /* Subpage top */
     .subtop{
       display:flex;
       align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 8px 2px 14px;
+      justify-content:space-between;
+      gap:10px;
+      padding:8px 2px 14px;
     }
     .closebtn{
-      width: 38px; height: 38px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
+      width:40px; height:40px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
       cursor:pointer;
-      font-size: 18px;
+      font-size:18px;
     }
     .subhint{
       text-align:center;
       flex:1;
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing: .03em;
-      padding-right: 38px; /* balance close button */
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.03em;
+      padding-right:40px;
     }
 
-    /* Cards / panels */
     .panel{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      border-radius:var(--r2);
+      box-shadow:var(--shadow);
       overflow:hidden;
     }
-
-    .section{
-      padding: 14px;
-    }
+    .section{ padding:14px; }
     .section h3{
-      margin: 0 0 10px;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
+      margin:0 0 10px;
+      font-size:13px;
+      color:var(--muted);
+      font-weight:650;
+      letter-spacing:.06em;
+      text-transform:uppercase;
     }
+    .divider{ height:1px; background:rgba(255,255,255,.08); }
 
-    .action{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
     .btn{
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 12px 12px;
-      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:16px;
       cursor:pointer;
-      font-weight: 600;
-      letter-spacing: .01em;
-      flex: 1;
-      min-width: 140px;
+      font-weight:650;
+      letter-spacing:.01em;
       transition: transform .12s ease, border-color .12s ease;
     }
-    .btn:active{ transform: scale(.99); border-color: rgba(255,255,255,.18); }
+    .btn:active{ transform:scale(.99); border-color:rgba(255,255,255,.18); }
+    .btn.primary{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14); }
 
-    .btn.primary{
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.14);
-    }
+    .action{ display:flex; gap:10px; flex-wrap:wrap; }
+    .btn.flex{ flex:1; min-width:140px; }
 
-    .moodgrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
+    .moodgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .mood{
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      padding: 14px 12px;
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      padding:14px 12px;
       cursor:pointer;
-      user-select:none;
     }
-    .mood .t{ font-weight: 650; font-size: 13px; }
-    .mood .s{ margin-top: 6px; font-size: 12px; color: var(--muted2); }
+    .mood .t{ font-weight:700; font-size:13px; position:relative; }
+    .mood .s{ margin-top:6px; font-size:12px; color:var(--muted2); position:relative; }
+    .mood .mphoto{
+      position:absolute; inset:0;
+      background-size:cover;
+      background-position:center;
+      filter: blur(12px);
+      transform: scale(1.2);
+      opacity:.45;
+    }
+    .mood .moverlay{
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.82));
+    }
 
-    /* Search row */
-    .searchRow{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-    }
+    .searchRow{ display:flex; gap:10px; align-items:center; }
     .inp{
       flex:1;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
-      color: var(--text);
-      padding: 12px 12px;
-      border-radius: 16px;
-      outline: none;
-      font-size: 14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:16px;
+      outline:none;
+      font-size:16px; /* iOS zoom fix */
     }
-    .inp::placeholder{ color: rgba(255,255,255,.35); }
+    .inp::placeholder{ color:rgba(255,255,255,.35); }
 
-    /* Quote / chat card page */
-    .bigcardWrap{
-      padding: 8px 2px 12px;
+    /* CARD PAGES: tam ekran görünüm + altta kontrol */
+    .cardPage{
+      min-height: calc(100vh - 58px - 28px); /* topbar + wrap padding hissi */
+      display:flex;
+      flex-direction:column;
+      gap:12px;
     }
-    .bigcard{
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,.12);
-      background:
-        radial-gradient(700px 340px at 30% 25%, rgba(255,255,255,.08), transparent 60%),
-        radial-gradient(600px 320px at 80% 85%, rgba(255,255,255,.06), transparent 60%),
-        rgba(255,255,255,.05);
+
+    /* Flip card */
+    .flipArea{
+      flex:1;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+    }
+    .flip{
+      width:100%;
+      max-width:520px;
+      perspective:1200px;
+    }
+    .flipInner{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-height: 56vh;
+      border-radius: 26px;
+      transform-style: preserve-3d;
+      transition: transform .55s cubic-bezier(.2,.8,.2,1);
       box-shadow: var(--shadow);
-      padding: 26px 20px;
-      min-height: 42vh;
+    }
+    .flip.open .flipInner{ transform: rotateY(180deg); }
+
+    .face{
+      position:absolute;
+      inset:0;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+      backface-visibility:hidden;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
+      padding:22px 18px;
     }
-    .bigcard p{
+
+    /* Card photo background */
+    .face .cphoto{
+      position:absolute; inset:0;
+      background-size:cover;
+      background-position:center;
+      filter: blur(14px);
+      transform: scale(1.25);
+      opacity:.75;
+    }
+    .face .cover{
+      position:absolute; inset:0;
+      background: radial-gradient(900px 380px at 25% 20%, rgba(255,255,255,.10), transparent 60%),
+                  radial-gradient(700px 320px at 80% 85%, rgba(255,255,255,.08), transparent 60%),
+                  linear-gradient(180deg, rgba(0,0,0,.58), rgba(0,0,0,.82));
+    }
+
+    /* Front (kapalı) */
+    .front{
+      background: rgba(255,255,255,.04);
+    }
+    .front .mark{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .front .h{
+      letter-spacing:.22em;
+      font-weight:800;
+      font-size:13px;
+      opacity:.92;
+    }
+    .front .openHint{
+      font-weight:750;
+      font-size:18px;
+      opacity:.95;
+    }
+    .front .tiny{
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.02em;
+    }
+
+    /* Back (açık) */
+    .back{
+      transform: rotateY(180deg);
+    }
+    .back p{
+      position:relative;
       margin:0;
-      font-size: 20px;
-      line-height: 1.35;
-      font-weight: 650;
+      font-size:20px;
+      line-height:1.35;
+      font-weight:750;
+      letter-spacing:.01em;
+    }
+
+    .navRow{
+      display:grid;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      gap:10px;
+    }
+    .navbtn{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      padding:12px 10px;
+      color:var(--text);
+      cursor:pointer;
+      font-weight:750;
+    }
+    .navbtn.center{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.14);
+    }
+
+    /* CHAT: hedef belirleme spinner */
+    .targetBox{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .wheelWrap{
+      position:relative;
+      width:74px; height:74px;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      overflow:hidden;
+      flex:0 0 auto;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .arrow{
+      width:0; height:0;
+      border-left: 10px solid transparent;
+      border-right:10px solid transparent;
+      border-bottom: 18px solid rgba(255,255,255,.92);
+      transform-origin: 50% 54px;
+      transform: rotate(0deg);
+      transition: transform 1.2s cubic-bezier(.15,.9,.2,1);
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,.7));
+    }
+    .targetText{
+      flex:1;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    .targetName{
+      color: var(--text);
+      font-weight: 800;
       letter-spacing: .01em;
     }
 
-    .nav3{
-      display:grid;
-      grid-template-columns: 1fr 1.3fr 1fr;
-      gap: 10px;
-      padding: 12px 2px 0;
-    }
-
-    .navbtn{
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      padding: 12px 10px;
-      color: var(--text);
-      cursor:pointer;
-      font-weight: 650;
-    }
-    .navbtn.center{
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.14);
-    }
-
-    /* Simple modal for footer sections */
+    /* Modal */
     .modal{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.62);
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.62);
       display:none;
       align-items:center;
       justify-content:center;
-      padding: 16px;
-      z-index: 30;
+      padding:16px;
+      z-index:30;
     }
     .modal.show{ display:flex; }
     .modalbox{
-      max-width: 520px;
-      width: 100%;
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(15,15,16,.92);
-      box-shadow: var(--shadow);
+      max-width:520px;
+      width:100%;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(15,15,16,.92);
+      box-shadow:var(--shadow);
       overflow:hidden;
     }
     .modalhead{
       display:flex;
-      justify-content: space-between;
+      justify-content:space-between;
       align-items:center;
-      padding: 14px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      color: var(--muted);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 650;
+      padding:14px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      color:var(--muted);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:750;
     }
-    .modalbody{ padding: 14px; color: var(--text); }
-    .modalbody p{ margin:0 0 10px; color: var(--muted); line-height: 1.45; }
+    .modalbody{ padding:14px; color:var(--text); }
+    .modalbody p{ margin:0 0 10px; color:var(--muted); line-height:1.45; }
     .smallbtn{
-      width: 38px; height: 38px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
+      width:40px; height:40px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
       cursor:pointer;
-      font-size: 18px;
+      font-size:18px;
     }
-
-    /* Minor helpers */
-    .sp{ height: 12px; }
-    .divider{ height: 1px; background: rgba(255,255,255,.08); }
   </style>
 </head>
 
@@ -380,14 +465,13 @@
   </div>
 
   <div class="wrap">
-
     <!-- HOME -->
     <section id="homeView" class="view active">
       <div class="hero">Bu masa için bir şey seç.</div>
 
       <div class="biggrid">
         <div class="bigbtn" id="openMusic">
-          <div class="bgphoto bg-music"></div>
+          <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,bar,interior');"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
             <div class="bigtitle">Bu Masaya Bir Şarkı Aç</div>
@@ -396,7 +480,7 @@
         </div>
 
         <div class="bigbtn" id="openQuote">
-          <div class="bgphoto bg-quote"></div>
+          <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,table,moody');"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
             <div class="bigtitle">Bu Masaya Bir Söz Bırak</div>
@@ -405,7 +489,7 @@
         </div>
 
         <div class="bigbtn" id="openChat">
-          <div class="bgphoto bg-chat"></div>
+          <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,conversation,silhouette');"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
             <div class="bigtitle">Rakı Bahane, Sohbet Şahane</div>
@@ -432,7 +516,7 @@
         <div class="section">
           <h3>Rastgele</h3>
           <div class="action">
-            <button class="btn primary" id="randomPlay">🎲 Rastgele Çal</button>
+            <button class="btn primary flex" id="randomPlay">🎲 Rastgele Çal</button>
           </div>
         </div>
 
@@ -448,30 +532,48 @@
         <div class="section">
           <h3>İstediğin şarkıyı yaz</h3>
           <div class="searchRow">
-            <input id="songInput" class="inp" placeholder="Şarkı / sanatçı yaz…" />
+            <input id="songInput" class="inp" placeholder="Şarkı / sanatçı yaz…" inputmode="search" autocomplete="off" />
             <button class="btn" id="searchYouTube" style="min-width:120px; flex:0;">Ara</button>
           </div>
-          <div class="sp"></div>
-          <div style="color: var(--muted2); font-size: 12px;">
+          <div style="margin-top:10px; color:var(--muted2); font-size:12px;">
             Arama, YouTube sonuç sayfasını açar.
           </div>
         </div>
       </div>
     </section>
 
-    <!-- QUOTE (song-linked) -->
+    <!-- QUOTE (flip card + play) -->
     <section id="quoteView" class="view">
       <div class="subtop">
         <button class="closebtn" id="closeQuote" aria-label="Kapat">✕</button>
         <div class="subhint">Söz kartı.</div>
       </div>
 
-      <div class="bigcardWrap">
-        <div class="bigcard">
-          <p id="quoteText">…</p>
+      <div class="cardPage">
+        <div class="flipArea">
+          <div class="flip" id="quoteFlip" aria-label="Kart">
+            <div class="flipInner">
+              <!-- Front (kapalı) -->
+              <div class="face front" id="quoteFront">
+                <div class="cphoto" style="background-image:url('https://source.unsplash.com/featured/?dark,card,texture');"></div>
+                <div class="cover"></div>
+                <div class="mark">
+                  <div class="h">HARDIN</div>
+                  <div class="openHint">Kartı Aç</div>
+                  <div class="tiny">dokun</div>
+                </div>
+              </div>
+              <!-- Back (açık) -->
+              <div class="face back" id="quoteBack">
+                <div class="cphoto" id="quoteBackPhoto"></div>
+                <div class="cover"></div>
+                <p id="quoteText">…</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="nav3">
+        <div class="navRow">
           <button class="navbtn" id="quotePrev">◀︎ Geri</button>
           <button class="navbtn center" id="quotePlay">🎵 Müzik Çal</button>
           <button class="navbtn" id="quoteNext">Sonraki ▶︎</button>
@@ -479,25 +581,54 @@
       </div>
     </section>
 
-    <!-- CHAT -->
+    <!-- CHAT (flip card + target pick) -->
     <section id="chatView" class="view">
       <div class="subtop">
         <button class="closebtn" id="closeChat" aria-label="Kapat">✕</button>
         <div class="subhint">Sohbet kartı.</div>
       </div>
 
-      <div class="bigcardWrap">
-        <div class="bigcard">
-          <p id="chatText">…</p>
+      <div class="cardPage">
+        <div class="flipArea">
+          <div class="flip" id="chatFlip" aria-label="Kart">
+            <div class="flipInner">
+              <!-- Front -->
+              <div class="face front">
+                <div class="cphoto" style="background-image:url('https://source.unsplash.com/featured/?dark,wood,table');"></div>
+                <div class="cover"></div>
+                <div class="mark">
+                  <div class="h">HARDIN</div>
+                  <div class="openHint">Kartı Aç</div>
+                  <div class="tiny">dokun</div>
+                </div>
+              </div>
+              <!-- Back -->
+              <div class="face back">
+                <div class="cphoto" style="background-image:url('https://source.unsplash.com/featured/?dark,people,talking');"></div>
+                <div class="cover"></div>
+                <p id="chatText">…</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="nav3" style="grid-template-columns: 1fr 1fr; justify-content:center;">
+        <div class="targetBox">
+          <div class="wheelWrap">
+            <div class="arrow" id="arrow"></div>
+          </div>
+          <div class="targetText">
+            <div>Bu soru şu kişiye gelsin:</div>
+            <div class="targetName" id="targetName">—</div>
+          </div>
+          <button class="btn primary" id="pickTarget" style="min-width:150px;">🎯 Hedef Belirle</button>
+        </div>
+
+        <div class="navRow" style="grid-template-columns:1fr 1fr;">
           <button class="navbtn" id="chatPrev">◀︎ Geri</button>
           <button class="navbtn" id="chatNext">Sonraki ▶︎</button>
         </div>
       </div>
     </section>
-
   </div>
 
   <!-- MODALS -->
@@ -512,14 +643,28 @@
   </div>
 
   <script>
-    // --- DATA (örnekler; sonra birlikte değiştiririz) ---
+    // ====== ZOOM / DOUBLE-TAP ENGELLEME (iOS ağırlıklı) ======
+    // 1) gesture (pinch/zoom) engelle
+    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive:false });
+    document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive:false });
+    document.addEventListener('gestureend', (e) => e.preventDefault(), { passive:false });
 
-    // Mood lists: each mood has a curated list of youtube search terms (or direct URLs)
+    // 2) double-tap zoom engelle (touchend aralığı)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (e) {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 280) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive:false });
+
+    // ====== DATA (örnekler) ======
     const MOODS = [
       {
-        key: "klasik",
         title: "Klasik Rakı Masası",
         subtitle: "Zamansız",
+        photo: "https://source.unsplash.com/featured/?dark,bar,bottles",
         list: [
           "Zeki Müren Şimdi Uzaklardasın",
           "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim",
@@ -528,9 +673,9 @@
         ]
       },
       {
-        key: "huzun",
         title: "Biraz Hüzün",
         subtitle: "İç çekiş",
+        photo: "https://source.unsplash.com/featured/?dark,smoke,moody",
         list: [
           "Ahmet Kaya Nereden Bileceksiniz",
           "Sezen Aksu Tükeneceğiz",
@@ -539,50 +684,37 @@
         ]
       },
       {
-        key: "sohbet",
         title: "Sohbet Açık",
         subtitle: "Gülüş",
+        photo: "https://source.unsplash.com/featured/?dark,friends,night",
         list: [
           "MFÖ Ele Güne Karşı",
           "Yeni Türkü Olmasa Mektubun",
-          "Bora Öztoprak Yan Yana",
-          "Bülent Ortaçgil Eylül Akşamı"
+          "Bülent Ortaçgil Eylül Akşamı",
+          "Ajda Pekkan Kimler Geldi Kimler Geçti"
         ]
       },
       {
-        key: "nostalji",
         title: "Nostalji",
         subtitle: "Eskimez",
+        photo: "https://source.unsplash.com/featured/?dark,retro,vinyl",
         list: [
           "Barış Manço Gülpembe",
           "Cem Karaca Tamirci Çırağı",
           "Erkin Koray Çöpçüler",
-          "Ajda Pekkan Kimler Geldi Kimler Geçti"
+          "Sezen Aksu Gülümse"
         ]
       }
     ];
 
-    // Quote cards: each card has one meaningful line + ONE linked song (search term)
+    // SÖZ kartları: her karta tek şarkı bağlı
     const QUOTE_CARDS = [
-      {
-        text: "Bu masa sessiz değil; sadece derin.",
-        songQuery: "Zeki Müren Şimdi Uzaklardasın"
-      },
-      {
-        text: "Bir şarkı açılır… konuşacak yer bulunur.",
-        songQuery: "Sezen Aksu Tükeneceğiz"
-      },
-      {
-        text: "Kadeh doluysa değil; niyet doluysa güzeldir.",
-        songQuery: "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim"
-      },
-      {
-        text: "Bu masada acele yok. Şarkı bitmeden kalkılmaz.",
-        songQuery: "Bülent Ortaçgil Eylül Akşamı"
-      }
+      { text: "Bu masa sessiz değil; sadece derin.", songQuery: "Zeki Müren Şimdi Uzaklardasın", photo: "https://source.unsplash.com/featured/?dark,table,candle" },
+      { text: "Bir şarkı açılır… konuşacak yer bulunur.", songQuery: "Sezen Aksu Tükeneceğiz", photo: "https://source.unsplash.com/featured/?dark,city,night" },
+      { text: "Kadeh doluysa değil; niyet doluysa güzeldir.", songQuery: "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim", photo: "https://source.unsplash.com/featured/?dark,glass,reflection" },
+      { text: "Bu masada acele yok. Şarkı bitmeden kalkılmaz.", songQuery: "Bülent Ortaçgil Eylül Akşamı", photo: "https://source.unsplash.com/featured/?dark,wood,grain" }
     ];
 
-    // Chat cards: short, inclusive prompts
     const CHAT_CARDS = [
       "Bu masada herkes bir şey anlatsa… sen ne anlatırdın?",
       "Seni en çok hangi şarkı ‘aynı masaya’ geri götürür?",
@@ -591,7 +723,10 @@
       "Birine ‘iyi ki’ demek istesen, kime dersin?"
     ];
 
-    // --- HELPERS ---
+    // hedef belirleme için kişi listesi (demo) — burayı sen sonra dinamik yaparsın
+    const PLAYERS = ["Ali", "Ayşe", "Mehmet", "Zeynep", "Can"];
+
+    // ====== HELPERS ======
     const $ = (id) => document.getElementById(id);
 
     function showView(viewId){
@@ -601,7 +736,7 @@
     }
 
     function openYouTubeSearch(query){
-      const q = encodeURIComponent(query.trim());
+      const q = encodeURIComponent((query||"").trim());
       const url = "https://www.youtube.com/results?search_query=" + q;
       window.open(url, "_blank", "noopener,noreferrer");
     }
@@ -610,104 +745,134 @@
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    // --- HOME NAV ---
+    // ====== HOME NAV ======
     $("openMusic").onclick = () => showView("musicView");
-    $("openQuote").onclick = () => showView("quoteView");
-    $("openChat").onclick  = () => showView("chatView");
+    $("openQuote").onclick = () => { drawQuote(true); showView("quoteView"); };
+    $("openChat").onclick  = () => { drawChat(true); showView("chatView"); };
 
     $("closeMusic").onclick = () => showView("homeView");
     $("closeQuote").onclick = () => showView("homeView");
     $("closeChat").onclick  = () => showView("homeView");
 
-    // --- MUSIC VIEW ---
-    // Render moods
+    // ====== MUSIC VIEW ======
     const moodGrid = $("moodGrid");
     MOODS.forEach(m => {
       const el = document.createElement("div");
       el.className = "mood";
-      el.innerHTML = `<div class="t">${m.title}</div><div class="s">${m.subtitle}</div>`;
+      el.innerHTML = `
+        <div class="mphoto" style="background-image:url('${m.photo}')"></div>
+        <div class="moverlay"></div>
+        <div class="t">${m.title}</div>
+        <div class="s">${m.subtitle}</div>
+      `;
       el.onclick = () => {
-        // Mood click -> pick random song from that mood and open YouTube results
         const song = pickRandom(m.list);
         openYouTubeSearch(song);
       };
       moodGrid.appendChild(el);
     });
 
-    // Random play from all mood lists merged
     $("randomPlay").onclick = () => {
       const all = MOODS.flatMap(m => m.list);
-      const song = pickRandom(all);
-      openYouTubeSearch(song);
+      openYouTubeSearch(pickRandom(all));
     };
 
-    // Search input -> YouTube results
     $("searchYouTube").onclick = () => {
       const val = $("songInput").value || "";
-      if(!val.trim()){
-        $("songInput").focus();
-        return;
-      }
+      if(!val.trim()){ $("songInput").focus(); return; }
       openYouTubeSearch(val);
     };
     $("songInput").addEventListener("keydown", (e) => {
       if(e.key === "Enter") $("searchYouTube").click();
     });
 
-    // --- QUOTE VIEW (card + play) ---
+    // ====== QUOTE VIEW (flip + nav) ======
     let quoteIndex = 0;
+    const quoteFlip = $("quoteFlip");
     const quoteText = $("quoteText");
+    const quoteBackPhoto = $("quoteBackPhoto");
 
-    function renderQuote(){
-      const c = QUOTE_CARDS[quoteIndex];
+    function setQuoteCard(i){
+      const c = QUOTE_CARDS[i];
       quoteText.textContent = c.text;
+      quoteBackPhoto.style.backgroundImage = `url('${c.photo}')`;
+      // yeni karta geçince KAPALI gelsin
+      quoteFlip.classList.remove("open");
     }
-    renderQuote();
+
+    function drawQuote(randomPick=false){
+      quoteIndex = randomPick ? Math.floor(Math.random() * QUOTE_CARDS.length) : quoteIndex;
+      setQuoteCard(quoteIndex);
+    }
+
+    // karta dokununca aç/kapat
+    quoteFlip.addEventListener("click", () => {
+      quoteFlip.classList.toggle("open");
+    });
 
     $("quotePrev").onclick = () => {
       quoteIndex = (quoteIndex - 1 + QUOTE_CARDS.length) % QUOTE_CARDS.length;
-      renderQuote();
+      setQuoteCard(quoteIndex);
     };
     $("quoteNext").onclick = () => {
       quoteIndex = (quoteIndex + 1) % QUOTE_CARDS.length;
-      renderQuote();
+      setQuoteCard(quoteIndex);
     };
     $("quotePlay").onclick = () => {
       const c = QUOTE_CARDS[quoteIndex];
       openYouTubeSearch(c.songQuery);
     };
 
-    // Optional: on entering quote page, feel like "card draw"
-    $("openQuote").addEventListener("click", () => {
-      quoteIndex = Math.floor(Math.random() * QUOTE_CARDS.length);
-      renderQuote();
-    });
-
-    // --- CHAT VIEW ---
+    // ====== CHAT VIEW (flip + nav + target) ======
     let chatIndex = 0;
+    const chatFlip = $("chatFlip");
     const chatText = $("chatText");
+    const targetName = $("targetName");
+    const arrow = $("arrow");
 
-    function renderChat(){
-      chatText.textContent = CHAT_CARDS[chatIndex];
+    function setChatCard(i){
+      chatText.textContent = CHAT_CARDS[i];
+      chatFlip.classList.remove("open"); // yeni karta geçince kapalı
+      targetName.textContent = "—";
     }
-    renderChat();
+
+    function drawChat(randomPick=false){
+      chatIndex = randomPick ? Math.floor(Math.random() * CHAT_CARDS.length) : chatIndex;
+      setChatCard(chatIndex);
+    }
+
+    chatFlip.addEventListener("click", () => {
+      chatFlip.classList.toggle("open");
+    });
 
     $("chatPrev").onclick = () => {
       chatIndex = (chatIndex - 1 + CHAT_CARDS.length) % CHAT_CARDS.length;
-      renderChat();
+      setChatCard(chatIndex);
     };
     $("chatNext").onclick = () => {
       chatIndex = (chatIndex + 1) % CHAT_CARDS.length;
-      renderChat();
+      setChatCard(chatIndex);
     };
 
-    // Optional: on entering chat page, draw a random card
-    $("openChat").addEventListener("click", () => {
-      chatIndex = Math.floor(Math.random() * CHAT_CARDS.length);
-      renderChat();
-    });
+    // hedef belirleme: ok döner + isim seçer
+    let spinLock = false;
+    $("pickTarget").onclick = () => {
+      if(spinLock) return;
+      spinLock = true;
 
-    // --- FOOTER MODALS ---
+      const picked = pickRandom(PLAYERS);
+      const turns = 4 + Math.random() * 3; // 4-7 tur
+      const deg = turns * 360 + Math.floor(Math.random()*360);
+
+      arrow.style.transform = `rotate(${deg}deg)`;
+
+      setTimeout(() => {
+        targetName.textContent = picked;
+        spinLock = false;
+      }, 1200);
+    };
+
+    // ====== FOOTER MODALS ======
     const modal = $("modal");
     const modalTitle = $("modalTitle");
     const modalBody = $("modalBody");
@@ -717,9 +882,7 @@
       modalBody.innerHTML = html;
       modal.classList.add("show");
     }
-    function closeModal(){
-      modal.classList.remove("show");
-    }
+    function closeModal(){ modal.classList.remove("show"); }
     $("modalClose").onclick = closeModal;
     modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
 
@@ -734,12 +897,16 @@
     `);
 
     $("feedbackBtn").onclick = () => openModal("Talep & Şikayet", `
-      <p>Kısa notunu yaz, bize ulaşsın. (V1 için basit tutuldu.)</p>
+      <p>Kısa notunu yaz, bize ulaşsın. (V1 demo)</p>
       <div style="display:flex; gap:10px; flex-direction:column;">
-        <input class="inp" id="fbText" placeholder="Mesajın…" />
+        <input class="inp" placeholder="Mesajın…" />
         <button class="btn primary" onclick="alert('Alındı ✅ (demo)')">Gönder</button>
       </div>
     `);
+
+    // İlk yük
+    drawQuote(true);
+    drawChat(true);
   </script>
 </body>
 </html>
