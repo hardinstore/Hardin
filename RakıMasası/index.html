@@ -2,19 +2,19 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <!-- iOS zoom engelleme -->
+  <!-- iOS yakınlaşma (zoom) engelle + tam ekran hissi -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>HARDIN • Masa</title>
 
   <style>
     :root{
       --bg:#070708;
-      --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.08);
-      --line:rgba(255,255,255,.12);
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.62);
-      --muted2:rgba(255,255,255,.40);
+      --muted2:rgba(255,255,255,.38);
+      --line:rgba(255,255,255,.12);
+      --card:rgba(255,255,255,.05);
+      --card2:rgba(255,255,255,.07);
       --shadow:0 18px 60px rgba(0,0,0,.62);
       --r:18px;
       --r2:24px;
@@ -26,35 +26,37 @@
     body{
       margin:0;
       font-family:var(--font);
+      color:var(--text);
       background:
         radial-gradient(1000px 700px at 50% -20%, rgba(255,255,255,.07), transparent 60%),
         radial-gradient(900px 700px at 10% 120%, rgba(255,255,255,.06), transparent 55%),
         var(--bg);
-      color:var(--text);
       overflow-x:hidden;
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* iOS double-tap/gesture zoom önleyiciler */
-    button, a, .bigbtn, .mood, .navbtn, .closebtn, .smallbtn {
-      touch-action: manipulation;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-    input { font-size:16px; } /* iOS input focus zoom fix */
+    /* iOS input focus zoom fix */
+    input { font-size:16px; }
 
+    /* double tap / gesture zoom önleyici (UI) */
+    button, a, .tap {
+      touch-action: manipulation;
+      -webkit-user-select:none;
+      user-select:none;
+    }
+
+    /* TOP BAR */
     .topbar{
-      position:sticky; top:0;
+      position:sticky; top:0; z-index:10;
       padding:16px 16px 12px;
       backdrop-filter: blur(10px);
       background:linear-gradient(to bottom, rgba(0,0,0,.62), rgba(0,0,0,.05));
       border-bottom:1px solid rgba(255,255,255,.06);
-      z-index:10;
     }
     .brand{
       text-align:center;
       letter-spacing:.22em;
-      font-weight:700;
+      font-weight:800;
       font-size:14px;
       opacity:.96;
     }
@@ -76,6 +78,7 @@
       letter-spacing:.04em;
     }
 
+    /* BIG BUTTONS */
     .biggrid{ display:grid; gap:12px; }
 
     .bigbtn{
@@ -84,39 +87,37 @@
       overflow:hidden;
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.05);
-      min-height:130px;
+      min-height:132px;
       box-shadow:var(--shadow);
       cursor:pointer;
       transition: transform .12s ease, border-color .12s ease;
     }
     .bigbtn:active{ transform:scale(.99); border-color:rgba(255,255,255,.18); }
 
-    /* gerçek foto “hissi” için: unsplash source (sen sonra değiştirirsin) */
     .photo{
       position:absolute; inset:0;
       background-size:cover;
       background-position:center;
       filter: blur(10px);
-      transform: scale(1.18);
+      transform: scale(1.2);
       opacity:.95;
     }
     .overlay{
       position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(0,0,0,.50), rgba(0,0,0,.78));
+      background: linear-gradient(90deg, rgba(0,0,0,.52), rgba(0,0,0,.80));
     }
-
     .bigcontent{
       position:relative;
       display:flex;
+      height:100%;
       align-items:center;
       justify-content:space-between;
       padding:18px 18px;
       gap:12px;
-      height:100%;
     }
     .bigtitle{
       font-size:18px;
-      font-weight:650;
+      font-weight:680;
       letter-spacing:.01em;
       line-height:1.15;
       max-width:78%;
@@ -130,6 +131,7 @@
       border-radius:16px;
     }
 
+    /* FOOTER LINKS */
     .footerlinks{
       display:flex;
       gap:14px;
@@ -149,6 +151,7 @@
       text-decoration-color: rgba(255,255,255,.18);
     }
 
+    /* SUBTOP */
     .subtop{
       display:flex;
       align-items:center;
@@ -174,6 +177,7 @@
       padding-right:40px;
     }
 
+    /* PANEL */
     .panel{
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.05);
@@ -186,12 +190,14 @@
       margin:0 0 10px;
       font-size:13px;
       color:var(--muted);
-      font-weight:650;
+      font-weight:800;
       letter-spacing:.06em;
       text-transform:uppercase;
     }
     .divider{ height:1px; background:rgba(255,255,255,.08); }
 
+    /* BUTTONS */
+    .action{ display:flex; gap:10px; flex-wrap:wrap; }
     .btn{
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.06);
@@ -199,16 +205,18 @@
       padding:12px 12px;
       border-radius:16px;
       cursor:pointer;
-      font-weight:650;
+      font-weight:780;
       letter-spacing:.01em;
       transition: transform .12s ease, border-color .12s ease;
     }
     .btn:active{ transform:scale(.99); border-color:rgba(255,255,255,.18); }
-    .btn.primary{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14); }
-
-    .action{ display:flex; gap:10px; flex-wrap:wrap; }
+    .btn.primary{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.14);
+    }
     .btn.flex{ flex:1; min-width:140px; }
 
+    /* MOODS */
     .moodgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .mood{
       position:relative;
@@ -219,21 +227,22 @@
       padding:14px 12px;
       cursor:pointer;
     }
-    .mood .t{ font-weight:700; font-size:13px; position:relative; }
-    .mood .s{ margin-top:6px; font-size:12px; color:var(--muted2); position:relative; }
     .mood .mphoto{
       position:absolute; inset:0;
       background-size:cover;
       background-position:center;
       filter: blur(12px);
       transform: scale(1.2);
-      opacity:.45;
+      opacity:.50;
     }
     .mood .moverlay{
       position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.82));
+      background: linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.84));
     }
+    .mood .t{ position:relative; font-weight:820; font-size:13px; }
+    .mood .s{ position:relative; margin-top:6px; font-size:12px; color:var(--muted2); }
 
+    /* SEARCH */
     .searchRow{ display:flex; gap:10px; align-items:center; }
     .inp{
       flex:1;
@@ -243,19 +252,17 @@
       padding:12px 12px;
       border-radius:16px;
       outline:none;
-      font-size:16px; /* iOS zoom fix */
+      font-size:16px;
     }
     .inp::placeholder{ color:rgba(255,255,255,.35); }
 
-    /* CARD PAGES: tam ekran görünüm + altta kontrol */
+    /* CARD PAGES */
     .cardPage{
-      min-height: calc(100vh - 58px - 28px); /* topbar + wrap padding hissi */
+      min-height: calc(100vh - 58px - 28px);
       display:flex;
       flex-direction:column;
       gap:12px;
     }
-
-    /* Flip card */
     .flipArea{
       flex:1;
       display:flex;
@@ -271,7 +278,7 @@
       position:relative;
       width:100%;
       height:100%;
-      min-height: 56vh;
+      min-height: 64vh;     /* daha dolu görünmesi için büyüttüm */
       border-radius: 26px;
       transform-style: preserve-3d;
       transition: transform .55s cubic-bezier(.2,.8,.2,1);
@@ -280,8 +287,7 @@
     .flip.open .flipInner{ transform: rotateY(180deg); }
 
     .face{
-      position:absolute;
-      inset:0;
+      position:absolute; inset:0;
       border-radius:26px;
       border:1px solid rgba(255,255,255,.12);
       overflow:hidden;
@@ -292,27 +298,22 @@
       text-align:center;
       padding:22px 18px;
     }
-
-    /* Card photo background */
-    .face .cphoto{
+    .cphoto{
       position:absolute; inset:0;
       background-size:cover;
       background-position:center;
       filter: blur(14px);
       transform: scale(1.25);
-      opacity:.75;
+      opacity:.80;
     }
-    .face .cover{
+    .cover{
       position:absolute; inset:0;
-      background: radial-gradient(900px 380px at 25% 20%, rgba(255,255,255,.10), transparent 60%),
-                  radial-gradient(700px 320px at 80% 85%, rgba(255,255,255,.08), transparent 60%),
-                  linear-gradient(180deg, rgba(0,0,0,.58), rgba(0,0,0,.82));
+      background:
+        radial-gradient(900px 380px at 25% 20%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(700px 320px at 80% 85%, rgba(255,255,255,.08), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.56), rgba(0,0,0,.84));
     }
 
-    /* Front (kapalı) */
-    .front{
-      background: rgba(255,255,255,.04);
-    }
     .front .mark{
       position:relative;
       display:flex;
@@ -322,14 +323,14 @@
     }
     .front .h{
       letter-spacing:.22em;
-      font-weight:800;
+      font-weight:900;
       font-size:13px;
       opacity:.92;
     }
     .front .openHint{
-      font-weight:750;
+      font-weight:900;
       font-size:18px;
-      opacity:.95;
+      opacity:.96;
     }
     .front .tiny{
       color:var(--muted);
@@ -337,16 +338,33 @@
       letter-spacing:.02em;
     }
 
-    /* Back (açık) */
     .back{
       transform: rotateY(180deg);
     }
-    .back p{
+
+    /* Back içerik: söz + kart içi butonlar */
+    .backContent{
       position:relative;
+      width:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between; /* altta butonlar sabit kalsın */
+      gap:16px;
+      padding: 6px 2px;
+    }
+    .bigText{
+      display:flex;
+      flex:1;
+      align-items:center;
+      justify-content:center;
+      padding: 0 6px;
+    }
+    .bigText p{
       margin:0;
       font-size:20px;
       line-height:1.35;
-      font-weight:750;
+      font-weight:880;
       letter-spacing:.01em;
     }
 
@@ -354,6 +372,7 @@
       display:grid;
       grid-template-columns: 1fr 1.3fr 1fr;
       gap:10px;
+      padding: 0 2px;
     }
     .navbtn{
       border-radius:16px;
@@ -362,58 +381,56 @@
       padding:12px 10px;
       color:var(--text);
       cursor:pointer;
-      font-weight:750;
+      font-weight:860;
     }
     .navbtn.center{
       background:rgba(255,255,255,.08);
       border-color:rgba(255,255,255,.14);
     }
 
-    /* CHAT: hedef belirleme spinner */
-    .targetBox{
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.05);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      padding: 12px;
+    /* Chat target arrow (big) */
+    .targetWrap{
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      justify-content:center;
+      margin-top: 8px;
     }
-    .wheelWrap{
-      position:relative;
-      width:74px; height:74px;
-      border-radius: 22px;
+    .bigArrowBox{
+      width:180px; height:180px;
+      border-radius: 28px;
       border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.06);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 16px 44px rgba(0,0,0,.55);
+      position:relative;
       overflow:hidden;
-      flex:0 0 auto;
-      display:flex; align-items:center; justify-content:center;
     }
-    .arrow{
+    .bigArrowBg{
+      position:absolute; inset:0;
+      background-image:url("https://source.unsplash.com/featured/?dark,texture,grain");
+      background-size:cover;
+      background-position:center;
+      filter: blur(14px);
+      transform: scale(1.3);
+      opacity:.55;
+    }
+    .bigArrowOverlay{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.78));
+    }
+    .bigArrow{
+      position:absolute;
+      top:50%; left:50%;
       width:0; height:0;
-      border-left: 10px solid transparent;
-      border-right:10px solid transparent;
-      border-bottom: 18px solid rgba(255,255,255,.92);
-      transform-origin: 50% 54px;
-      transform: rotate(0deg);
-      transition: transform 1.2s cubic-bezier(.15,.9,.2,1);
-      filter: drop-shadow(0 6px 14px rgba(0,0,0,.7));
-    }
-    .targetText{
-      flex:1;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.3;
-    }
-    .targetName{
-      color: var(--text);
-      font-weight: 800;
-      letter-spacing: .01em;
+      border-left: 22px solid transparent;
+      border-right:22px solid transparent;
+      border-bottom: 42px solid rgba(255,255,255,.95);
+      transform-origin: 50% 96px;
+      transform: translate(-50%,-96px) rotate(0deg);
+      transition: transform 1.35s cubic-bezier(.15,.9,.2,1);
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.7));
     }
 
-    /* Modal */
+    /* MODAL */
     .modal{
       position:fixed; inset:0;
       background:rgba(0,0,0,.62);
@@ -443,7 +460,7 @@
       letter-spacing:.06em;
       text-transform:uppercase;
       font-size:12px;
-      font-weight:750;
+      font-weight:900;
     }
     .modalbody{ padding:14px; color:var(--text); }
     .modalbody p{ margin:0 0 10px; color:var(--muted); line-height:1.45; }
@@ -470,7 +487,7 @@
       <div class="hero">Bu masa için bir şey seç.</div>
 
       <div class="biggrid">
-        <div class="bigbtn" id="openMusic">
+        <div class="bigbtn tap" id="openMusic">
           <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,bar,interior');"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
@@ -479,7 +496,7 @@
           </div>
         </div>
 
-        <div class="bigbtn" id="openQuote">
+        <div class="bigbtn tap" id="openQuote">
           <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,table,moody');"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
@@ -488,7 +505,7 @@
           </div>
         </div>
 
-        <div class="bigbtn" id="openChat">
+        <div class="bigbtn tap" id="openChat">
           <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,conversation,silhouette');"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
@@ -508,7 +525,7 @@
     <!-- MUSIC -->
     <section id="musicView" class="view">
       <div class="subtop">
-        <button class="closebtn" id="closeMusic" aria-label="Kapat">✕</button>
+        <button class="closebtn tap" id="closeMusic" aria-label="Kapat">✕</button>
         <div class="subhint">Bu masa için bir müzik seç.</div>
       </div>
 
@@ -516,7 +533,7 @@
         <div class="section">
           <h3>Rastgele</h3>
           <div class="action">
-            <button class="btn primary flex" id="randomPlay">🎲 Rastgele Çal</button>
+            <button class="btn primary flex tap" id="randomPlay">🎲 Rastgele Çal</button>
           </div>
         </div>
 
@@ -533,7 +550,7 @@
           <h3>İstediğin şarkıyı yaz</h3>
           <div class="searchRow">
             <input id="songInput" class="inp" placeholder="Şarkı / sanatçı yaz…" inputmode="search" autocomplete="off" />
-            <button class="btn" id="searchYouTube" style="min-width:120px; flex:0;">Ara</button>
+            <button class="btn tap" id="searchYouTube" style="min-width:120px; flex:0;">Ara</button>
           </div>
           <div style="margin-top:10px; color:var(--muted2); font-size:12px;">
             Arama, YouTube sonuç sayfasını açar.
@@ -542,20 +559,20 @@
       </div>
     </section>
 
-    <!-- QUOTE (flip card + play) -->
+    <!-- QUOTE (flip card; BUTONLAR SADECE AÇIKKEN ve KART İÇİNDE) -->
     <section id="quoteView" class="view">
       <div class="subtop">
-        <button class="closebtn" id="closeQuote" aria-label="Kapat">✕</button>
+        <button class="closebtn tap" id="closeQuote" aria-label="Kapat">✕</button>
         <div class="subhint">Söz kartı.</div>
       </div>
 
       <div class="cardPage">
         <div class="flipArea">
-          <div class="flip" id="quoteFlip" aria-label="Kart">
+          <div class="flip tap" id="quoteFlip" aria-label="Kart">
             <div class="flipInner">
-              <!-- Front (kapalı) -->
-              <div class="face front" id="quoteFront">
-                <div class="cphoto" style="background-image:url('https://source.unsplash.com/featured/?dark,card,texture');"></div>
+              <!-- FRONT (kapalı) -->
+              <div class="face front">
+                <div class="cphoto" id="quoteFrontPhoto"></div>
                 <div class="cover"></div>
                 <div class="mark">
                   <div class="h">HARDIN</div>
@@ -563,38 +580,44 @@
                   <div class="tiny">dokun</div>
                 </div>
               </div>
-              <!-- Back (açık) -->
-              <div class="face back" id="quoteBack">
+
+              <!-- BACK (açık) -->
+              <div class="face back">
                 <div class="cphoto" id="quoteBackPhoto"></div>
                 <div class="cover"></div>
-                <p id="quoteText">…</p>
+
+                <div class="backContent">
+                  <div class="bigText">
+                    <p id="quoteText">…</p>
+                  </div>
+                  <div class="navRow">
+                    <button class="navbtn tap" id="quotePrev">◀︎ Geri</button>
+                    <button class="navbtn center tap" id="quotePlay">🎵 Müzik Çal</button>
+                    <button class="navbtn tap" id="quoteNext">Sonraki ▶︎</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="navRow">
-          <button class="navbtn" id="quotePrev">◀︎ Geri</button>
-          <button class="navbtn center" id="quotePlay">🎵 Müzik Çal</button>
-          <button class="navbtn" id="quoteNext">Sonraki ▶︎</button>
-        </div>
+        <!-- KART DIŞINDA BUTON YOK -->
       </div>
     </section>
 
-    <!-- CHAT (flip card + target pick) -->
+    <!-- CHAT (flip card; BUTONLAR SADECE AÇIKKEN ve KART İÇİNDE) -->
     <section id="chatView" class="view">
       <div class="subtop">
-        <button class="closebtn" id="closeChat" aria-label="Kapat">✕</button>
+        <button class="closebtn tap" id="closeChat" aria-label="Kapat">✕</button>
         <div class="subhint">Sohbet kartı.</div>
       </div>
 
       <div class="cardPage">
         <div class="flipArea">
-          <div class="flip" id="chatFlip" aria-label="Kart">
+          <div class="flip tap" id="chatFlip" aria-label="Kart">
             <div class="flipInner">
-              <!-- Front -->
+              <!-- FRONT (kapalı) -->
               <div class="face front">
-                <div class="cphoto" style="background-image:url('https://source.unsplash.com/featured/?dark,wood,table');"></div>
+                <div class="cphoto" id="chatFrontPhoto"></div>
                 <div class="cover"></div>
                 <div class="mark">
                   <div class="h">HARDIN</div>
@@ -602,31 +625,36 @@
                   <div class="tiny">dokun</div>
                 </div>
               </div>
-              <!-- Back -->
+
+              <!-- BACK (açık) -->
               <div class="face back">
-                <div class="cphoto" style="background-image:url('https://source.unsplash.com/featured/?dark,people,talking');"></div>
+                <div class="cphoto" id="chatBackPhoto"></div>
                 <div class="cover"></div>
-                <p id="chatText">…</p>
+
+                <div class="backContent">
+                  <div class="bigText">
+                    <p id="chatText">…</p>
+                  </div>
+
+                  <div class="targetWrap">
+                    <div class="bigArrowBox">
+                      <div class="bigArrowBg"></div>
+                      <div class="bigArrowOverlay"></div>
+                      <div class="bigArrow" id="bigArrow"></div>
+                    </div>
+                  </div>
+
+                  <div class="navRow">
+                    <button class="navbtn tap" id="chatPrev">◀︎ Geri</button>
+                    <button class="navbtn center tap" id="pickTarget">🎯 Hedef Belirle</button>
+                    <button class="navbtn tap" id="chatNext">Sonraki ▶︎</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="targetBox">
-          <div class="wheelWrap">
-            <div class="arrow" id="arrow"></div>
-          </div>
-          <div class="targetText">
-            <div>Bu soru şu kişiye gelsin:</div>
-            <div class="targetName" id="targetName">—</div>
-          </div>
-          <button class="btn primary" id="pickTarget" style="min-width:150px;">🎯 Hedef Belirle</button>
-        </div>
-
-        <div class="navRow" style="grid-template-columns:1fr 1fr;">
-          <button class="navbtn" id="chatPrev">◀︎ Geri</button>
-          <button class="navbtn" id="chatNext">Sonraki ▶︎</button>
-        </div>
+        <!-- KART DIŞINDA BUTON YOK -->
       </div>
     </section>
   </div>
@@ -636,36 +664,31 @@
     <div class="modalbox">
       <div class="modalhead">
         <div id="modalTitle">Başlık</div>
-        <button class="smallbtn" id="modalClose">✕</button>
+        <button class="smallbtn tap" id="modalClose">✕</button>
       </div>
       <div class="modalbody" id="modalBody"></div>
     </div>
   </div>
 
   <script>
-    // ====== ZOOM / DOUBLE-TAP ENGELLEME (iOS ağırlıklı) ======
-    // 1) gesture (pinch/zoom) engelle
-    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive:false });
-    document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive:false });
-    document.addEventListener('gestureend', (e) => e.preventDefault(), { passive:false });
+    // ===== iOS zoom / double-tap zoom önleme =====
+    document.addEventListener('gesturestart', (e)=>e.preventDefault(), {passive:false});
+    document.addEventListener('gesturechange', (e)=>e.preventDefault(), {passive:false});
+    document.addEventListener('gestureend', (e)=>e.preventDefault(), {passive:false});
 
-    // 2) double-tap zoom engelle (touchend aralığı)
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function (e) {
       const now = Date.now();
-      if (now - lastTouchEnd <= 280) {
-        e.preventDefault();
-      }
+      if (now - lastTouchEnd <= 280) e.preventDefault();
       lastTouchEnd = now;
     }, { passive:false });
 
-    // ====== DATA (örnekler) ======
+    // ===== DATA (örnek; sonra seninle gerçek seri yapacağız) =====
     const MOODS = [
       {
-        title: "Klasik Rakı Masası",
-        subtitle: "Zamansız",
-        photo: "https://source.unsplash.com/featured/?dark,bar,bottles",
-        list: [
+        title:"Klasik Rakı Masası", subtitle:"Zamansız",
+        photo:"https://source.unsplash.com/featured/?dark,bar,bottles",
+        list:[
           "Zeki Müren Şimdi Uzaklardasın",
           "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim",
           "Nesrin Sipahi Veda Busesi",
@@ -673,10 +696,9 @@
         ]
       },
       {
-        title: "Biraz Hüzün",
-        subtitle: "İç çekiş",
-        photo: "https://source.unsplash.com/featured/?dark,smoke,moody",
-        list: [
+        title:"Biraz Hüzün", subtitle:"İç çekiş",
+        photo:"https://source.unsplash.com/featured/?dark,smoke,moody",
+        list:[
           "Ahmet Kaya Nereden Bileceksiniz",
           "Sezen Aksu Tükeneceğiz",
           "Cem Adrian Ben Seni Çok Sevdim",
@@ -684,10 +706,9 @@
         ]
       },
       {
-        title: "Sohbet Açık",
-        subtitle: "Gülüş",
-        photo: "https://source.unsplash.com/featured/?dark,friends,night",
-        list: [
+        title:"Sohbet Açık", subtitle:"Gülüş",
+        photo:"https://source.unsplash.com/featured/?dark,friends,night",
+        list:[
           "MFÖ Ele Güne Karşı",
           "Yeni Türkü Olmasa Mektubun",
           "Bülent Ortaçgil Eylül Akşamı",
@@ -695,10 +716,9 @@
         ]
       },
       {
-        title: "Nostalji",
-        subtitle: "Eskimez",
-        photo: "https://source.unsplash.com/featured/?dark,retro,vinyl",
-        list: [
+        title:"Nostalji", subtitle:"Eskimez",
+        photo:"https://source.unsplash.com/featured/?dark,retro,vinyl",
+        list:[
           "Barış Manço Gülpembe",
           "Cem Karaca Tamirci Çırağı",
           "Erkin Koray Çöpçüler",
@@ -707,26 +727,58 @@
       }
     ];
 
-    // SÖZ kartları: her karta tek şarkı bağlı
+    // SÖZ kartları: tek şarkı bağlı
     const QUOTE_CARDS = [
-      { text: "Bu masa sessiz değil; sadece derin.", songQuery: "Zeki Müren Şimdi Uzaklardasın", photo: "https://source.unsplash.com/featured/?dark,table,candle" },
-      { text: "Bir şarkı açılır… konuşacak yer bulunur.", songQuery: "Sezen Aksu Tükeneceğiz", photo: "https://source.unsplash.com/featured/?dark,city,night" },
-      { text: "Kadeh doluysa değil; niyet doluysa güzeldir.", songQuery: "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim", photo: "https://source.unsplash.com/featured/?dark,glass,reflection" },
-      { text: "Bu masada acele yok. Şarkı bitmeden kalkılmaz.", songQuery: "Bülent Ortaçgil Eylül Akşamı", photo: "https://source.unsplash.com/featured/?dark,wood,grain" }
+      {
+        text:"Bu masa sessiz değil; sadece derin.",
+        songQuery:"Zeki Müren Şimdi Uzaklardasın",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,poetry,night",
+        backPhoto:"https://source.unsplash.com/featured/?dark,table,candle"
+      },
+      {
+        text:"Bir şarkı açılır… konuşacak yer bulunur.",
+        songQuery:"Sezen Aksu Tükeneceğiz",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,card,texture",
+        backPhoto:"https://source.unsplash.com/featured/?dark,city,night"
+      },
+      {
+        text:"Kadeh doluysa değil; niyet doluysa güzeldir.",
+        songQuery:"Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,ink,grain",
+        backPhoto:"https://source.unsplash.com/featured/?dark,glass,reflection"
+      },
+      {
+        text:"Bu masada acele yok. Şarkı bitmeden kalkılmaz.",
+        songQuery:"Bülent Ortaçgil Eylül Akşamı",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,wood,grain",
+        backPhoto:"https://source.unsplash.com/featured/?dark,night,light"
+      }
     ];
 
     const CHAT_CARDS = [
-      "Bu masada herkes bir şey anlatsa… sen ne anlatırdın?",
-      "Seni en çok hangi şarkı ‘aynı masaya’ geri götürür?",
-      "Bugün bu masanın adı ne olsun? (Tek kelime.)",
-      "En son gerçekten güldüğün an neydi?",
-      "Birine ‘iyi ki’ demek istesen, kime dersin?"
+      {
+        q:"Bu masada herkes bir şey anlatsa… sen ne anlatırdın?",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,wood,table",
+        backPhoto:"https://source.unsplash.com/featured/?dark,people,talking"
+      },
+      {
+        q:"Seni en çok hangi şarkı ‘aynı masaya’ geri götürür?",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,match,flame",
+        backPhoto:"https://source.unsplash.com/featured/?dark,conversation"
+      },
+      {
+        q:"Bugün bu masanın adı ne olsun? (Tek kelime.)",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,texture,black",
+        backPhoto:"https://source.unsplash.com/featured/?dark,night,bar"
+      },
+      {
+        q:"En son gerçekten güldüğün an neydi?",
+        frontPhoto:"https://source.unsplash.com/featured/?dark,shadow,film",
+        backPhoto:"https://source.unsplash.com/featured/?dark,friends,smile"
+      }
     ];
 
-    // hedef belirleme için kişi listesi (demo) — burayı sen sonra dinamik yaparsın
-    const PLAYERS = ["Ali", "Ayşe", "Mehmet", "Zeynep", "Can"];
-
-    // ====== HELPERS ======
+    // ===== HELPERS =====
     const $ = (id) => document.getElementById(id);
 
     function showView(viewId){
@@ -741,11 +793,9 @@
       window.open(url, "_blank", "noopener,noreferrer");
     }
 
-    function pickRandom(arr){
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
+    function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-    // ====== HOME NAV ======
+    // ===== HOME NAV =====
     $("openMusic").onclick = () => showView("musicView");
     $("openQuote").onclick = () => { drawQuote(true); showView("quoteView"); };
     $("openChat").onclick  = () => { drawChat(true); showView("chatView"); };
@@ -754,128 +804,126 @@
     $("closeQuote").onclick = () => showView("homeView");
     $("closeChat").onclick  = () => showView("homeView");
 
-    // ====== MUSIC VIEW ======
+    // ===== MUSIC =====
     const moodGrid = $("moodGrid");
-    MOODS.forEach(m => {
+    MOODS.forEach(m=>{
       const el = document.createElement("div");
-      el.className = "mood";
+      el.className = "mood tap";
       el.innerHTML = `
         <div class="mphoto" style="background-image:url('${m.photo}')"></div>
         <div class="moverlay"></div>
         <div class="t">${m.title}</div>
         <div class="s">${m.subtitle}</div>
       `;
-      el.onclick = () => {
-        const song = pickRandom(m.list);
-        openYouTubeSearch(song);
-      };
+      el.onclick = ()=> openYouTubeSearch(pickRandom(m.list));
       moodGrid.appendChild(el);
     });
 
-    $("randomPlay").onclick = () => {
-      const all = MOODS.flatMap(m => m.list);
+    $("randomPlay").onclick = ()=>{
+      const all = MOODS.flatMap(m=>m.list);
       openYouTubeSearch(pickRandom(all));
     };
 
-    $("searchYouTube").onclick = () => {
+    $("searchYouTube").onclick = ()=>{
       const val = $("songInput").value || "";
       if(!val.trim()){ $("songInput").focus(); return; }
       openYouTubeSearch(val);
     };
-    $("songInput").addEventListener("keydown", (e) => {
-      if(e.key === "Enter") $("searchYouTube").click();
+    $("songInput").addEventListener("keydown",(e)=>{
+      if(e.key==="Enter") $("searchYouTube").click();
     });
 
-    // ====== QUOTE VIEW (flip + nav) ======
+    // ===== QUOTE (flip) =====
     let quoteIndex = 0;
     const quoteFlip = $("quoteFlip");
+    const quoteFrontPhoto = $("quoteFrontPhoto");
+    const quoteBackPhoto  = $("quoteBackPhoto");
     const quoteText = $("quoteText");
-    const quoteBackPhoto = $("quoteBackPhoto");
 
-    function setQuoteCard(i){
+    function setQuote(i){
       const c = QUOTE_CARDS[i];
       quoteText.textContent = c.text;
-      quoteBackPhoto.style.backgroundImage = `url('${c.photo}')`;
-      // yeni karta geçince KAPALI gelsin
-      quoteFlip.classList.remove("open");
+      quoteFrontPhoto.style.backgroundImage = `url('${c.frontPhoto}')`;
+      quoteBackPhoto.style.backgroundImage  = `url('${c.backPhoto}')`;
+      quoteFlip.classList.remove("open"); // yeni karta geçince kapalı gelsin
     }
-
     function drawQuote(randomPick=false){
-      quoteIndex = randomPick ? Math.floor(Math.random() * QUOTE_CARDS.length) : quoteIndex;
-      setQuoteCard(quoteIndex);
+      quoteIndex = randomPick ? Math.floor(Math.random()*QUOTE_CARDS.length) : quoteIndex;
+      setQuote(quoteIndex);
     }
 
-    // karta dokununca aç/kapat
-    quoteFlip.addEventListener("click", () => {
-      quoteFlip.classList.toggle("open");
-    });
+    // kart tıklanınca aç/kapat
+    quoteFlip.addEventListener("click", ()=> quoteFlip.classList.toggle("open"));
 
-    $("quotePrev").onclick = () => {
+    // kart içi butonlar
+    $("quotePrev").onclick = (e)=>{
+      e.stopPropagation();
       quoteIndex = (quoteIndex - 1 + QUOTE_CARDS.length) % QUOTE_CARDS.length;
-      setQuoteCard(quoteIndex);
+      setQuote(quoteIndex);
     };
-    $("quoteNext").onclick = () => {
+    $("quoteNext").onclick = (e)=>{
+      e.stopPropagation();
       quoteIndex = (quoteIndex + 1) % QUOTE_CARDS.length;
-      setQuoteCard(quoteIndex);
+      setQuote(quoteIndex);
     };
-    $("quotePlay").onclick = () => {
-      const c = QUOTE_CARDS[quoteIndex];
-      openYouTubeSearch(c.songQuery);
+    $("quotePlay").onclick = (e)=>{
+      e.stopPropagation();
+      openYouTubeSearch(QUOTE_CARDS[quoteIndex].songQuery);
     };
 
-    // ====== CHAT VIEW (flip + nav + target) ======
+    // ===== CHAT (flip) =====
     let chatIndex = 0;
     const chatFlip = $("chatFlip");
+    const chatFrontPhoto = $("chatFrontPhoto");
+    const chatBackPhoto  = $("chatBackPhoto");
     const chatText = $("chatText");
-    const targetName = $("targetName");
-    const arrow = $("arrow");
+    const bigArrow = $("bigArrow");
 
-    function setChatCard(i){
-      chatText.textContent = CHAT_CARDS[i];
-      chatFlip.classList.remove("open"); // yeni karta geçince kapalı
-      targetName.textContent = "—";
+    function setChat(i){
+      const c = CHAT_CARDS[i];
+      chatText.textContent = c.q;
+      chatFrontPhoto.style.backgroundImage = `url('${c.frontPhoto}')`;
+      chatBackPhoto.style.backgroundImage  = `url('${c.backPhoto}')`;
+      chatFlip.classList.remove("open");   // yeni karta geçince kapalı gelsin
+      // ok reset
+      bigArrow.style.transform = `translate(-50%,-96px) rotate(0deg)`;
     }
-
     function drawChat(randomPick=false){
-      chatIndex = randomPick ? Math.floor(Math.random() * CHAT_CARDS.length) : chatIndex;
-      setChatCard(chatIndex);
+      chatIndex = randomPick ? Math.floor(Math.random()*CHAT_CARDS.length) : chatIndex;
+      setChat(chatIndex);
     }
 
-    chatFlip.addEventListener("click", () => {
-      chatFlip.classList.toggle("open");
-    });
+    chatFlip.addEventListener("click", ()=> chatFlip.classList.toggle("open"));
 
-    $("chatPrev").onclick = () => {
+    $("chatPrev").onclick = (e)=>{
+      e.stopPropagation();
       chatIndex = (chatIndex - 1 + CHAT_CARDS.length) % CHAT_CARDS.length;
-      setChatCard(chatIndex);
+      setChat(chatIndex);
     };
-    $("chatNext").onclick = () => {
+    $("chatNext").onclick = (e)=>{
+      e.stopPropagation();
       chatIndex = (chatIndex + 1) % CHAT_CARDS.length;
-      setChatCard(chatIndex);
+      setChat(chatIndex);
     };
 
-    // hedef belirleme: ok döner + isim seçer
-    let spinLock = false;
-    $("pickTarget").onclick = () => {
+    // hedef belirle (isim yok — sadece ok döner)
+    let spinLock=false;
+    $("pickTarget").onclick = (e)=>{
+      e.stopPropagation();
       if(spinLock) return;
-      spinLock = true;
+      spinLock=true;
 
-      const picked = pickRandom(PLAYERS);
-      const turns = 4 + Math.random() * 3; // 4-7 tur
-      const deg = turns * 360 + Math.floor(Math.random()*360);
+      const turns = 4 + Math.random()*3;         // 4–7 tur
+      const deg = turns*360 + Math.floor(Math.random()*360);
+      bigArrow.style.transform = `translate(-50%,-96px) rotate(${deg}deg)`;
 
-      arrow.style.transform = `rotate(${deg}deg)`;
-
-      setTimeout(() => {
-        targetName.textContent = picked;
-        spinLock = false;
-      }, 1200);
+      setTimeout(()=> spinLock=false, 1400);
     };
 
-    // ====== FOOTER MODALS ======
+    // ===== FOOTER MODALS =====
     const modal = $("modal");
     const modalTitle = $("modalTitle");
-    const modalBody = $("modalBody");
+    const modalBody  = $("modalBody");
 
     function openModal(title, html){
       modalTitle.textContent = title;
@@ -883,30 +931,27 @@
       modal.classList.add("show");
     }
     function closeModal(){ modal.classList.remove("show"); }
-    $("modalClose").onclick = closeModal;
-    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
 
-    $("aboutBtn").onclick = () => openModal("Hakkında", `
+    $("aboutBtn").onclick = ()=> openModal("Hakkında", `
       <p>HARDIN masa setleri, küçük bir dokunuşla masaya anlam katar.</p>
       <p>Üç buton: <b>Şarkı</b>, <b>Söz</b>, <b>Sohbet</b>.</p>
     `);
-
-    $("contactBtn").onclick = () => openModal("İletişim", `
+    $("contactBtn").onclick = ()=> openModal("İletişim", `
       <p>Instagram: <b>@hardin</b> (örnek)</p>
       <p>E-posta: <b>info@hardin.com</b> (örnek)</p>
     `);
-
-    $("feedbackBtn").onclick = () => openModal("Talep & Şikayet", `
-      <p>Kısa notunu yaz, bize ulaşsın. (V1 demo)</p>
+    $("feedbackBtn").onclick = ()=> openModal("Talep & Şikayet", `
+      <p>Kısa notunu yaz, bize ulaşsın. (demo)</p>
       <div style="display:flex; gap:10px; flex-direction:column;">
         <input class="inp" placeholder="Mesajın…" />
-        <button class="btn primary" onclick="alert('Alındı ✅ (demo)')">Gönder</button>
+        <button class="btn primary tap" onclick="alert('Alındı ✅ (demo)')">Gönder</button>
       </div>
     `);
 
-    // İlk yük
-    drawQuote(true);
-    drawChat(true);
+    $("modalClose").onclick = closeModal;
+    modal.addEventListener("click", (e)=>{ if(e.target===modal) closeModal(); });
+
+    // İlk açılışta kartları hazırla (ana sayfada değil, sayfaya girince)
   </script>
 </body>
 </html>
