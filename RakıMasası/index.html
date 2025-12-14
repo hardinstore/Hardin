@@ -259,18 +259,18 @@
       perspective:1200px;
     }
 
-    /* daha küçük + ortalı: tüm cihazlarda taşma ihtimali azalır */
+    /* İLK HALİNE YAKIN: sadece az küçült + ortalı */
     .flipInner{
       position:relative;
       width:100%;
-      height: min(58vh, 520px);
+      height: min(64vh, 560px);
       border-radius: 26px;
       transform-style: preserve-3d;
       transition: transform .55s cubic-bezier(.2,.8,.2,1);
       box-shadow: var(--shadow);
     }
     @media (max-height: 740px){
-      .flipInner{ height: min(52vh, 460px); }
+      .flipInner{ height: min(58vh, 520px); }
     }
 
     .flip.open .flipInner{ transform: rotateY(180deg); }
@@ -374,13 +374,14 @@
       transition: height .22s ease, opacity .22s ease, transform .22s ease;
     }
     .targetWrap.show{
-      height: 210px;
+      height: 240px;
       opacity: 1;
       transform: translateY(0);
     }
 
+    /* Ok alanı büyüt + taşma yok */
     .bigArrowBox{
-      width:210px; height:210px;
+      width:240px; height:240px;
       border-radius: 30px;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
@@ -404,12 +405,12 @@
       position:absolute;
       top:50%; left:50%;
       width:0; height:0;
-      border-left: 24px solid transparent;
-      border-right:24px solid transparent;
-      border-bottom: 48px solid rgba(255,255,255,.95);
-      /* merkezde ve taşmadan dönüş */
-      transform-origin: 50% 110px;
-      transform: translate(-50%,-110px) rotate(0deg);
+      border-left: 26px solid transparent;
+      border-right:26px solid transparent;
+      border-bottom: 52px solid rgba(255,255,255,.95);
+      /* daha güvenli merkez: uçlar asla kesilmez */
+      transform-origin: 50% 120px;
+      transform: translate(-50%,-120px) rotate(0deg);
       transition: transform 1.35s cubic-bezier(.15,.9,.2,1);
       filter: drop-shadow(0 10px 18px rgba(0,0,0,.7));
     }
@@ -447,7 +448,6 @@
       font-weight:950;
     }
     .modalbody{ padding:14px; color:var(--text); }
-    .modalbody p{ margin:0 0 10px; color:var(--muted); line-height:1.45; }
     .smallbtn{
       width:40px; height:40px;
       border-radius:14px;
@@ -470,7 +470,7 @@
 
       <div class="biggrid">
         <div class="bigbtn tap" id="openMusic">
-          <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,bar,interior');"></div>
+          <div class="photo" id="homePhoto1"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
             <div class="bigtitle">Bu Masaya Bir Şarkı Aç</div>
@@ -479,7 +479,7 @@
         </div>
 
         <div class="bigbtn tap" id="openQuote">
-          <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,table,moody');"></div>
+          <div class="photo" id="homePhoto2"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
             <div class="bigtitle">Bu Masaya Bir Söz Bırak</div>
@@ -488,7 +488,7 @@
         </div>
 
         <div class="bigbtn tap" id="openChat">
-          <div class="photo" style="background-image:url('https://source.unsplash.com/featured/?dark,conversation,silhouette');"></div>
+          <div class="photo" id="homePhoto3"></div>
           <div class="overlay"></div>
           <div class="bigcontent">
             <div class="bigtitle">Rakı Bahane, Sohbet Şahane</div>
@@ -552,7 +552,6 @@
         <div class="flipArea">
           <div class="flip tap" id="quoteFlip" aria-label="Kart">
             <div class="flipInner">
-              <!-- FRONT (kapalı) -->
               <div class="face front">
                 <div class="cphoto" id="quoteFrontPhoto"></div>
                 <div class="cover"></div>
@@ -563,7 +562,6 @@
                 </div>
               </div>
 
-              <!-- BACK (açık) -->
               <div class="face back">
                 <div class="cphoto" id="quoteBackPhoto"></div>
                 <div class="cover"></div>
@@ -577,10 +575,10 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
-        <!-- Kart dışında buton yok -->
       </div>
     </section>
 
@@ -595,7 +593,6 @@
         <div class="flipArea">
           <div class="flip tap" id="chatFlip" aria-label="Kart">
             <div class="flipInner">
-              <!-- FRONT -->
               <div class="face front">
                 <div class="cphoto" id="chatFrontPhoto"></div>
                 <div class="cover"></div>
@@ -606,7 +603,6 @@
                 </div>
               </div>
 
-              <!-- BACK -->
               <div class="face back">
                 <div class="cphoto" id="chatBackPhoto"></div>
                 <div class="cover"></div>
@@ -614,7 +610,6 @@
                 <div class="backContent">
                   <div class="bigText"><p id="chatText">…</p></div>
 
-                  <!-- hedef alanı: sadece tıklayınca açılır -->
                   <div class="targetWrap" id="targetWrap">
                     <div class="bigArrowBox">
                       <div class="bigArrowBg" id="targetBg"></div>
@@ -630,10 +625,10 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
-        <!-- Kart dışında buton yok -->
       </div>
     </section>
   </div>
@@ -662,14 +657,14 @@
       lastTouchEnd = now;
     }, { passive:false });
 
-    // ===== DATA =====
-    // Not: Buradaki URL’ler demo. Sonra sen kendi net linklerini buraya koyacaksın.
+    // ===== TEK FOTO LINKİ (SEN BURAYI DEĞİŞTİR, HER YERDE DEĞİŞSİN) =====
+    const DEMO_PHOTO_URL = "https://source.unsplash.com/featured/?raki,table,night";
 
+    // ===== DATA (ŞARKILAR DİREKT LINK) =====
     const MOODS = [
       {
         title:"Klasik Rakı Masası", subtitle:"Zamansız",
-        photo:"https://source.unsplash.com/featured/?dark,bar,bottles",
-        // ARTIK arama değil: direkt URL listesi
+        photo:DEMO_PHOTO_URL,
         tracks:[
           { name:"Zeki Müren – Şimdi Uzaklardasın", url:"https://www.youtube.com/watch?v=y4BJtEPF6Tc" },
           { name:"Müzeyyen Senar – Ben Seni Unutmak İçin Sevmedim", url:"https://www.youtube.com/watch?v=ra-f3IeXQqc" }
@@ -677,7 +672,7 @@
       },
       {
         title:"Biraz Hüzün", subtitle:"İç çekiş",
-        photo:"https://source.unsplash.com/featured/?dark,smoke,moody",
+        photo:DEMO_PHOTO_URL,
         tracks:[
           { name:"Sezen Aksu – Tükeneceğiz", url:"https://www.youtube.com/watch?v=_d0FQHjm52c" },
           { name:"Bülent Ortaçgil – Eylül Akşamı", url:"https://www.youtube.com/watch?v=UWkCQyNEg-A" }
@@ -685,15 +680,15 @@
       },
       {
         title:"Sohbet Açık", subtitle:"Gülüş",
-        photo:"https://source.unsplash.com/featured/?dark,friends,night",
+        photo:DEMO_PHOTO_URL,
         tracks:[
-          { name:"Bülent Ortaçgil & Teoman – Eylül Akşamı", url:"https://www.youtube.com/watch?v=5sJOe0hhqM4" },
-          { name:"Sezen Aksu – Tükeneceğiz (Official Audio)", url:"https://www.youtube.com/watch?v=Eg6gKLXA30U" }
+          { name:"(Demo) YouTube", url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+          { name:"(Demo) YouTube", url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
         ]
       },
       {
         title:"Nostalji", subtitle:"Eskimez",
-        photo:"https://source.unsplash.com/featured/?dark,retro,vinyl",
+        photo:DEMO_PHOTO_URL,
         tracks:[
           { name:"(Demo) YouTube", url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
           { name:"(Demo) YouTube", url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
@@ -701,54 +696,17 @@
       }
     ];
 
-    // Söz kartları: tek şarkı -> ARTIK direkt link
     const QUOTE_CARDS = [
-      {
-        text:"Bu masa sessiz değil; sadece derin.",
-        songUrl:"https://www.youtube.com/watch?v=y4BJtEPF6Tc",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,raki,table",
-        backPhoto:"https://source.unsplash.com/featured/?dark,glass,candle"
-      },
-      {
-        text:"Bir şarkı açılır… konuşacak yer bulunur.",
-        songUrl:"https://www.youtube.com/watch?v=_d0FQHjm52c",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,night,city",
-        backPhoto:"https://source.unsplash.com/featured/?dark,street,light"
-      },
-      {
-        text:"Kadeh doluysa değil; niyet doluysa güzeldir.",
-        songUrl:"https://www.youtube.com/watch?v=ra-f3IeXQqc",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,wood,texture",
-        backPhoto:"https://source.unsplash.com/featured/?dark,glass,reflection"
-      },
-      {
-        text:"Bu masada acele yok. Şarkı bitmeden kalkılmaz.",
-        songUrl:"https://www.youtube.com/watch?v=UWkCQyNEg-A",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,bar,shadow",
-        backPhoto:"https://source.unsplash.com/featured/?dark,table,moody"
-      }
+      { text:"Bu masa sessiz değil; sadece derin.", songUrl:"https://www.youtube.com/watch?v=y4BJtEPF6Tc", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL },
+      { text:"Bir şarkı açılır… konuşacak yer bulunur.", songUrl:"https://www.youtube.com/watch?v=_d0FQHjm52c", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL },
+      { text:"Kadeh doluysa değil; niyet doluysa güzeldir.", songUrl:"https://www.youtube.com/watch?v=ra-f3IeXQqc", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL },
+      { text:"Bu masada acele yok. Şarkı bitmeden kalkılmaz.", songUrl:"https://www.youtube.com/watch?v=UWkCQyNEg-A", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL }
     ];
 
-    // Sohbet kartları
     const CHAT_CARDS = [
-      {
-        q:"Bu masada herkes bir şey anlatsa… sen ne anlatırdın?",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,table,wood",
-        backPhoto:"https://source.unsplash.com/featured/?dark,people,conversation",
-        targetBg:"https://source.unsplash.com/featured/?dark,texture,grain"
-      },
-      {
-        q:"Seni en çok hangi şarkı ‘aynı masaya’ geri götürür?",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,glass,ice",
-        backPhoto:"https://source.unsplash.com/featured/?dark,bar,interior",
-        targetBg:"https://source.unsplash.com/featured/?dark,black,marble"
-      },
-      {
-        q:"Bugün bu masanın adı ne olsun? (Tek kelime.)",
-        frontPhoto:"https://source.unsplash.com/featured/?dark,shadow,film",
-        backPhoto:"https://source.unsplash.com/featured/?dark,night,neon",
-        targetBg:"https://source.unsplash.com/featured/?dark,texture,carbon"
-      }
+      { q:"Bu masada herkes bir şey anlatsa… sen ne anlatırdın?", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL, targetBg:DEMO_PHOTO_URL },
+      { q:"Seni en çok hangi şarkı ‘aynı masaya’ geri götürür?", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL, targetBg:DEMO_PHOTO_URL },
+      { q:"Bugün bu masanın adı ne olsun? (Tek kelime.)", frontPhoto:DEMO_PHOTO_URL, backPhoto:DEMO_PHOTO_URL, targetBg:DEMO_PHOTO_URL }
     ];
 
     // ===== HELPERS =====
@@ -763,15 +721,20 @@
     }
     function openYouTubeSearch(query){
       const q = encodeURIComponent((query||"").trim());
-      const url = "https://www.youtube.com/results?search_query=" + q;
-      window.open(url, "_blank", "noopener,noreferrer");
+      window.open("https://www.youtube.com/results?search_query=" + q, "_blank", "noopener,noreferrer");
     }
     function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-    // ===== HOME NAV =====
+    // ===== HOME PHOTOS =====
+    $("homePhoto1").style.backgroundImage = `url('${DEMO_PHOTO_URL}')`;
+    $("homePhoto2").style.backgroundImage = `url('${DEMO_PHOTO_URL}')`;
+    $("homePhoto3").style.backgroundImage = `url('${DEMO_PHOTO_URL}')`;
+
+    // ===== NAV =====
     $("openMusic").onclick = () => showView("musicView");
     $("openQuote").onclick = () => { drawQuote(true); showView("quoteView"); };
     $("openChat").onclick  = () => { drawChat(true); showView("chatView"); };
+
     $("closeMusic").onclick = () => showView("homeView");
     $("closeQuote").onclick = () => showView("homeView");
     $("closeChat").onclick  = () => showView("homeView");
@@ -787,95 +750,63 @@
         <div class="t">${m.title}</div>
         <div class="s">${m.subtitle}</div>
       `;
-      el.onclick = ()=>{
-        const t = pickRandom(m.tracks);
-        openUrl(t.url);            // ✅ direkt link
-      };
+      el.onclick = ()=> openUrl(pickRandom(m.tracks).url);
       moodGrid.appendChild(el);
     });
 
-    // Rastgele: tüm mood track havuzundan direkt link
     $("randomPlay").onclick = ()=>{
       const all = MOODS.flatMap(m=>m.tracks);
-      openUrl(pickRandom(all).url); // ✅ direkt link
+      openUrl(pickRandom(all).url);
     };
 
-    // Sadece bu alan arama sonuç açar
     $("searchYouTube").onclick = ()=>{
       const val = $("songInput").value || "";
       if(!val.trim()){ $("songInput").focus(); return; }
-      openYouTubeSearch(val);       // ✅ arama
+      openYouTubeSearch(val); // sadece bu alan arama
     };
     $("songInput").addEventListener("keydown",(e)=>{
       if(e.key==="Enter") $("searchYouTube").click();
     });
 
-    // ===== QUOTE (flip; tekrar basınca kapanmasın) =====
+    // ===== QUOTE (flip: sadece aç, kapatma yok) =====
     let quoteIndex = 0;
     const quoteFlip = $("quoteFlip");
-    const quoteFrontPhoto = $("quoteFrontPhoto");
-    const quoteBackPhoto  = $("quoteBackPhoto");
-    const quoteText = $("quoteText");
-
     function setQuote(i){
       const c = QUOTE_CARDS[i];
-      quoteText.textContent = c.text;
-      quoteFrontPhoto.style.backgroundImage = `url('${c.frontPhoto}')`;
-      quoteBackPhoto.style.backgroundImage  = `url('${c.backPhoto}')`;
+      $("quoteText").textContent = c.text;
+      $("quoteFrontPhoto").style.backgroundImage = `url('${c.frontPhoto}')`;
+      $("quoteBackPhoto").style.backgroundImage  = `url('${c.backPhoto}')`;
       quoteFlip.classList.remove("open");
-      // yeni karta geçince tekrar açılması için izin ver
-      quoteFlip.dataset.locked = "0";
     }
     function drawQuote(randomPick=false){
       quoteIndex = randomPick ? Math.floor(Math.random()*QUOTE_CARDS.length) : quoteIndex;
       setQuote(quoteIndex);
     }
-
-    // sadece aç: kapatma yok
     quoteFlip.addEventListener("click", ()=>{
-      if(quoteFlip.classList.contains("open")) return; // kapatma yok
+      if(quoteFlip.classList.contains("open")) return;
       quoteFlip.classList.add("open");
-      quoteFlip.dataset.locked = "1";
     });
 
-    $("quotePrev").onclick = (e)=>{
-      e.stopPropagation();
-      quoteIndex = (quoteIndex - 1 + QUOTE_CARDS.length) % QUOTE_CARDS.length;
-      setQuote(quoteIndex);
-    };
-    $("quoteNext").onclick = (e)=>{
-      e.stopPropagation();
-      quoteIndex = (quoteIndex + 1) % QUOTE_CARDS.length;
-      setQuote(quoteIndex);
-    };
-    $("quotePlay").onclick = (e)=>{
-      e.stopPropagation();
-      openUrl(QUOTE_CARDS[quoteIndex].songUrl); // ✅ direkt link
-    };
+    $("quotePrev").onclick = (e)=>{ e.stopPropagation(); quoteIndex=(quoteIndex-1+QUOTE_CARDS.length)%QUOTE_CARDS.length; setQuote(quoteIndex); };
+    $("quoteNext").onclick = (e)=>{ e.stopPropagation(); quoteIndex=(quoteIndex+1)%QUOTE_CARDS.length; setQuote(quoteIndex); };
+    $("quotePlay").onclick = (e)=>{ e.stopPropagation(); openUrl(QUOTE_CARDS[quoteIndex].songUrl); };
 
-    // ===== CHAT (flip; hedef alanı sadece tıklayınca açılır) =====
+    // ===== CHAT (flip: sadece aç, hedef alanı tıklayınca açılır) =====
     let chatIndex = 0;
     const chatFlip = $("chatFlip");
-    const chatFrontPhoto = $("chatFrontPhoto");
-    const chatBackPhoto  = $("chatBackPhoto");
-    const chatText = $("chatText");
-    const bigArrow = $("bigArrow");
     const targetWrap = $("targetWrap");
-    const targetBg = $("targetBg");
+    const bigArrow = $("bigArrow");
 
     function setChat(i){
       const c = CHAT_CARDS[i];
-      chatText.textContent = c.q;
-      chatFrontPhoto.style.backgroundImage = `url('${c.frontPhoto}')`;
-      chatBackPhoto.style.backgroundImage  = `url('${c.backPhoto}')`;
-      targetBg.style.backgroundImage       = `url('${c.targetBg}')`;
+      $("chatText").textContent = c.q;
+      $("chatFrontPhoto").style.backgroundImage = `url('${c.frontPhoto}')`;
+      $("chatBackPhoto").style.backgroundImage  = `url('${c.backPhoto}')`;
+      $("targetBg").style.backgroundImage       = `url('${c.targetBg}')`;
 
       chatFlip.classList.remove("open");
-      chatFlip.dataset.locked = "0";
-
-      // hedef alanı kapalı gelsin
       targetWrap.classList.remove("show");
-      bigArrow.style.transform = `translate(-50%,-110px) rotate(0deg)`;
+      bigArrow.style.transform = `translate(-50%,-120px) rotate(0deg)`;
     }
     function drawChat(randomPick=false){
       chatIndex = randomPick ? Math.floor(Math.random()*CHAT_CARDS.length) : chatIndex;
@@ -883,75 +814,31 @@
     }
 
     chatFlip.addEventListener("click", ()=>{
-      if(chatFlip.classList.contains("open")) return; // kapatma yok
+      if(chatFlip.classList.contains("open")) return;
       chatFlip.classList.add("open");
-      chatFlip.dataset.locked = "1";
     });
 
-    $("chatPrev").onclick = (e)=>{
-      e.stopPropagation();
-      chatIndex = (chatIndex - 1 + CHAT_CARDS.length) % CHAT_CARDS.length;
-      setChat(chatIndex);
-    };
-    $("chatNext").onclick = (e)=>{
-      e.stopPropagation();
-      chatIndex = (chatIndex + 1) % CHAT_CARDS.length;
-      setChat(chatIndex);
-    };
+    $("chatPrev").onclick = (e)=>{ e.stopPropagation(); chatIndex=(chatIndex-1+CHAT_CARDS.length)%CHAT_CARDS.length; setChat(chatIndex); };
+    $("chatNext").onclick = (e)=>{ e.stopPropagation(); chatIndex=(chatIndex+1)%CHAT_CARDS.length; setChat(chatIndex); };
 
-    // ===== Tick sound (WebAudio) =====
-    let audioCtx = null;
-    function ensureAudio(){
-      if(audioCtx) return;
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    function tick(atTime){
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.type = "square";
-      o.frequency.setValueAtTime(220, atTime);
-      g.gain.setValueAtTime(0.0001, atTime);
-      g.gain.exponentialRampToValueAtTime(0.08, atTime + 0.005);
-      g.gain.exponentialRampToValueAtTime(0.0001, atTime + 0.03);
-      o.connect(g); g.connect(audioCtx.destination);
-      o.start(atTime);
-      o.stop(atTime + 0.04);
-    }
-    function playTicks(durationMs){
-      ensureAudio();
-      const start = audioCtx.currentTime + 0.02;
-      const ticks = Math.max(10, Math.floor(durationMs / 90));
-      for(let i=0;i<ticks;i++){
-        const t = start + (i*(durationMs/1000))/ticks;
-        tick(t);
-      }
-    }
-
-    // hedef belirle: önce alanı aç, sonra dön + tık tık
     let spinLock=false;
     $("pickTarget").onclick = (e)=>{
       e.stopPropagation();
       if(spinLock) return;
       spinLock=true;
 
-      // alanı aç
       targetWrap.classList.add("show");
 
-      // dönme
       const duration = 1350;
       const turns = 4 + Math.random()*3;
       const deg = turns*360 + Math.floor(Math.random()*360);
 
-      // ses (kullanıcı etkileşimi olduğu için çalışır)
-      playTicks(duration);
+      bigArrow.style.transform = `translate(-50%,-120px) rotate(${deg}deg)`;
 
-      // animasyon
-      bigArrow.style.transform = `translate(-50%,-110px) rotate(${deg}deg)`;
-
-      setTimeout(()=> spinLock=false, duration + 50);
+      setTimeout(()=> spinLock=false, duration+30);
     };
 
-    // ===== FOOTER MODALS =====
+    // ===== MODALS =====
     const modal = $("modal");
     const modalTitle = $("modalTitle");
     const modalBody  = $("modalBody");
@@ -963,23 +850,35 @@
     function closeModal(){ modal.classList.remove("show"); }
 
     $("aboutBtn").onclick = ()=> openModal("Hakkında", `
-      <p>HARDIN masa setleri, küçük bir dokunuşla masaya anlam katar.</p>
-      <p>Üç buton: <b>Şarkı</b>, <b>Söz</b>, <b>Sohbet</b>.</p>
+      <p style="color:rgba(255,255,255,.75); margin:0 0 12px; line-height:1.45;">
+        HARDIN masa setleri, küçük bir dokunuşla masaya anlam katar.
+      </p>
+      <p style="color:rgba(255,255,255,.60); margin:0; line-height:1.45;">
+        Üç buton: Şarkı • Söz • Sohbet
+      </p>
     `);
+
+    // İLETİŞİM: 3 buton
     $("contactBtn").onclick = ()=> openModal("İletişim", `
-      <p>Instagram: <b>@hardin</b> (örnek)</p>
-      <p>E-posta: <b>info@hardin.com</b> (örnek)</p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="btn primary tap" onclick="window.open('#INSTAGRAM_LINK', '_blank')">Instagram</button>
+        <button class="btn primary tap" onclick="window.open('#TIKTOK_LINK', '_blank')">TikTok</button>
+        <button class="btn primary tap" onclick="window.open('#MAGAZA_LINK', '_blank')">Mağaza</button>
+        <div style="color:rgba(255,255,255,.45); font-size:12px; margin-top:4px;">
+          Linkleri sonra sen dolduracaksın.
+        </div>
+      </div>
     `);
+
     $("feedbackBtn").onclick = ()=> openModal("Talep & Şikayet", `
-      <p>Kısa notunu yaz, bize ulaşsın. (demo)</p>
       <div style="display:flex; gap:10px; flex-direction:column;">
         <input class="inp" placeholder="Mesajın…" />
         <button class="btn primary tap" onclick="alert('Alındı ✅ (demo)')">Gönder</button>
       </div>
     `);
+
     $("modalClose").onclick = closeModal;
     modal.addEventListener("click", (e)=>{ if(e.target===modal) closeModal(); });
-
   </script>
 </body>
 </html>
