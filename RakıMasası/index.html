@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HARDIN • Masa</title>
+  <style>
+    :root{
+      --bg: #070708;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.08);
+      --line: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.66);
+      --muted2: rgba(255,255,255,.45);
+      --shadow: 0 12px 40px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 22px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      background: radial-gradient(1000px 700px at 50% -20%, rgba(255,255,255,.07), transparent 60%),
+                  radial-gradient(900px 700px at 10% 120%, rgba(255,255,255,.06), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Top bar */
+    .topbar{
+      position: sticky; top: 0;
+      padding: 16px 16px 12px;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.05));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      z-index: 10;
+    }
+    .brand{
+      text-align: center;
+      letter-spacing: .22em;
+      font-weight: 650;
+      font-size: 14px;
+      opacity: .95;
+      user-select: none;
+    }
+
+    /* Main layout */
+    .wrap{
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 14px 14px 26px;
+    }
+
+    .hero{
+      padding: 8px 6px 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .04em;
+    }
+
+    /* Big buttons */
+    .biggrid{
+      display: grid;
+      gap: 12px;
+    }
+
+    .bigbtn{
+      position: relative;
+      border-radius: var(--radius2);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      min-height: 126px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .bigbtn:active{ transform: scale(.99); border-color: rgba(255,255,255,.18); }
+
+    /* Blurred “photo” backgrounds (no external images) */
+    .bgphoto{
+      position:absolute; inset:0;
+      filter: blur(14px);
+      transform: scale(1.15);
+      opacity: .95;
+    }
+    .bg-music{
+      background:
+        radial-gradient(500px 250px at 70% 40%, rgba(255,255,255,.16), transparent 60%),
+        radial-gradient(420px 220px at 30% 70%, rgba(255,255,255,.10), transparent 60%),
+        linear-gradient(130deg, rgba(255,255,255,.10), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.40), rgba(0,0,0,.75));
+    }
+    .bg-quote{
+      background:
+        radial-gradient(520px 260px at 40% 35%, rgba(255,255,255,.13), transparent 65%),
+        radial-gradient(420px 220px at 75% 75%, rgba(255,255,255,.08), transparent 60%),
+        linear-gradient(155deg, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.78));
+    }
+    .bg-chat{
+      background:
+        radial-gradient(520px 260px at 60% 30%, rgba(255,255,255,.13), transparent 65%),
+        radial-gradient(460px 240px at 20% 80%, rgba(255,255,255,.08), transparent 60%),
+        linear-gradient(140deg, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.78));
+    }
+
+    .overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.68));
+    }
+
+    .bigcontent{
+      position: relative;
+      display:flex;
+      height:100%;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px;
+      gap: 12px;
+    }
+    .bigtitle{
+      font-size: 18px;
+      font-weight: 620;
+      letter-spacing: .01em;
+      line-height: 1.15;
+      max-width: 78%;
+    }
+    .bigicon{
+      font-size: 22px;
+      opacity: .88;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding: 10px 12px;
+      border-radius: 16px;
+    }
+
+    /* Footer links */
+    .footerlinks{
+      display:flex;
+      gap: 14px;
+      justify-content: center;
+      padding: 16px 4px 0;
+      color: var(--muted2);
+      font-size: 12px;
+    }
+    .footerlinks button{
+      background: transparent;
+      border: none;
+      color: var(--muted2);
+      padding: 6px 4px;
+      cursor:pointer;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      text-decoration-color: rgba(255,255,255,.18);
+    }
+    .footerlinks button:active{ color: var(--muted); }
+
+    /* Views */
+    .view{ display:none; }
+    .view.active{ display:block; }
+
+    /* Subpage top */
+    .subtop{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 2px 14px;
+    }
+    .closebtn{
+      width: 38px; height: 38px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      font-size: 18px;
+    }
+    .subhint{
+      text-align:center;
+      flex:1;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .03em;
+      padding-right: 38px; /* balance close button */
+    }
+
+    /* Cards / panels */
+    .panel{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .section{
+      padding: 14px;
+    }
+    .section h3{
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .action{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 12px 12px;
+      border-radius: 16px;
+      cursor:pointer;
+      font-weight: 600;
+      letter-spacing: .01em;
+      flex: 1;
+      min-width: 140px;
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .btn:active{ transform: scale(.99); border-color: rgba(255,255,255,.18); }
+
+    .btn.primary{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .moodgrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mood{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      padding: 14px 12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .mood .t{ font-weight: 650; font-size: 13px; }
+    .mood .s{ margin-top: 6px; font-size: 12px; color: var(--muted2); }
+
+    /* Search row */
+    .searchRow{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .inp{
+      flex:1;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--text);
+      padding: 12px 12px;
+      border-radius: 16px;
+      outline: none;
+      font-size: 14px;
+    }
+    .inp::placeholder{ color: rgba(255,255,255,.35); }
+
+    /* Quote / chat card page */
+    .bigcardWrap{
+      padding: 8px 2px 12px;
+    }
+    .bigcard{
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(700px 340px at 30% 25%, rgba(255,255,255,.08), transparent 60%),
+        radial-gradient(600px 320px at 80% 85%, rgba(255,255,255,.06), transparent 60%),
+        rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      padding: 26px 20px;
+      min-height: 42vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+    .bigcard p{
+      margin:0;
+      font-size: 20px;
+      line-height: 1.35;
+      font-weight: 650;
+      letter-spacing: .01em;
+    }
+
+    .nav3{
+      display:grid;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      gap: 10px;
+      padding: 12px 2px 0;
+    }
+
+    .navbtn{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      padding: 12px 10px;
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 650;
+    }
+    .navbtn.center{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    /* Simple modal for footer sections */
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+      z-index: 30;
+    }
+    .modal.show{ display:flex; }
+    .modalbox{
+      max-width: 520px;
+      width: 100%;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(15,15,16,.92);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalhead{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .modalbody{ padding: 14px; color: var(--text); }
+    .modalbody p{ margin:0 0 10px; color: var(--muted); line-height: 1.45; }
+    .smallbtn{
+      width: 38px; height: 38px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      font-size: 18px;
+    }
+
+    /* Minor helpers */
+    .sp{ height: 12px; }
+    .divider{ height: 1px; background: rgba(255,255,255,.08); }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="brand">HARDIN</div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- HOME -->
+    <section id="homeView" class="view active">
+      <div class="hero">Bu masa için bir şey seç.</div>
+
+      <div class="biggrid">
+        <div class="bigbtn" id="openMusic">
+          <div class="bgphoto bg-music"></div>
+          <div class="overlay"></div>
+          <div class="bigcontent">
+            <div class="bigtitle">Bu Masaya Bir Şarkı Aç</div>
+            <div class="bigicon">🎵</div>
+          </div>
+        </div>
+
+        <div class="bigbtn" id="openQuote">
+          <div class="bgphoto bg-quote"></div>
+          <div class="overlay"></div>
+          <div class="bigcontent">
+            <div class="bigtitle">Bu Masaya Bir Söz Bırak</div>
+            <div class="bigicon">💬</div>
+          </div>
+        </div>
+
+        <div class="bigbtn" id="openChat">
+          <div class="bgphoto bg-chat"></div>
+          <div class="overlay"></div>
+          <div class="bigcontent">
+            <div class="bigtitle">Rakı Bahane, Sohbet Şahane</div>
+            <div class="bigicon">🥃</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footerlinks">
+        <button id="aboutBtn">Hakkında</button>
+        <button id="contactBtn">İletişim</button>
+        <button id="feedbackBtn">Talep &amp; Şikayet</button>
+      </div>
+    </section>
+
+    <!-- MUSIC -->
+    <section id="musicView" class="view">
+      <div class="subtop">
+        <button class="closebtn" id="closeMusic" aria-label="Kapat">✕</button>
+        <div class="subhint">Bu masa için bir müzik seç.</div>
+      </div>
+
+      <div class="panel">
+        <div class="section">
+          <h3>Rastgele</h3>
+          <div class="action">
+            <button class="btn primary" id="randomPlay">🎲 Rastgele Çal</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+          <h3>Moduna göre seç</h3>
+          <div class="moodgrid" id="moodGrid"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+          <h3>İstediğin şarkıyı yaz</h3>
+          <div class="searchRow">
+            <input id="songInput" class="inp" placeholder="Şarkı / sanatçı yaz…" />
+            <button class="btn" id="searchYouTube" style="min-width:120px; flex:0;">Ara</button>
+          </div>
+          <div class="sp"></div>
+          <div style="color: var(--muted2); font-size: 12px;">
+            Arama, YouTube sonuç sayfasını açar.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE (song-linked) -->
+    <section id="quoteView" class="view">
+      <div class="subtop">
+        <button class="closebtn" id="closeQuote" aria-label="Kapat">✕</button>
+        <div class="subhint">Söz kartı.</div>
+      </div>
+
+      <div class="bigcardWrap">
+        <div class="bigcard">
+          <p id="quoteText">…</p>
+        </div>
+
+        <div class="nav3">
+          <button class="navbtn" id="quotePrev">◀︎ Geri</button>
+          <button class="navbtn center" id="quotePlay">🎵 Müzik Çal</button>
+          <button class="navbtn" id="quoteNext">Sonraki ▶︎</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAT -->
+    <section id="chatView" class="view">
+      <div class="subtop">
+        <button class="closebtn" id="closeChat" aria-label="Kapat">✕</button>
+        <div class="subhint">Sohbet kartı.</div>
+      </div>
+
+      <div class="bigcardWrap">
+        <div class="bigcard">
+          <p id="chatText">…</p>
+        </div>
+
+        <div class="nav3" style="grid-template-columns: 1fr 1fr; justify-content:center;">
+          <button class="navbtn" id="chatPrev">◀︎ Geri</button>
+          <button class="navbtn" id="chatNext">Sonraki ▶︎</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal" id="modal">
+    <div class="modalbox">
+      <div class="modalhead">
+        <div id="modalTitle">Başlık</div>
+        <button class="smallbtn" id="modalClose">✕</button>
+      </div>
+      <div class="modalbody" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- DATA (örnekler; sonra birlikte değiştiririz) ---
+
+    // Mood lists: each mood has a curated list of youtube search terms (or direct URLs)
+    const MOODS = [
+      {
+        key: "klasik",
+        title: "Klasik Rakı Masası",
+        subtitle: "Zamansız",
+        list: [
+          "Zeki Müren Şimdi Uzaklardasın",
+          "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim",
+          "Nesrin Sipahi Veda Busesi",
+          "Bülent Ersoy Bir Ben Bir Allah Biliyor"
+        ]
+      },
+      {
+        key: "huzun",
+        title: "Biraz Hüzün",
+        subtitle: "İç çekiş",
+        list: [
+          "Ahmet Kaya Nereden Bileceksiniz",
+          "Sezen Aksu Tükeneceğiz",
+          "Cem Adrian Ben Seni Çok Sevdim",
+          "Ferdi Tayfur Ben de Özledim"
+        ]
+      },
+      {
+        key: "sohbet",
+        title: "Sohbet Açık",
+        subtitle: "Gülüş",
+        list: [
+          "MFÖ Ele Güne Karşı",
+          "Yeni Türkü Olmasa Mektubun",
+          "Bora Öztoprak Yan Yana",
+          "Bülent Ortaçgil Eylül Akşamı"
+        ]
+      },
+      {
+        key: "nostalji",
+        title: "Nostalji",
+        subtitle: "Eskimez",
+        list: [
+          "Barış Manço Gülpembe",
+          "Cem Karaca Tamirci Çırağı",
+          "Erkin Koray Çöpçüler",
+          "Ajda Pekkan Kimler Geldi Kimler Geçti"
+        ]
+      }
+    ];
+
+    // Quote cards: each card has one meaningful line + ONE linked song (search term)
+    const QUOTE_CARDS = [
+      {
+        text: "Bu masa sessiz değil; sadece derin.",
+        songQuery: "Zeki Müren Şimdi Uzaklardasın"
+      },
+      {
+        text: "Bir şarkı açılır… konuşacak yer bulunur.",
+        songQuery: "Sezen Aksu Tükeneceğiz"
+      },
+      {
+        text: "Kadeh doluysa değil; niyet doluysa güzeldir.",
+        songQuery: "Müzeyyen Senar Ben Seni Unutmak İçin Sevmedim"
+      },
+      {
+        text: "Bu masada acele yok. Şarkı bitmeden kalkılmaz.",
+        songQuery: "Bülent Ortaçgil Eylül Akşamı"
+      }
+    ];
+
+    // Chat cards: short, inclusive prompts
+    const CHAT_CARDS = [
+      "Bu masada herkes bir şey anlatsa… sen ne anlatırdın?",
+      "Seni en çok hangi şarkı ‘aynı masaya’ geri götürür?",
+      "Bugün bu masanın adı ne olsun? (Tek kelime.)",
+      "En son gerçekten güldüğün an neydi?",
+      "Birine ‘iyi ki’ demek istesen, kime dersin?"
+    ];
+
+    // --- HELPERS ---
+    const $ = (id) => document.getElementById(id);
+
+    function showView(viewId){
+      ["homeView","musicView","quoteView","chatView"].forEach(v => $(v).classList.remove("active"));
+      $(viewId).classList.add("active");
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+
+    function openYouTubeSearch(query){
+      const q = encodeURIComponent(query.trim());
+      const url = "https://www.youtube.com/results?search_query=" + q;
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function pickRandom(arr){
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // --- HOME NAV ---
+    $("openMusic").onclick = () => showView("musicView");
+    $("openQuote").onclick = () => showView("quoteView");
+    $("openChat").onclick  = () => showView("chatView");
+
+    $("closeMusic").onclick = () => showView("homeView");
+    $("closeQuote").onclick = () => showView("homeView");
+    $("closeChat").onclick  = () => showView("homeView");
+
+    // --- MUSIC VIEW ---
+    // Render moods
+    const moodGrid = $("moodGrid");
+    MOODS.forEach(m => {
+      const el = document.createElement("div");
+      el.className = "mood";
+      el.innerHTML = `<div class="t">${m.title}</div><div class="s">${m.subtitle}</div>`;
+      el.onclick = () => {
+        // Mood click -> pick random song from that mood and open YouTube results
+        const song = pickRandom(m.list);
+        openYouTubeSearch(song);
+      };
+      moodGrid.appendChild(el);
+    });
+
+    // Random play from all mood lists merged
+    $("randomPlay").onclick = () => {
+      const all = MOODS.flatMap(m => m.list);
+      const song = pickRandom(all);
+      openYouTubeSearch(song);
+    };
+
+    // Search input -> YouTube results
+    $("searchYouTube").onclick = () => {
+      const val = $("songInput").value || "";
+      if(!val.trim()){
+        $("songInput").focus();
+        return;
+      }
+      openYouTubeSearch(val);
+    };
+    $("songInput").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") $("searchYouTube").click();
+    });
+
+    // --- QUOTE VIEW (card + play) ---
+    let quoteIndex = 0;
+    const quoteText = $("quoteText");
+
+    function renderQuote(){
+      const c = QUOTE_CARDS[quoteIndex];
+      quoteText.textContent = c.text;
+    }
+    renderQuote();
+
+    $("quotePrev").onclick = () => {
+      quoteIndex = (quoteIndex - 1 + QUOTE_CARDS.length) % QUOTE_CARDS.length;
+      renderQuote();
+    };
+    $("quoteNext").onclick = () => {
+      quoteIndex = (quoteIndex + 1) % QUOTE_CARDS.length;
+      renderQuote();
+    };
+    $("quotePlay").onclick = () => {
+      const c = QUOTE_CARDS[quoteIndex];
+      openYouTubeSearch(c.songQuery);
+    };
+
+    // Optional: on entering quote page, feel like "card draw"
+    $("openQuote").addEventListener("click", () => {
+      quoteIndex = Math.floor(Math.random() * QUOTE_CARDS.length);
+      renderQuote();
+    });
+
+    // --- CHAT VIEW ---
+    let chatIndex = 0;
+    const chatText = $("chatText");
+
+    function renderChat(){
+      chatText.textContent = CHAT_CARDS[chatIndex];
+    }
+    renderChat();
+
+    $("chatPrev").onclick = () => {
+      chatIndex = (chatIndex - 1 + CHAT_CARDS.length) % CHAT_CARDS.length;
+      renderChat();
+    };
+    $("chatNext").onclick = () => {
+      chatIndex = (chatIndex + 1) % CHAT_CARDS.length;
+      renderChat();
+    };
+
+    // Optional: on entering chat page, draw a random card
+    $("openChat").addEventListener("click", () => {
+      chatIndex = Math.floor(Math.random() * CHAT_CARDS.length);
+      renderChat();
+    });
+
+    // --- FOOTER MODALS ---
+    const modal = $("modal");
+    const modalTitle = $("modalTitle");
+    const modalBody = $("modalBody");
+
+    function openModal(title, html){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = html;
+      modal.classList.add("show");
+    }
+    function closeModal(){
+      modal.classList.remove("show");
+    }
+    $("modalClose").onclick = closeModal;
+    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+
+    $("aboutBtn").onclick = () => openModal("Hakkında", `
+      <p>HARDIN masa setleri, küçük bir dokunuşla masaya anlam katar.</p>
+      <p>Üç buton: <b>Şarkı</b>, <b>Söz</b>, <b>Sohbet</b>.</p>
+    `);
+
+    $("contactBtn").onclick = () => openModal("İletişim", `
+      <p>Instagram: <b>@hardin</b> (örnek)</p>
+      <p>E-posta: <b>info@hardin.com</b> (örnek)</p>
+    `);
+
+    $("feedbackBtn").onclick = () => openModal("Talep & Şikayet", `
+      <p>Kısa notunu yaz, bize ulaşsın. (V1 için basit tutuldu.)</p>
+      <div style="display:flex; gap:10px; flex-direction:column;">
+        <input class="inp" id="fbText" placeholder="Mesajın…" />
+        <button class="btn primary" onclick="alert('Alındı ✅ (demo)')">Gönder</button>
+      </div>
+    `);
+  </script>
+</body>
+</html>
